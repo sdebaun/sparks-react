@@ -5,7 +5,7 @@ import React from 'react';
 
 let yeomanImage = require('../images/yeoman.png');
 
-class AppComponent extends React.Component {
+class Main extends React.Component {
   render() {
     return (
       <div className="index">
@@ -16,7 +16,7 @@ class AppComponent extends React.Component {
   }
 }
 
-AppComponent.defaultProps = {
+Main.defaultProps = {
 };
 
-export default AppComponent;
+export default Main;
