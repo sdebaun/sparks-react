@@ -1,0 +1,7 @@
+{
+  "generator-react-webpack": {
+    "appName": "sparksReact",
+    "style": "stylus",
+    "postcss": true
+  }
+}
