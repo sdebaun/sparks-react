@@ -12,7 +12,9 @@ import { createHistory } from 'history'
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
 
 import Main from './components/Main';
+// import DashMain from './components/Dash/Main';
 import Dash from './components/Dash';
+// DashMain = Dash.Main;
 
 // import reducers from '<project-path>/reducers'
 
@@ -32,7 +34,10 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/">
         <IndexRoute component={Main}/>
-        <Route path="dash" component={Dash}/>
+        <Route path="dash" component={Dash.Main}>
+          <IndexRoute component={Dash.Finding}/>
+          <Route path="doing" component={Dash.Doing}/>
+        </Route>
       </Route>
     </Router>
   </Provider>,

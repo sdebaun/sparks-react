@@ -15,12 +15,12 @@ import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
-import Theme from '../theme'
+import Theme from '../../theme'
 
 import { Link } from 'react-router';
 import { pushPath } from 'redux-simple-router'
 
-class Dash extends React.Component {
+class Main extends React.Component {
   
   getChildContext() {
     return {
@@ -29,7 +29,8 @@ class Dash extends React.Component {
   }
 
   handleChange(val) {
-    console.log("New tab val", val);
+    console.log('props', this.props);
+    this.props.dispatch(pushPath(val.props.route));
   }
 
   render() {
@@ -44,25 +45,24 @@ class Dash extends React.Component {
             targetOrigin={{horizontal: 'right', vertical: 'top'}}
             anchorOrigin={{horizontal: 'right', vertical: 'top'}}
             >
-              <MenuItem primaryText="Refresh" />
-              <MenuItem primaryText="Help" />
+              <MenuItem primaryText="Home" onClick={ ()=> dispatch(pushPath('/')) } />
               <MenuItem primaryText="Sign out" />
             </IconMenu>} />
-        <Tabs onChange={this.handleChange}>
-          <Tab label='hello'><div>foo</div></Tab>
-          <Tab label='world'><div>bar</div></Tab>
+        <Tabs>
+          <Tab label='Finding' route='/dash' onActive={ tab=>dispatch(pushPath(tab.props.route)) }/>
+          <Tab label='Doing' route='/dash/doing' onActive={ tab=>dispatch(pushPath(tab.props.route)) } />
         </Tabs>
-        <RaisedButton label='Go Main' onClick={ ()=> dispatch(pushPath('/')) } />
+        {this.props.children}
       </div>
     );
   }
 
 }
 
-Dash.defaultProps = {
+Main.defaultProps = {
 };
 
-Dash.childContextTypes = {
+Main.childContextTypes = {
   muiTheme: React.PropTypes.object
 };
 
@@ -71,4 +71,4 @@ function mapStateToProps(state) {
   return props;
 }
 
-export default connect(mapStateToProps)(Dash);
+export default connect(mapStateToProps)(Main);
