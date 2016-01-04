@@ -48,9 +48,9 @@ class Dash extends React.Component {
               <MenuItem primaryText="Help" />
               <MenuItem primaryText="Sign out" />
             </IconMenu>} />
-        <Tabs value={1} onChange={this.handleChange}>
-          <Tab label='hello' value={0} onChange={this.handleChange}><div>foo</div></Tab>
-          <Tab label='world' value={1} onChange={this.handleChange}><div>bar</div></Tab>
+        <Tabs onChange={this.handleChange}>
+          <Tab label='hello'><div>foo</div></Tab>
+          <Tab label='world'><div>bar</div></Tab>
         </Tabs>
         <RaisedButton label='Go Main' onClick={ ()=> dispatch(pushPath('/')) } />
       </div>
