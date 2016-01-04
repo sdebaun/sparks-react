@@ -9,9 +9,7 @@ import AppBar from 'material-ui/lib/app-bar'
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import Theme from '../theme'
 
-import { Link } from 'react-router';
-
-class Main extends React.Component {
+class Dash extends React.Component {
   
   getChildContext() {
     return {
@@ -21,18 +19,18 @@ class Main extends React.Component {
   render() {
     return (
       <div className="index">
-        <AppBar title='Main' showMenuIconButton={false}/>
-        <Link to='/dash'>Dash</Link>
+        <AppBar title='Dash' showMenuIconButton={false}/>
+        Dash
       </div>
     );
   }
 }
 
-Main.defaultProps = {
+Dash.defaultProps = {
 };
 
-Main.childContextTypes = {
+Dash.childContextTypes = {
   muiTheme: React.PropTypes.object
 };
 
-export default Main;
+export default Dash;
