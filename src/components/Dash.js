@@ -3,11 +3,13 @@ require('normalize.css');
 
 import React from 'react';
 
-import RaisedButton from 'material-ui/lib/raised-button'
+// import RaisedButton from 'material-ui/lib/raised-button'
 import AppBar from 'material-ui/lib/app-bar'
 
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import Theme from '../theme'
+
+import { Link } from 'react-router';
 
 class Dash extends React.Component {
   
@@ -20,7 +22,7 @@ class Dash extends React.Component {
     return (
       <div className="index">
         <AppBar title='Dash' showMenuIconButton={false}/>
-        Dash
+        <Link to='/'>Go Main</Link>
       </div>
     );
   }
