@@ -1,22 +1,36 @@
 require('normalize.css');
-require('styles/App.css');
+// require('styles/App.css');
 
 import React from 'react';
 
-let yeomanImage = require('../images/yeoman.png');
+import RaisedButton from 'material-ui/lib/raised-button'
+import AppBar from 'material-ui/lib/app-bar'
 
-class AppComponent extends React.Component {
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import Theme from '../theme'
+
+class Main extends React.Component {
+  
+  getChildContext() {
+    return {
+      muiTheme: ThemeManager.getMuiTheme(Theme)
+    }
+  }
   render() {
     return (
       <div className="index">
-        <img src={yeomanImage} alt="Yeoman Generator" />
-        <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
+        <AppBar title='Title' showMenuIconButton={false}/>
+        <RaisedButton label='Test'/>
       </div>
     );
   }
 }
 
-AppComponent.defaultProps = {
+Main.defaultProps = {
 };
 
-export default AppComponent;
+Main.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};
+
+export default Main;
