@@ -28,11 +28,6 @@ class Main extends React.Component {
     }
   }
 
-  handleChange(val) {
-    console.log('props', this.props);
-    this.props.dispatch(pushPath(val.props.route));
-  }
-
   render() {
     const dispatch = this.props.dispatch
 
