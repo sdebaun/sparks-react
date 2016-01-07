@@ -11,9 +11,10 @@ import { Router, Route, IndexRoute } from 'react-router'
 import { createHistory } from 'history'
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
 
-import Main from './components/Main';
+import Main from './containers/Main';
 // import DashMain from './components/Dash/Main';
-import Dash from './components/Dash';
+import Dash from './containers/Dash';
+import Landing from './containers/Landing';
 // DashMain = Dash.Main;
 
 // import reducers from '<project-path>/reducers'
@@ -32,8 +33,8 @@ syncReduxAndRouter(history, store)
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/">
-        <IndexRoute component={Main}/>
+      <Route path="/" component={Main}>
+        <IndexRoute component={Landing}/>
         <Route path="dash" component={Dash.Main}>
           <IndexRoute component={Dash.Finding}/>
           <Route path="doing" component={Dash.Doing}/>

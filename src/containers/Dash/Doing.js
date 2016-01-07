@@ -25,6 +25,7 @@ class Doing extends React.Component {
     return (
       <div className="index">
         This is the Doing page
+        <RaisedButton>Click Me</RaisedButton>
       </div>
     );
   }

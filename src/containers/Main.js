@@ -1,5 +1,5 @@
 require('normalize.css');
-// require('styles/App.css');
+require('styles/app.styl');
 
 import React from 'react';
 
@@ -21,8 +21,7 @@ class Main extends React.Component {
   render() {
     return (
       <div className="index">
-        <AppBar title='Main' showMenuIconButton={false}/>
-        <Link to='/dash'>Dash</Link>
+        {this.props.children}
       </div>
     );
   }

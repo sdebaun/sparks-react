@@ -20,6 +20,8 @@ import Theme from '../../theme'
 import { Link } from 'react-router';
 import { pushPath } from 'redux-simple-router'
 
+import AppIconMenu from '../../components/AppIconMenu';
+
 class Main extends React.Component {
   
   getChildContext() {
@@ -35,14 +37,7 @@ class Main extends React.Component {
       <div className="index">
         <AppBar title='Dash'
           showMenuIconButton={false} 
-          iconElementRight={<IconMenu
-            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-            targetOrigin={{horizontal: 'right', vertical: 'top'}}
-            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-            >
-              <MenuItem primaryText="Home" onClick={ ()=> dispatch(pushPath('/')) } />
-              <MenuItem primaryText="Sign out" />
-            </IconMenu>} />
+          iconElementRight={<AppIconMenu/>} />
         <Tabs>
           <Tab label='Finding' route='/dash' onActive={ tab=>dispatch(pushPath(tab.props.route)) }/>
           <Tab label='Doing' route='/dash/doing' onActive={ tab=>dispatch(pushPath(tab.props.route)) } />
