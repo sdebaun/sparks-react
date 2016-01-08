@@ -35,9 +35,7 @@ class Main extends React.Component {
 
     return (
       <div className="index">
-        <AppBar title='Dash'
-          showMenuIconButton={false} 
-          iconElementRight={<AppIconMenu/>} />
+        <AppBar title='Dash' showMenuIconButton={false} iconElementRight={<AppIconMenu/>} />
         <Tabs>
           <Tab label='Finding' route='/dash' onActive={ tab=>dispatch(pushPath(tab.props.route)) }/>
           <Tab label='Doing' route='/dash/doing' onActive={ tab=>dispatch(pushPath(tab.props.route)) } />

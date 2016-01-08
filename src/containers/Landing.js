@@ -28,7 +28,9 @@ class Landing extends React.Component {
         <div className="container">
           About the Sparks.Network
         </div>
-        <Link to='/dash'>Dash</Link>
+        <div className="container footer">
+          footer
+        </div>
       </div>
     );
   }

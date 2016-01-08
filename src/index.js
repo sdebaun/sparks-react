@@ -5,7 +5,8 @@ import ReactDOM from 'react-dom'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router'
 import { createHistory } from 'history'
@@ -17,15 +18,18 @@ import Dash from './containers/Dash';
 import Landing from './containers/Landing';
 // DashMain = Dash.Main;
 
-// import reducers from '<project-path>/reducers'
+import reducers from './reducers'
 
 // const reducer = combineReducers(Object.assign({}, reducers, {
 //   routing: routeReducer
 // }))
-const reducer = combineReducers(Object.assign({}, {
+const reducer = combineReducers(Object.assign(reducers, {
   routing: routeReducer
 }))
-const store = createStore(reducer)
+const createMWStore = applyMiddleware(thunk)(createStore);
+const store = createMWStore(reducer);
+// const store = applyMiddleware(thunk)(createStore)(reducer);
+
 const history = createHistory()
 
 syncReduxAndRouter(history, store)

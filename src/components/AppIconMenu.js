@@ -16,11 +16,13 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 
 import { Link } from 'react-router';
 import { pushPath } from 'redux-simple-router'
+import {login, logout} from '../actions'
 
 class AppIconMenu extends React.Component {
   
   render() {
-    const dispatch = this.props.dispatch
+    const { auth, dispatch } = this.props
+    console.log('current auth', auth);
 
     return (
       <IconMenu
@@ -28,8 +30,14 @@ class AppIconMenu extends React.Component {
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-          <MenuItem primaryText="Home" onClick={ ()=> dispatch(pushPath('/dash')) } />
-          <MenuItem primaryText="Sign out" onClick={ ()=> dispatch(pushPath('/')) } />
+          { auth.isAuthed ?
+            <div>
+              <MenuItem primaryText="Home" onClick={ ()=> dispatch(pushPath('/dash')) } />
+              <MenuItem primaryText="Sign out" onClick={ ()=> dispatch(logout()) } />
+            </div>
+          :
+            <MenuItem primaryText="Sign In" onClick={ ()=> dispatch(login()) } />
+          }
       </IconMenu>
     );
   }
