@@ -5,8 +5,6 @@ import {LOGIN_SUCCESS, LOGOUT_SUCCESS} from '../actions'
 export default function(state, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
-      console.log("successful login, current state is")
-      console.log(state)
       if (!state.path.startsWith('/dash')) {
         return Object.assign({},state,{path: '/dash'})
       } else {
