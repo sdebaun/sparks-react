@@ -13,7 +13,7 @@ export function listenToAuth() {
         // get back a uid, look up or generate the profile, then finally...
         dispatch(loginSuccess(authData.uid, authData));
       } else {
-        dispatch({type: LOGOUT_SUCCESS})
+        dispatch({ type: LOGOUT_SUCCESS });
       }
     })
   }
@@ -24,18 +24,15 @@ export function login() {
     dispatch({ type: LOGIN_ATTEMPT });
     const ref = new Firebase(getState().fbUrl)
     ref.authWithOAuthRedirect('google', (error)=>{
-    // ref.authWithOAuthPopup('google', (error)=>{
-      if (error) dispatch({type:LOGOUT_SUCCESS})
+      if (error) { dispatch({type:LOGOUT_SUCCESS}) }
     })
-    // setTimeout( ()=> {
-    //   // get back a uid, look up or generate the profile, then finally...
-    //   dispatch(loginSuccess(1234, {some:'stuff'}));
-    // }, 1000)
   }
 }
 
 export function logout() {
-  return function (dispatch) {
+  return function (dispatch, getState) {
+    const ref = new Firebase(getState().fbUrl)
+    ref.unauth();
     dispatch({ type: LOGOUT_SUCCESS });
   }
 }
