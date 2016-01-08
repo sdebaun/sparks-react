@@ -16,6 +16,8 @@ import Main from './containers/Main';
 import Dash from './containers/Dash';
 import Landing from './containers/Landing';
 
+import { listenToAuth } from './actions'
+
 import reducers from './reducers'
 const store = applyMiddleware(thunk)(createStore)(reducers);
 const history = createHistory()
@@ -35,3 +37,7 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app')
 )
+
+setTimeout( ()=>{
+  store.dispatch(listenToAuth());
+})
