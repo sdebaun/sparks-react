@@ -4,9 +4,9 @@
 import React from 'react';
 
 // import RaisedButton from 'material-ui/lib/raised-button'
-import AppBar from 'material-ui/lib/app-bar'
+// import AppBar from 'material-ui/lib/app-bar'
 
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
 
 import AppIconMenu from '../components/AppIconMenu';
 

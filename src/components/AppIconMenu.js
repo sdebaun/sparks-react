@@ -14,12 +14,11 @@ import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
 import { pushPath } from 'redux-simple-router'
 import {login, logout} from '../actions'
 
 class AppIconMenu extends React.Component {
-  
   render() {
     const { auth, dispatch } = this.props
     console.log('current auth', auth);
