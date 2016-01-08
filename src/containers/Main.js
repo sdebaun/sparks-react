@@ -1,15 +1,10 @@
 require('normalize.css');
-// require('styles/App.css');
+require('styles/app.styl');
 
 import React from 'react';
 
-// import RaisedButton from 'material-ui/lib/raised-button'
-import AppBar from 'material-ui/lib/app-bar'
-
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import Theme from '../theme'
-
-import { Link } from 'react-router';
 
 class Main extends React.Component {
   
@@ -21,8 +16,7 @@ class Main extends React.Component {
   render() {
     return (
       <div className="index">
-        <AppBar title='Main' showMenuIconButton={false}/>
-        <Link to='/dash'>Dash</Link>
+        {this.props.children}
       </div>
     );
   }
