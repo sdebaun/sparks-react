@@ -1,8 +1,9 @@
-import auth from './Auth'
-import { routeReducer } from 'redux-simple-router'
+import auth from './auth'
+import routing from './routing'
+
 import { combineReducers } from 'redux'
 
 export default combineReducers({
-  routing: routeReducer,
-  auth
+  auth,
+  routing
 })

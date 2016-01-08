@@ -1,36 +1,28 @@
-import { pushPath } from 'redux-simple-router'
-
 export const LOGIN_ATTEMPT = 'LOGIN_ATTEMPT'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+export const PROFILE_LOADED = 'PROFILE_LOADED'
 
 export function login() {
   return function (dispatch, getState) {
-    dispatch(loginAttempt());
+    dispatch({ type: LOGIN_ATTEMPT });
     setTimeout( ()=> {
-      dispatch(loginSuccess());
-      if (getState().routing.path == '/') {
-        dispatch(pushPath('/dash'));
-      }
-    }, 2000)
+      // get back a uid, look up or generate the profile, then finally...
+      dispatch(loginSuccess(1234, {some:'stuff'}));
+    }, 1000)
   }
 }
 
 export function logout() {
   return function (dispatch) {
-    dispatch(logoutSuccess());
-    dispatch(pushPath('/'));
+    dispatch({ type: LOGOUT_SUCCESS });
   }
 }
 
-export function logoutSuccess() {
-  return { type: LOGOUT_SUCCESS }
-}
-
-export function loginAttempt() {
-  return { type: LOGIN_ATTEMPT }
-}
-
-export function loginSuccess() {
-  return { type: LOGIN_SUCCESS }
+export function loginSuccess(uid,profile) {
+  return {
+    type: LOGIN_SUCCESS,
+    uid,
+    profile
+  }
 }
