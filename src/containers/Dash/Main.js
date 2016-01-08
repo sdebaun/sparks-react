@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import AppBar from 'material-ui/lib/app-bar'
 import Tabs from 'material-ui/lib/tabs/tabs'
 import Tab from 'material-ui/lib/tabs/tab'
+import LeftNav from 'material-ui/lib/left-nav'
+
 // import IconButton from 'material-ui/lib/icon-button';
 // import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
 // import IconMenu from 'material-ui/lib/menus/icon-menu';
@@ -24,6 +26,10 @@ import AppIconMenu from '../../components/AppIconMenu';
 
 class Main extends React.Component {
   
+  // constructor(props) {
+
+  // }
+
   getChildContext() {
     return {
       muiTheme: ThemeManager.getMuiTheme(Theme)
@@ -35,7 +41,7 @@ class Main extends React.Component {
 
     return (
       <div className="index">
-        <AppBar title='Dash' showMenuIconButton={false} iconElementRight={<AppIconMenu/>} />
+        <AppBar title='Dash' iconElementLeft={<div/>} iconElementRight={<AppIconMenu/>} />
         <Tabs>
           <Tab label='Finding' route='/dash' onActive={ tab=>dispatch(pushPath(tab.props.route)) }/>
           <Tab label='Doing' route='/dash/doing' onActive={ tab=>dispatch(pushPath(tab.props.route)) } />

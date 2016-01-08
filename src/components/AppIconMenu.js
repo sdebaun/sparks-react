@@ -21,7 +21,6 @@ import {login, logout} from '../actions'
 class AppIconMenu extends React.Component {
   render() {
     const { auth, dispatch } = this.props
-    console.log('current auth', auth);
 
     return (
       <IconMenu
@@ -33,6 +32,7 @@ class AppIconMenu extends React.Component {
             <div>
               <MenuItem primaryText="Home" onClick={ ()=> dispatch(pushPath('/dash')) } />
               <MenuItem primaryText="Sign out" onClick={ ()=> dispatch(logout()) } />
+              { auth.profile.isAdmin && <MenuItem primaryText="Admin"/> }
             </div>
           :
             <MenuItem primaryText="Sign In" onClick={ ()=> dispatch(login()) } />

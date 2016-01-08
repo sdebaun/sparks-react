@@ -44,7 +44,9 @@ export function listenToAuth() {
           const profileRef = profileKey ? profilesRef.child(profileKey) : profilesRef.push(OAuthToProfile(authData))
           if (!profileKey) authRef.set(profileRef.name()) // THIS SHOULD BE SET SERVER-SIDE??
           profileRef.once('value', (profileSnap)=>{
-            dispatch(loginSuccess(authData.uid, profileSnap.val()));
+            console.log("profile loaded");
+            dispatch(profileLoaded(profileSnap.val()));
+            dispatch(loginSuccess(authData.uid));
           })
         })
       } else {
@@ -72,11 +74,10 @@ export function logout() {
   }
 }
 
-export function loginSuccess(uid,profile) {
+export function loginSuccess(uid) {
   return {
     type: LOGIN_SUCCESS,
-    uid,
-    profile
+    uid
   }
 }
 
