@@ -31,15 +31,14 @@ class AppIconMenu extends React.Component {
         >
         <IsAuthed>
           <MenuItem primaryText="Home" onClick={ ()=> this.props.pushPath('/dash') } />
-          <MenuItem primaryText="Sign out" onClick={this.props.logout} />
+          <MenuItem primaryText="Sign out" onClick={ ()=> this.props.logout() } />
         </IsAuthed>
         <IsAuthed show={false}>
-          <MenuItem primaryText="Sign In" onClick={this.props.login} />
+          <MenuItem primaryText="Sign In" onClick={ ()=> this.props.login() } />
         </IsAuthed>
       </IconMenu>
     );
   }
-
 }
 
 function mapStateToProps() {
