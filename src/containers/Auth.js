@@ -7,17 +7,16 @@ import { listenToAuth } from '../actions/index'
 class Auth extends React.Component {
   render() { return false }
 
-  componentWillMount() {
-    this.props.listenToAuth()
-  }
+  componentWillMount() { this.props.listenToAuth() }
 }
 
-function mapStateToProps(state) {
-  return { }
-}
+// function mapStateToProps(state) {
+//   return { }
+// }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({listenToAuth},dispatch)
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Auth);
+// export default connect(mapStateToProps,mapDispatchToProps)(Auth);
+export default connect(()=>{return{}},mapDispatchToProps)(Auth);
