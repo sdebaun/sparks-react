@@ -56,6 +56,10 @@ class rfModel {
     this.actions = {
       watch: (...args)=>this.watch(...args)
     }
+    this.selectors = {
+      loaded: (state,key)=>state.data[this.name] && (key in state.data[this.name]),
+      single: (state,key)=>state.data[this.name] && state.data[this.name][key],
+    }
   }
 
   push(val) {
@@ -71,6 +75,7 @@ class rfModel {
       this.ref.child(key).set(val);
     }
   }
+
 
   // watch(key,cb) {
   //   return (dispatch)=>{
