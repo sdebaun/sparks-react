@@ -22,7 +22,7 @@ import AddCircle from 'material-ui/lib/svg-icons/content/add-circle';
 
 // import { pushPath } from 'redux-simplae-router'
 
-class Projects extends React.Component {
+class ProjectsComponent extends React.Component {
   componentWillMount() {
     this.setState({open:false})
   }
@@ -30,7 +30,7 @@ class Projects extends React.Component {
   handleOpen() { this.setState({open:true}) }
   handleClose(val=null) {
     this.setState({open:false})
-    if (val) console.log("Creating new thing", val)
+    if (val) this.props.projectPush({name:val})
   }
 
   render() {
@@ -58,12 +58,21 @@ class Projects extends React.Component {
 
 }
 
-Projects.defaultState = {
+ProjectsComponent.defaultState = {
   open: false
 }
 
-function mapStateToProps() {
-  return {};
+import { Projects } from '../../remote'
+
+function mapStateToProps(state) {
+  return {
+    projects: state.data.Projects || {}
+  };
 }
 
-export default connect(mapStateToProps)(Projects);
+function mapDispatchToProps(dispatch) {
+  return {
+    projectPush: (...args)=>dispatch(Projects.push(...args)),
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectsComponent);

@@ -5,5 +5,6 @@ export default remote;
 
 const Profiles = remote.data.model('Profiles')
 const Users = remote.data.model('Users')
+const Projects = remote.data.model('Projects')
 
-export { Profiles, Users }
+export { Profiles, Users, Projects }
