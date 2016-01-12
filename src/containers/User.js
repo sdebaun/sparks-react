@@ -41,8 +41,6 @@ const mapStateToProps = createSelector(
   (state)=>state.auth.uid,
   (state)=>Users.selectors.loaded(state,state.auth.uid),
   (state)=>Users.selectors.single(state,state.auth.uid),
-  // (state)=>state.data.Users && (state.auth.uid in state.data.Users),
-  // (state)=>state.data.Users && state.data.Users[state.auth.uid],
   (auth,uid,UserLoaded,profileKey)=>{
     return {uid,profileKey,UserLoaded,auth}
   }
