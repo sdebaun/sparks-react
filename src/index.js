@@ -13,9 +13,6 @@ import { syncReduxAndRouter } from 'redux-simple-router'
 import Main from './containers/Main';
 import Dash from './containers/Dash';
 import Landing from './containers/Landing';
-import Auth from './containers/Auth';
-
-import { listenToAuth } from './actions'
 
 import store from './store'
 const history = createHistory()

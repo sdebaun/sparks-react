@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createSelector } from 'reselect'
 
-import remote from '../remote'
+// import remote from '../remote'
 
 import Fetch from './Fetch'
 
@@ -37,6 +37,8 @@ class User extends React.Component {
 
 }
 
+import { Profiles, Users } from '../remote'
+
 const mapStateToProps = createSelector(
   (state)=>state.auth,
   (state)=>state.auth.uid,
@@ -50,8 +52,8 @@ const mapStateToProps = createSelector(
 
 function mapDispatchToProps(dispatch) {
   return {
-    profilePush: (...args)=>dispatch(remote.data.model("Profiles").push(...args)),
-    userSet: (...args)=>dispatch(remote.data.model("Users").set(...args))
+    profilePush: (...args)=>dispatch(Profiles.push(...args)),
+    userSet: (...args)=>dispatch(Users.set(...args))
   }
 }
 
