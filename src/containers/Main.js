@@ -6,6 +6,10 @@ import React from 'react';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import Theme from '../theme'
 
+import Auth from './Auth'
+import IsAuthed from './IsAuthed'
+import User from './User'
+
 class Main extends React.Component {
   
   getChildContext() {
@@ -16,6 +20,8 @@ class Main extends React.Component {
   render() {
     return (
       <div className="index">
+        <Auth/>
+        <IsAuthed><User/></IsAuthed>
         {this.props.children}
       </div>
     );

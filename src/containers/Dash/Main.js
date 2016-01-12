@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import AppBar from 'material-ui/lib/app-bar'
 import Tabs from 'material-ui/lib/tabs/tabs'
 import Tab from 'material-ui/lib/tabs/tab'
-import LeftNav from 'material-ui/lib/left-nav'
+// import LeftNav from 'material-ui/lib/left-nav'
 
 // import IconButton from 'material-ui/lib/icon-button';
 // import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';

@@ -17,6 +17,8 @@ import { connect } from 'react-redux';
 // import { Link } from 'react-router';
 // import { pushPath } from 'redux-simple-router'
 
+import IsAuthed from '../../containers/IsAuthed'
+
 class Finding extends React.Component {
   
   render() {
@@ -25,6 +27,8 @@ class Finding extends React.Component {
     return (
       <div className="index">
         This is the Finding page
+        <IsAuthed show={true}>You are authed!</IsAuthed>
+        <IsAuthed show={false}>You are not authed.</IsAuthed>
       </div>
     );
   }
