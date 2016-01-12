@@ -1,6 +1,3 @@
-require('normalize.css');
-// require('styles/App.css');
-
 import React from 'react';
 import { connect } from 'react-redux';
 
