@@ -15,6 +15,7 @@ import { syncReduxAndRouter } from 'redux-simple-router'
 import Main from './containers/Main';
 import Dash from './containers/Dash';
 import Landing from './containers/Landing';
+import Auth from './containers/Auth';
 
 import { listenToAuth } from './actions'
 
@@ -25,19 +26,18 @@ syncReduxAndRouter(history, store)
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={Main}>
-        <IndexRoute component={Landing}/>
-        <Route path="dash" component={Dash.Main}>
-          <IndexRoute component={Dash.Finding}/>
-          <Route path="doing" component={Dash.Doing}/>
+    <div>
+      <Auth/>
+      <Router history={history}>
+        <Route path="/" component={Main}>
+          <IndexRoute component={Landing}/>
+          <Route path="dash" component={Dash.Main}>
+            <IndexRoute component={Dash.Finding}/>
+            <Route path="doing" component={Dash.Doing}/>
+          </Route>
         </Route>
-      </Route>
-    </Router>
+      </Router>
+    </div>
   </Provider>,
   document.getElementById('app')
 )
-
-setTimeout( ()=>{
-  store.dispatch(listenToAuth());
-})
