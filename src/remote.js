@@ -1,2 +1,6 @@
+import { Reduxfire } from './lib/reduxfire'
 
-export default {}
+const remote = new Reduxfire('https://sparks-development.firebaseIO.com');
+export default remote;
+
+// export Uid = remote.model

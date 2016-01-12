@@ -26,6 +26,10 @@ import Reduxfire from 'reduxfire'
 const remote = new Reduxfire('https://sparks-development.firebaseIO.com');
 export default remote;
 
+export Profiles = remote.model('Profiles')
+
+export Uids = remote.model('Uids')
+
 ```
 
 ### reducer
@@ -38,13 +42,52 @@ import remote from './remote'
 
 export default combineReducers({
   routing: someRoutingReducer,
-  data: remote.dataReducer,
-  auth: remote.authReducer
+  data: remote.data.reducer,
+  auth: remote.auth.reducer
 })
 
 ```
 
-### actions
+### components
+
+```
+<Auth/>
+```
+Starts listening for Firebase OAuth result and triggers actions appropriately.
+
+```
+
+
+### custom
+
+```
+class Session extends Component {
+  render() { return (
+    <Fetch model='Uids' key={this.props.uid}/>
+    <Fetch model='Profiles' key={this.props.profileKey}/>
+  )}
+}
+
+function mapStateToProps(state) {
+  (state)=>state.auth.uid,
+  (state)=>state.data.Uids && state.data.Uids[state.auth.uid],
+  (uid,profileKey)=>{ return {uid,profileKey} }
+}
+```
+
+```
+class ProfileBuilder extends Component {
+  render() { return null }
+  componentWillMount() {
+    this.props.ProfileActions.push( this.)
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ProfileActions: Profile.actions}, dispatch)
+}
+```
+
 
 Call different actions to start syncing your firebase to your state:
 

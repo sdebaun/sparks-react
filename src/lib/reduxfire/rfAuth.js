@@ -8,6 +8,7 @@ export default class rfAuth {
       logout: ()=>this.logout(),
       listen: (...args)=>this.listen(...args)
     }
+    console.log('rfAuth', this.ref)
   }
 
   reducer(state=null,action) {

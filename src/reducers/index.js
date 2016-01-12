@@ -1,10 +1,11 @@
 import auth from './auth'
 import routing from './routing'
+import remote from '../remote'
 
 import { combineReducers } from 'redux'
 
 export default combineReducers({
-  auth,
+  auth: remote.auth.reducer,
+  // data: remote.data.reducer,
   routing,
-  fbUrl: (state='https://sparks-development.firebaseIO.com',action)=>state
 })
