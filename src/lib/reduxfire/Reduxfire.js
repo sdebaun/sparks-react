@@ -25,6 +25,13 @@ class Reduxfire {
     }
   }
 
+  query(collection,params) {
+    return (dispatch)=>{
+      if (!collection) return
+      let q = this.ref.child(collection)
+      q.on('child_added', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
+    }
+  }
 }
 
 class rfData {

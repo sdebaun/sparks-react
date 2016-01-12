@@ -20,7 +20,11 @@ import TextField from 'material-ui/lib/text-field'
 
 import AddCircle from 'material-ui/lib/svg-icons/content/add-circle';
 
+import Query from '../../containers/Query'
+
 // import { pushPath } from 'redux-simplae-router'
+
+import Inspector from 'react-json-inspector'
 
 class ProjectsComponent extends React.Component {
   componentWillMount() {
@@ -36,13 +40,16 @@ class ProjectsComponent extends React.Component {
   render() {
     return (
       <div>
+        <Query collection='Projects'/>
         <List>
           <ListItem primaryText='Create a Project'
             secondaryText='Start a new project for an Early Access Partner.'
             leftIcon={<AddCircle/>}
-            onTouchTap={()=>this.handleOpen()}
-            />
+            onTouchTap={()=>this.handleOpen()}/>
         </List>
+        {Object.keys(this.props.projects).map(key=>{
+          return <ListItem primaryText={this.props.projects[key].name}/>
+        })}
         <Dialog title='Create Project'
           actions={[<RaisedButton label='OK' onTouchTap={()=>this.handleClose(this.refs.nameField.getValue())}/>,
             <RaisedButton label='Cancel' onTouchTap={()=>this.handleClose()}/>]}
