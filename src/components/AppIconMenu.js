@@ -16,43 +16,41 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 
 // import { Link } from 'react-router';
 import { pushPath } from 'redux-simple-router'
-import {login, logout} from '../actions'
+// import {login, logout} from '../actions'
+
+import IsAuthed from '../containers/IsAuthed'
+import remote from '../remote'
 
 class AppIconMenu extends React.Component {
   render() {
-    const { auth, dispatch } = this.props
-
     return (
       <IconMenu
         iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-          { auth.isAuthed ?
-            <div>
-              <MenuItem primaryText="Home" onClick={ ()=> dispatch(pushPath('/dash')) } />
-              <MenuItem primaryText="Sign out" onClick={ ()=> dispatch(logout()) } />
-              { auth.profile.isAdmin && <MenuItem primaryText="Admin"/> }
-            </div>
-          :
-            <MenuItem primaryText="Sign In" onClick={ ()=> dispatch(login()) } />
-          }
+        <IsAuthed>
+          <MenuItem primaryText="Home" onClick={ ()=> dispatch(pushPath('/dash')) } />
+          <MenuItem primaryText="Sign out" onClick={this.props.logout} />
+        </IsAuthed>
+        <IsAuthed show={false}>
+          <MenuItem primaryText="Sign In" onClick={this.props.login} />
+        </IsAuthed>
       </IconMenu>
     );
   }
 
 }
 
-AppIconMenu.defaultProps = {
-};
-
-AppIconMenu.childContextTypes = {
-  muiTheme: React.PropTypes.object
-};
-
 function mapStateToProps(state) {
-  const props = { auth: state.auth };
-  return props;
+  return {}
 }
 
-export default connect(mapStateToProps)(AppIconMenu);
+function mapDispatchToProps(dispatch) {
+  return {
+    login: ()=>dispatch(remote.auth.login()),
+    logout: ()=>dispatch(remote.auth.logout()),
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AppIconMenu);

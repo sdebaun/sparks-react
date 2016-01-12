@@ -6,6 +6,6 @@ import { combineReducers } from 'redux'
 
 export default combineReducers({
   auth: remote.auth.reducer,
-  // data: remote.data.reducer,
+  data: remote.data.reducer,
   routing,
 })

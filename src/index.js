@@ -23,18 +23,15 @@ syncReduxAndRouter(history, store)
 
 ReactDOM.render(
   <Provider store={store}>
-    <div>
-      <Auth/>
-      <Router history={history}>
-        <Route path="/" component={Main}>
-          <IndexRoute component={Landing}/>
-          <Route path="dash" component={Dash.Main}>
-            <IndexRoute component={Dash.Finding}/>
-            <Route path="doing" component={Dash.Doing}/>
-          </Route>
+    <Router history={history}>
+      <Route path="/" component={Main}>
+        <IndexRoute component={Landing}/>
+        <Route path="dash" component={Dash.Main}>
+          <IndexRoute component={Dash.Finding}/>
+          <Route path="doing" component={Dash.Doing}/>
         </Route>
-      </Router>
-    </div>
+      </Route>
+    </Router>
   </Provider>,
   document.getElementById('app')
 )
