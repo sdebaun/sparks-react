@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import authSelector from '../selectors/authSelector'
 
 class IsAuthed extends React.Component {
   render() { return (<div>
@@ -13,4 +12,8 @@ IsAuthed.defaultProps = {
   show: true
 }
 
-export default connect(authSelector)(IsAuthed);
+function mapStateToProps(state) {
+  return { auth: state.auth }
+}
+
+export default connect(mapStateToProps)(IsAuthed);

@@ -58,7 +58,7 @@ class rfModel {
     }
     this.selectors = {
       loaded: (state,key)=>state.data[this.name] && (key in state.data[this.name]),
-      single: (state,key)=>state.data[this.name] && state.data[this.name][key],
+      single: (state,key)=>state.data[this.name] && state.data[this.name][key]
     }
   }
 

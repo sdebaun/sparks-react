@@ -38,7 +38,7 @@ export default class rfAuth {
   }
 
   logout() {
-    return (dispatch)=> { this.ref.unauth(); }
+    return ()=> { this.ref.unauth(); }
   }
 }
 

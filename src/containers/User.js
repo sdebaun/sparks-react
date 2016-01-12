@@ -26,7 +26,6 @@ class User extends React.Component {
 
   render() { return (
     <div>
-      <div>My UID is {this.props.uid}</div>
       <Fetch collection="Users" itemKey={this.props.uid}/>
       <Fetch collection="Profiles" itemKey={this.props.profileKey}/>
     </div>
