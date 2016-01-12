@@ -30,7 +30,7 @@ class AppIconMenu extends React.Component {
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
         <IsAuthed>
-          <MenuItem primaryText="Home" onClick={ ()=> dispatch(pushPath('/dash')) } />
+          <MenuItem primaryText="Home" onClick={ ()=> this.props.pushPath('/dash') } />
           <MenuItem primaryText="Sign out" onClick={this.props.logout} />
         </IsAuthed>
         <IsAuthed show={false}>
@@ -42,7 +42,7 @@ class AppIconMenu extends React.Component {
 
 }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {}
 }
 
@@ -50,6 +50,7 @@ function mapDispatchToProps(dispatch) {
   return {
     login: ()=>dispatch(remote.auth.login()),
     logout: ()=>dispatch(remote.auth.logout()),
+    pushPath: (...args)=>dispatch(pushPath(...args))
   }
 }
 

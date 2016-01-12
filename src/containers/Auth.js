@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import remote from '../remote'
 
@@ -10,7 +9,7 @@ class Auth extends React.Component {
   componentWillMount() { this.props.listen() }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return { }
 }
 

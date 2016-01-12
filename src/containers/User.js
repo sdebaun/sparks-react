@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { createSelector } from 'reselect'
 
 // import remote from '../remote'
@@ -14,7 +13,6 @@ class User extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('User.componentWillReceiveProps',{nextProps,props:this.props})
     if ((nextProps.UserLoaded != this.props.UserLoaded) || (nextProps.profileKey != this.props.profileKey)) {
       this.createProfileIfNeeded(nextProps);
     }
@@ -22,7 +20,6 @@ class User extends React.Component {
 
   createProfileIfNeeded(props) {
     if (props.UserLoaded && !props.profileKey) {
-      console.log("create profile with", props.auth)
       props.profilePush(props.auth).then((newKey)=>props.userSet(props.uid,newKey))
     }
   }
@@ -45,7 +42,6 @@ const mapStateToProps = createSelector(
   (state)=>state.data.Users && (state.auth.uid in state.data.Users),
   (state)=>state.data.Users && state.data.Users[state.auth.uid],
   (auth,uid,UserLoaded,profileKey)=>{
-    console.log("User.mapStateToProps", {uid, UserLoaded, profileKey})
     return {uid,profileKey,UserLoaded,auth}
   }
 )

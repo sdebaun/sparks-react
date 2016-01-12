@@ -8,7 +8,6 @@ export default class rfAuth {
       logout: ()=>this.logout(),
       listen: (...args)=>this.listen(...args)
     }
-    console.log('rfAuth', this.ref)
   }
 
   reducer(state=null,action) {
@@ -21,7 +20,6 @@ export default class rfAuth {
 
   listen(cb) {
     return (dispatch)=> {
-      console.log("Listening for auth")
       this.ref.onAuth((authData)=>{
         if (authData) dispatch({type:AUTH_SUCCESS,authData})
         else dispatch({type:AUTH_CLEAR})

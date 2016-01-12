@@ -1,18 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import remote from '../remote'
 
 class Fetch extends React.Component {
 
   componentWillMount() {
-    console.log("Fetch.componentWillMount this.props:", this.props)
+    console.log('Fetch.componentWillMount this.props:', this.props)
     this.loadFrom(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("Fetch.componentWillReceiveProps", nextProps)
+    console.log('Fetch.componentWillReceiveProps', nextProps)
     if ((nextProps.collection != this.props.collection) || (nextProps.itemKey != this.props.itemKey)) {
       this.loadFrom(nextProps)
     }
@@ -24,7 +23,7 @@ class Fetch extends React.Component {
 
 }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return { }
 }
 
