@@ -5,8 +5,6 @@ import ReactDOM from 'react-dom'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router'
 import { createHistory } from 'history'
@@ -19,8 +17,7 @@ import Auth from './containers/Auth';
 
 import { listenToAuth } from './actions'
 
-import reducers from './reducers'
-const store = applyMiddleware(thunk)(createStore)(reducers);
+import store from './store'
 const history = createHistory()
 syncReduxAndRouter(history, store)
 
