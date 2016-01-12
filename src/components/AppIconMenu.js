@@ -19,6 +19,8 @@ import { pushPath } from 'redux-simple-router'
 // import {login, logout} from '../actions'
 
 import IsAuthed from '../containers/IsAuthed'
+import IsUser from '../containers/IsUser'
+import IsAdmin from '../containers/IsAdmin'
 import remote from '../remote'
 
 class AppIconMenu extends React.Component {
@@ -32,6 +34,9 @@ class AppIconMenu extends React.Component {
         <IsAuthed>
           <MenuItem primaryText="Home" onClick={ ()=> this.props.pushPath('/dash') } />
           <MenuItem primaryText="Sign out" onClick={ ()=> this.props.logout() } />
+          <IsAdmin>
+            <MenuItem primaryText="Admin" onClick={ ()=> this.props.pushPath('/admin') } />
+          </IsAdmin>
         </IsAuthed>
         <IsAuthed show={false}>
           <MenuItem primaryText="Sign In" onClick={ ()=> this.props.login() } />

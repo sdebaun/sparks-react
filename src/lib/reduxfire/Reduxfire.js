@@ -65,7 +65,7 @@ class rfModel {
   push(val) {
     return ()=>{
       return new Promise( (resolve)=>{
-        resolve(this.ref.child(this.name).push(val).key())
+        resolve(this.ref.push(val).key())
       })
     }
   }
