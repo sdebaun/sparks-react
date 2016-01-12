@@ -27,8 +27,8 @@ class Finding extends React.Component {
     return (
       <div className="index">
         This is the Finding page
-        <IsAuthed>You are authed!</IsAuthed>
-        <IsAuthed hide={true}>You are not authed.</IsAuthed>
+        <IsAuthed show={true}>You are authed!</IsAuthed>
+        <IsAuthed show={false}>You are not authed.</IsAuthed>
       </div>
     );
   }
