@@ -1,4 +1,5 @@
 import Firebase from 'firebase'
+import Immutable from 'seamless-immutable'
 
 import buildMiddleware from './buildMiddleware'
 import {LOCAL_UPDATE} from './types'
@@ -25,7 +26,16 @@ class Reduxfire {
     }
   }
 
+  query(collection,params) {
+    return (dispatch)=>{
+      if (!collection) return
+      let q = this.ref.child(collection)
+      q.on('child_added', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
+    }
+  }
 }
+
+const initialState = Immutable({})
 
 class rfData {
   constructor(ref) {
@@ -33,11 +43,10 @@ class rfData {
     this.models = {}
   }
 
-  reducer(state={},action) {
+  reducer(state=initialState,action) {
     switch (action.type) {
       case (LOCAL_UPDATE):
-        const c = { [action.collection]: { [action.key]: action.data } }
-        return Object.assign({},state,c);
+        return state.merge({ [action.collection]: { [action.key]: action.data } }, {deep:true});
       default: return state;
     }
   }
@@ -65,7 +74,7 @@ class rfModel {
   push(val) {
     return ()=>{
       return new Promise( (resolve)=>{
-        resolve(this.ref.child(this.name).push(val).key())
+        resolve(this.ref.push(val).key())
       })
     }
   }
