@@ -46,10 +46,10 @@ class ProjectsComponent extends React.Component {
             secondaryText='Start a new project for an Early Access Partner.'
             leftIcon={<AddCircle/>}
             onTouchTap={()=>this.handleOpen()}/>
+          {Object.keys(this.props.projects).map(key=>{
+            return <ListItem key={key} primaryText={this.props.projects[key].name}/>
+          })}
         </List>
-        {Object.keys(this.props.projects).map(key=>{
-          return <ListItem primaryText={this.props.projects[key].name}/>
-        })}
         <Dialog title='Create Project'
           actions={[<RaisedButton label='OK' onTouchTap={()=>this.handleClose(this.refs.nameField.getValue())}/>,
             <RaisedButton label='Cancel' onTouchTap={()=>this.handleClose()}/>]}
