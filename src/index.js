@@ -14,6 +14,7 @@ import Main from './containers/Main';
 import Dash from './containers/Dash';
 import Landing from './containers/Landing';
 import Admin from './containers/Admin';
+import Project from './containers/Project';
 
 import store from './store'
 const history = createHistory()
@@ -30,6 +31,15 @@ ReactDOM.render(
         </Route>
         <Route path="admin" component={Admin.Main}>
           <IndexRoute component={Admin.Projects}/>
+        </Route>
+        <Route path="project/:projectKey" component={Project.Main}>
+          <Route component={Project.Glance.Main}>
+            <IndexRoute component={Project.Glance.Todo}/>
+            <Route path="invite" component={Project.Glance.Invite}/>
+          </Route>
+          <Route component={Project.Manage.Main}>
+            <IndexRoute component={Project.Manage.Describe}/>            
+          </Route>
         </Route>
       </Route>
     </Router>
