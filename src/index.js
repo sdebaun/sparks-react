@@ -16,33 +16,25 @@ import Landing from './containers/Landing';
 import Admin from './containers/Admin';
 import Project from './containers/Project';
 
+import DashRoutes from 'containers/Dash/routes'
+import AdminRoutes from 'containers/Admin/routes'
+import ProjectRoutes from 'containers/Project/routes'
+
 import store from './store'
 const history = createHistory()
 syncReduxAndRouter(history, store)
 
+const routes = [
+  { path: '/',
+    component: Main,
+    indexRoute: { component: Landing },
+    childRoutes: [ DashRoutes, AdminRoutes, ProjectRoutes ]
+  }
+]
+
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={Main}>
-        <IndexRoute component={Landing}/>
-        <Route path="dash" component={Dash.Main}>
-          <IndexRoute component={Dash.Finding}/>
-          <Route path="doing" component={Dash.Doing}/>
-        </Route>
-        <Route path="admin" component={Admin.Main}>
-          <IndexRoute component={Admin.Projects}/>
-        </Route>
-        <Route path="project/:projectKey" component={Project.Main}>
-          <Route component={Project.Glance.Main}>
-            <IndexRoute component={Project.Glance.Todo}/>
-            <Route path="invite" component={Project.Glance.Invite}/>
-          </Route>
-          <Route path="manage" component={Project.Manage.Main}>
-            <IndexRoute component={Project.Manage.Describe}/>
-          </Route>
-        </Route>
-      </Route>
-    </Router>
+    <Router history={history} routes={routes}/>
   </Provider>,
   document.getElementById('app')
 )
