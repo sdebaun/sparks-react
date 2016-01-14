@@ -22,7 +22,7 @@ import AddCircle from 'material-ui/lib/svg-icons/content/add-circle';
 
 import Query from '../../containers/Query'
 
-// import { pushPath } from 'redux-simplae-router'
+import { pushPath } from 'redux-simple-router'
 
 import Inspector from 'react-json-inspector'
 
@@ -47,7 +47,11 @@ class ProjectsComponent extends React.Component {
             leftIcon={<AddCircle/>}
             onTouchTap={()=>this.handleOpen()}/>
           {Object.keys(this.props.projects).map(key=>{
-            return <ListItem key={key} primaryText={this.props.projects[key].name}/>
+            return (
+              <ListItem key={key}
+                onTouchTap={()=>this.props.pushPath('/project/'+key)}
+                primaryText={this.props.projects[key].name}/>
+            )
           })}
         </List>
         <Dialog title='Create Project'
@@ -80,6 +84,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     projectPush: (...args)=>dispatch(Projects.push(...args)),
+    pushPath: (...args)=>dispatch(pushPath(...args))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectsComponent);
