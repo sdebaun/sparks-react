@@ -24,6 +24,7 @@ import PageLoadSpinner from 'components/PageLoadSpinner'
 import Fetch from '../Fetch'
 import ProjectHeader from './ProjectHeader'
 import NavListItem from 'components/NavListItem'
+import NavPopout from 'components/NavPopout'
 
 import NavList from 'containers/Project/NavList'
 
@@ -38,13 +39,13 @@ class Main extends React.Component {
         <ShowIf isTrue={!this.props.selectedProject}><PageLoadSpinner/></ShowIf>
         <ShowIf isTrue={this.props.selectedProject}>
           <IsMobile>
-            <LeftNav docked={false}><NavList/></LeftNav>
+            <NavPopout><NavList baseUrl={baseUrl}/></NavPopout>
           </IsMobile>
           <div style={{display:'flex'}}>
             <IsDesktop>
               <div style={{width:256}}>
                 <ProjectHeader style={{height:100}} project={this.props.selectedProject}/>
-                <NavList/>
+                <NavList baseUrl={baseUrl}/>
               </div>
             </IsDesktop>
             <div style={{flex:1}}>

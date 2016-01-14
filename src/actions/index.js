@@ -1,9 +1,17 @@
 // import Firebase from 'firebase'
 
-export const LOGIN_ATTEMPT = 'LOGIN_ATTEMPT'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
-export const PROFILE_LOADED = 'PROFILE_LOADED'
+// export const LOGIN_ATTEMPT = 'LOGIN_ATTEMPT'
+// export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+// export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+// export const PROFILE_LOADED = 'PROFILE_LOADED'
+
+export const POPOUT_TOGGLE = 'POPOUT_TOGGLE'
+
+export function popoutToggle(uid) {
+  return {
+    type: POPOUT_TOGGLE
+  }
+}
 
 // function OAuthToProfile(authData) {
 //   const provider = authData.provider,
