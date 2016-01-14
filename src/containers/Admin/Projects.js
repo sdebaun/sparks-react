@@ -39,7 +39,7 @@ class ProjectsComponent extends React.Component {
           <ListItem primaryText='Create a Project'
             secondaryText='Start a new project for an Early Access Partner.'
             leftIcon={<AddCircle/>}
-            onTouchTap={()=>this.handleOpen()}/>
+            onTouchTap={()=>this.handleOpen()}>A THing</ListItem>
           {Object.keys(this.props.projects).map(key=>{
             return <NavListItem key={key} route={'/project/'+key} primaryText={this.props.projects[key].name}/>
           })}

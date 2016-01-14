@@ -7,9 +7,10 @@
 
 export const POPOUT_TOGGLE = 'POPOUT_TOGGLE'
 
-export function popoutToggle(uid) {
+export function popoutToggle(open) {
   return {
-    type: POPOUT_TOGGLE
+    type: POPOUT_TOGGLE,
+    open
   }
 }
 

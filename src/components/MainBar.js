@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import AppBar from 'material-ui/lib/app-bar'
 import AppIconMenu from 'components/AppIconMenu';
 import HeaderLogo from 'components/HeaderLogo'
-import MediaQuery from 'react-responsive'
 
 import LeftNavButton from 'components/LeftNavButton'
 import IsMobile from 'components/IsMobile'

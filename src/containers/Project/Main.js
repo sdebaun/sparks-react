@@ -13,19 +13,13 @@ import MainBar from 'components/MainBar'
 
 import { pushPath } from 'redux-simple-router'
 
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-import LeftNav from 'material-ui/lib/left-nav';
-
 import ShowIf from 'components/ShowIf'
 import IsMobile from 'components/IsMobile'
 import IsDesktop from 'components/IsDesktop'
 import PageLoadSpinner from 'components/PageLoadSpinner'
-import Fetch from '../Fetch'
-import ProjectHeader from './ProjectHeader'
-import NavListItem from 'components/NavListItem'
+import Fetch from 'containers/Fetch'
+import ProjectHeader from 'containers/Project/ProjectHeader'
 import NavPopout from 'components/NavPopout'
-
 import NavList from 'containers/Project/NavList'
 
 class Main extends React.Component {

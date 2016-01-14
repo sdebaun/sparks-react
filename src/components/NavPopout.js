@@ -7,7 +7,7 @@ import {popoutToggle} from 'actions'
 class NavPopout extends React.Component {
   render() {
     return (
-      <LeftNav docked={false} open={this.props.navPopout} onRequestChange={open=>this.props.popoutToggle()}>
+      <LeftNav docked={false} open={this.props.navPopout} onRequestChange={open=>this.props.popoutToggle(open)}>
         {this.props.children}
       </LeftNav>
       )

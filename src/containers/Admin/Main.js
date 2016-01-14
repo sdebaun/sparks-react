@@ -7,8 +7,6 @@ import Tab from 'material-ui/lib/tabs/tab'
 class Main extends React.Component {
   
   render() {
-    const dispatch = this.props.dispatch
-
     return (
       <div className="index">
         <MainBar />
