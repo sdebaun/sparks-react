@@ -11,7 +11,7 @@ import AppIconMenu from './AppIconMenu';
 // import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 // import MenuItem from 'material-ui/lib/menus/menu-item';
 
-// import { Link } from 'react-router';
+import { Link } from 'react-router';
 // import { pushPath } from 'redux-simple-router'
 // import {login, logout} from '../actions'
 
@@ -23,7 +23,7 @@ import AppIconMenu from './AppIconMenu';
 class MainBar extends React.Component {
   render() {
     return (
-      <AppBar title='Dash' iconElementLeft={<div/>} iconElementRight={<AppIconMenu/>} />
+      <AppBar className='row' iconElementLeft={<Link to="/dash"><img src="/images/sn-logo-32.png"/></Link>} iconElementRight={<AppIconMenu/>} />
     );
   }
 }
