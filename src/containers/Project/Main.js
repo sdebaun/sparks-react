@@ -23,10 +23,12 @@ import IsDesktop from 'components/IsDesktop'
 import PageLoadSpinner from 'components/PageLoadSpinner'
 import Fetch from '../Fetch'
 import ProjectHeader from './ProjectHeader'
+import NavListItem from 'components/NavListItem'
 
 class Main extends React.Component {
   
   render() {
+    const baseUrl = '/project/'+this.props.params.projectKey
     return (
       <div className="index">
         <MainBar />
@@ -44,8 +46,8 @@ class Main extends React.Component {
               <div style={{width:256}}>
                 <ProjectHeader style={{height:100}} project={this.props.selectedProject}/>
                 <List>
-                  <ListItem primaryText="At a Glance" onTouchTap={()=>this.props.pushPath('/project/'+this.props.params.projectKey)}/>
-                  <ListItem primaryText="Manage" onTouchTap={()=>this.props.pushPath('/project/'+this.props.params.projectKey+'/manage')}/>
+                  <NavListItem primaryText="At a Glance" route={baseUrl}/>
+                  <NavListItem primaryText="Manage" route={baseUrl+'/manage'}/>
                 </List>
               </div>
             </IsDesktop>
