@@ -20,7 +20,8 @@ import TextField from 'material-ui/lib/text-field'
 
 import AddCircle from 'material-ui/lib/svg-icons/content/add-circle';
 
-import Query from '../../containers/Query'
+import Query from 'containers/Query'
+import NavListItem from 'components/NavListItem'
 
 import { pushPath } from 'redux-simple-router'
 
@@ -47,11 +48,7 @@ class ProjectsComponent extends React.Component {
             leftIcon={<AddCircle/>}
             onTouchTap={()=>this.handleOpen()}/>
           {Object.keys(this.props.projects).map(key=>{
-            return (
-              <ListItem key={key}
-                onTouchTap={()=>this.props.pushPath('/project/'+key)}
-                primaryText={this.props.projects[key].name}/>
-            )
+            return <NavListItem key={key} route={'/project/'+key} primaryText={this.props.projects[key].name}/>
           })}
         </List>
         <Dialog title='Create Project'
