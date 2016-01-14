@@ -25,6 +25,8 @@ import Fetch from '../Fetch'
 import ProjectHeader from './ProjectHeader'
 import NavListItem from 'components/NavListItem'
 
+import NavList from 'containers/Project/NavList'
+
 class Main extends React.Component {
   
   render() {
@@ -33,22 +35,16 @@ class Main extends React.Component {
       <div className="index">
         <MainBar />
         <Fetch collection="Projects" itemKey={this.props.params.projectKey}/>
-        <ShowIf isTrue={!this.props.selectedProject}>
-          <PageLoadSpinner/>
-        </ShowIf>
+        <ShowIf isTrue={!this.props.selectedProject}><PageLoadSpinner/></ShowIf>
         <ShowIf isTrue={this.props.selectedProject}>
           <IsMobile>
-            <LeftNav docked={false}>
-            </LeftNav>
+            <LeftNav docked={false}><NavList/></LeftNav>
           </IsMobile>
           <div style={{display:'flex'}}>
             <IsDesktop>
               <div style={{width:256}}>
                 <ProjectHeader style={{height:100}} project={this.props.selectedProject}/>
-                <List>
-                  <NavListItem primaryText="At a Glance" route={baseUrl}/>
-                  <NavListItem primaryText="Manage" route={baseUrl+'/manage'}/>
-                </List>
+                <NavList/>
               </div>
             </IsDesktop>
             <div style={{flex:1}}>
