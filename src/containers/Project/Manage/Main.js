@@ -6,10 +6,13 @@ import Tab from 'material-ui/lib/tabs/tab'
 class Main extends React.Component {
   
   render() {
+    const baseUrl = '/project/'+this.props.params.projectKey + '/manage'
     return (
       <div>
         <NavTabs>
-          <Tab label='To Do' route='/'/>
+          <Tab label='Describe' route={baseUrl} />
+          <Tab label='Exchange' route={baseUrl+'/exchange'} />
+          <Tab label='Other' route={baseUrl+'/other'} />
         </NavTabs>
         {this.props.children}
       </div>
