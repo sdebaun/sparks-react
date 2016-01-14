@@ -6,13 +6,6 @@ import AppBar from 'material-ui/lib/app-bar'
 import Tabs from 'material-ui/lib/tabs/tabs'
 import Tab from 'material-ui/lib/tabs/tab'
 import Dialog from 'material-ui/lib/dialog'
-// import LeftNav from 'material-ui/lib/left-nav'
-
-// import IconButton from 'material-ui/lib/icon-button';
-// import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
-// import IconMenu from 'material-ui/lib/menus/icon-menu';
-// import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
-// import MenuItem from 'material-ui/lib/menus/menu-item';
 
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
