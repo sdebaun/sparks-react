@@ -18,12 +18,14 @@ import { pushPath } from 'redux-simple-router'
 
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
+import LeftNav from 'material-ui/lib/left-nav';
 
 import AppIconMenu from '../../components/AppIconMenu';
 
 import ShowIf from 'components/ShowIf'
 import PageLoadSpinner from 'components/PageLoadSpinner'
 import Fetch from '../Fetch'
+import MediaQuery from 'react-responsive'
 
 class Main extends React.Component {
   
@@ -36,16 +38,23 @@ class Main extends React.Component {
           <PageLoadSpinner/>
         </ShowIf>
         <ShowIf isTrue={this.props.selectedProject}>
+          <MediaQuery maxWidth={480}>
+            <LeftNav>
+              swipe navigation
+            </LeftNav>
+          </MediaQuery>
           <div style={{display:'flex'}}>
-            <div style={{width:240}}>
-              <div style={{height:100, backgroundColor:'#EEEEDD', margin:0, padding:0}}>
-                {this.props.selectedProject && this.props.selectedProject.name}
+            <MediaQuery minWidth={480}>
+              <div style={{width:240}}>
+                <div style={{height:100, backgroundColor:'#EEEEDD', margin:0, padding:0}}>
+                  {this.props.selectedProject && this.props.selectedProject.name}
+                </div>
+                <List>
+                  <ListItem primaryText="At a Glance" onTouchTap={()=>this.props.pushPath('/project/'+this.props.params.projectKey)}/>
+                  <ListItem primaryText="Manage" onTouchTap={()=>this.props.pushPath('/project/'+this.props.params.projectKey+'/manage')}/>
+                </List>
               </div>
-              <List>
-                <ListItem primaryText="At a Glance" onTouchTap={()=>this.props.pushPath('/project/'+this.props.params.projectKey)}/>
-                <ListItem primaryText="Manage" onTouchTap={()=>this.props.pushPath('/project/'+this.props.params.projectKey+'/manage')}/>
-              </List>
-            </div>
+            </MediaQuery>
             <div style={{flex:1}}>
             { React.cloneElement(this.props.children, {selectedProject:this.props.selectedProject}) }
             </div>
