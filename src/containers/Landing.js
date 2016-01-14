@@ -9,7 +9,8 @@ import React from 'react';
 
 // import { Link } from 'react-router';
 
-import AppIconMenu from '../components/AppIconMenu';
+import AppIconMenu from 'components/AppIconMenu';
+import HeaderLogo from 'components/HeaderLogo'
 
 class Landing extends React.Component {
   
@@ -18,7 +19,7 @@ class Landing extends React.Component {
       <div id='landing'>
         <div id='hook'>
           <div className='row'>
-            <img src='/images/sn-logo-32.png'/>
+            <HeaderLogo linkTo='/'/>
             <AppIconMenu/>
           </div>
           <h1 className="container">
