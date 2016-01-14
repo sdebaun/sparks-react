@@ -25,9 +25,12 @@ class Main extends React.Component {
     return (
       <div>
         <Tabs>
-          <Tab label='To Do' route='/' onActive={ tab=>dispatch(pushPath(tab.props.route)) }/>
+          <Tab label='To Do' route={'/project/'+this.props.params.projectKey} onActive={ tab=>dispatch(pushPath(tab.props.route)) }/>
+          <Tab label='Invite' route={'/project/'+this.props.params.projectKey+'/invite'} onActive={ tab=>dispatch(pushPath(tab.props.route)) }/>
         </Tabs>
-        {this.props.children}
+        <div>ProjectKey:{this.props.params.projectKey}</div>
+        <div>ProjectName:{this.props.selectedProject.name}</div>
+        { this.props.children }
       </div>
     );
   }
