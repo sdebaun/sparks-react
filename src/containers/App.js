@@ -10,13 +10,8 @@ import Auth from './Auth'
 import IsAuthed from './IsAuthed'
 import User from './User'
 
-class Main extends React.Component {
+class App extends React.Component {
   
-  getChildContext() {
-    return {
-      muiTheme: ThemeManager.getMuiTheme(Theme)
-    }
-  }
   render() {
     return (
       <div className="index">
@@ -26,13 +21,16 @@ class Main extends React.Component {
       </div>
     );
   }
+
+  getChildContext() {
+    return {
+      muiTheme: ThemeManager.getMuiTheme(Theme)
+    }
+  }
 }
 
-Main.defaultProps = {
-};
-
-Main.childContextTypes = {
+App.childContextTypes = {
   muiTheme: React.PropTypes.object
 };
 
-export default Main;
+export default App;

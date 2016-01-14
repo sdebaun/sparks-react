@@ -10,31 +10,15 @@ import { Router, Route, IndexRoute } from 'react-router'
 import { createHistory } from 'history'
 import { syncReduxAndRouter } from 'redux-simple-router'
 
-import Main from './containers/Main';
-import Dash from './containers/Dash';
-import Landing from './containers/Landing';
-import Admin from './containers/Admin';
-import Project from './containers/Project';
-
-import DashRoutes from 'containers/Dash/routes'
-import AdminRoutes from 'containers/Admin/routes'
-import ProjectRoutes from 'containers/Project/routes'
-
 import store from './store'
 const history = createHistory()
 syncReduxAndRouter(history, store)
 
-const routes = [
-  { path: '/',
-    component: Main,
-    indexRoute: { component: Landing },
-    childRoutes: [ DashRoutes, AdminRoutes, ProjectRoutes ]
-  }
-]
+import routes from './routes'
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history} routes={routes}/>
+  <Provider {...{store}}>
+    <Router {...{history,routes}}/>
   </Provider>,
   document.getElementById('app')
 )
