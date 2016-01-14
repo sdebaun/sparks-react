@@ -32,21 +32,21 @@ class Main extends React.Component {
       <div className="index">
         <MainBar />
         <Fetch collection="Projects" itemKey={this.props.params.projectKey}/>
-        <ShowIf isTrue={!this.props.selectedProjectLoaded}>
+        <ShowIf isTrue={!this.props.selectedProject}>
           <PageLoadSpinner/>
         </ShowIf>
-        <ShowIf isTrue={this.props.selectedProjectLoaded}>
+        <ShowIf isTrue={this.props.selectedProject}>
           <div style={{display:'flex'}}>
             <div style={{width:240}}>
               <div style={{height:100, backgroundColor:'#EEEEDD', margin:0, padding:0}}>
-                {this.props.selectedProjectLoaded && this.props.selectedProject.name}
+                {this.props.selectedProject && this.props.selectedProject.name}
               </div>
-              <List style={{margin:0, padding:0}}>
+              <List>
                 <ListItem primaryText="At a Glance" onTouchTap={()=>this.props.pushPath('/project/'+this.props.params.projectKey)}/>
                 <ListItem primaryText="Manage" onTouchTap={()=>this.props.pushPath('/project/'+this.props.params.projectKey+'/manage')}/>
               </List>
             </div>
-            <div style={{flex:100}}>
+            <div style={{flex:1}}>
             { React.cloneElement(this.props.children, {selectedProject:this.props.selectedProject}) }
             </div>
           </div>
