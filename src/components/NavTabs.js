@@ -6,13 +6,21 @@ import { pushPath } from 'redux-simple-router'
 
 class NavTabs extends React.Component {
   render() {
+    const {baseUrl} = this.props
+
     return (
       <Tabs>
-      { React.Children.map( this.props.children, (c)=> React.cloneElement(c,{onActive:tab=>this.props.pushPath(tab.props.route)}) ) }
+      { React.Children.map( this.props.children, (c)=>{
+          return React.cloneElement(c,{onActive:tab=>this.props.pushPath(baseUrl + tab.props.route)})
+          }
+        )
+      }
       </Tabs>
     )
   }
 }
+
+NavTabs.defaultProps = {baseUrl:''}
 
 const mapStateToProps = ()=>{return {}}
 

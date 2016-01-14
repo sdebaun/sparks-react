@@ -10,9 +10,9 @@ class Main extends React.Component {
 
     return (
       <div>
-        <NavTabs>
-          <Tab label='To Do' route={'/project/'+this.props.params.projectKey} />
-          <Tab label='Invite' route={'/project/'+this.props.params.projectKey+'/invite'} />
+        <NavTabs baseUrl={'/project/'+this.props.params.projectKey}>
+          <Tab label='To Do' route='' />
+          <Tab label='Invite' route='/invite' />
         </NavTabs>
         <div>ProjectKey:{this.props.params.projectKey}</div>
         <div>ProjectName:{this.props.selectedProject.name}</div>
