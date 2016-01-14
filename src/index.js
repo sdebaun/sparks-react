@@ -38,7 +38,7 @@ ReactDOM.render(
             <Route path="invite" component={Project.Glance.Invite}/>
           </Route>
           <Route component={Project.Manage.Main}>
-            <IndexRoute component={Project.Manage.Describe}/>            
+            <IndexRoute component={Project.Manage.Describe}/>
           </Route>
         </Route>
       </Route>

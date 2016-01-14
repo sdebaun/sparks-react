@@ -27,7 +27,7 @@ class AppIconMenu extends React.Component {
   render() {
     return (
       <IconMenu
-        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+        iconButtonElement={<IconButton><MoreVertIcon color='white'/></IconButton>}
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
