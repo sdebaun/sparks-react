@@ -18,11 +18,11 @@ import { pushPath } from 'redux-simple-router'
 
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
-import CircularProgress from 'material-ui/lib/circular-progress'
 
 import AppIconMenu from '../../components/AppIconMenu';
 
 import ShowIf from 'components/ShowIf'
+import PageLoadSpinner from 'components/PageLoadSpinner'
 import Fetch from '../Fetch'
 
 class Main extends React.Component {
@@ -33,9 +33,7 @@ class Main extends React.Component {
         <MainBar />
         <Fetch collection="Projects" itemKey={this.props.params.projectKey}/>
         <ShowIf isTrue={!this.props.selectedProjectLoaded}>
-          <div style={{display:'flex',justifyContent:'center',paddingTop:'2em'}}>
-            <CircularProgress mode='indeterminate' size={3}/>
-          </div>
+          <PageLoadSpinner/>
         </ShowIf>
         <ShowIf isTrue={this.props.selectedProjectLoaded}>
           <div style={{display:'flex'}}>
