@@ -4,9 +4,6 @@ import { createSelector } from 'reselect'
 
 // import RaisedButton from 'material-ui/lib/raised-button'
 import MainBar from 'components/MainBar'
-import Tabs from 'material-ui/lib/tabs/tabs'
-import Tab from 'material-ui/lib/tabs/tab'
-// import LeftNav from 'material-ui/lib/left-nav'
 
 // import IconButton from 'material-ui/lib/icon-button';
 // import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
