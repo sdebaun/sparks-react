@@ -10,14 +10,22 @@ import Auth from './Auth'
 import IsAuthed from './IsAuthed'
 import User from './User'
 
+import DevTools from 'components/DevTools'
+
+
 class App extends React.Component {
   
   render() {
     return (
-      <div className="index">
-        <Auth/>
-        <IsAuthed><User/></IsAuthed>
-        {this.props.children}
+      <div style={{display:'flex',flexDirection:'row'}}>
+        <div className="index" style={{flex:1}}>
+          <Auth/>
+          <IsAuthed><User/></IsAuthed>
+          {this.props.children}
+        </div>
+        <div id="tools">
+          <DevTools/>
+        </div>
       </div>
     );
   }
