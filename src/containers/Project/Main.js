@@ -43,9 +43,6 @@ class Main extends React.Component {
               </div>
             </IsDesktop>
             <div style={{flex:1}}>
-              <IsMobile>
-                <ProjectHeader style={{height:60}} project={this.props.selectedProject}/>
-              </IsMobile>
               { React.cloneElement(this.props.children, {selectedProject:this.props.selectedProject}) }
             </div>
           </div>

@@ -9,7 +9,7 @@ class NavTabs extends React.Component {
     const {baseUrl} = this.props
 
     return (
-      <Tabs>
+      <Tabs {...this.props}>
       { React.Children.map( this.props.children, (c)=>{
           return React.cloneElement(c,{onActive:tab=>this.props.pushPath(baseUrl + tab.props.route)})
           }
