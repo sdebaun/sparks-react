@@ -15,10 +15,12 @@ class ProjectHeader extends React.Component {
             <IsMobile><LeftNavButton/></IsMobile>
           </ToolbarGroup>
           <ToolbarGroup>
-            {this.props.project && this.props.project.name}
+            {this.props.primaryText}
+            <br/>
+            {this.props.secondaryText}
           </ToolbarGroup>
         </Toolbar>
-        { this.props.children }
+        { this.props.children && React.cloneElement(this.props.children,{ tabItemContainerStyle:{backgroundColor:'transparent'} }) }
       </div>
     );
   }

@@ -21,29 +21,32 @@ import Fetch from 'containers/Fetch'
 import ProjectHeader from 'containers/Project/ProjectHeader'
 import NavPopout from 'components/NavPopout'
 import NavList from 'containers/Project/NavList'
+import SideNav from 'components/SideNav'
 
 class Main extends React.Component {
   
   render() {
     const baseUrl = '/project/'+this.props.params.projectKey
+    const cloned = React.cloneElement(this.props.children, {selectedProject:this.props.selectedProject})
+    const project = this.props.selectedProject
+
     return (
       <div className="index">
         <MainBar />
         <Fetch collection="Projects" itemKey={this.props.params.projectKey}/>
         <ShowIf isTrue={!this.props.selectedProject}><PageLoadSpinner/></ShowIf>
         <ShowIf isTrue={this.props.selectedProject}>
-          <IsMobile>
-            <NavPopout><NavList baseUrl={baseUrl}/></NavPopout>
-          </IsMobile>
           <div style={{display:'flex'}}>
-            <IsDesktop>
-              <div style={{width:256}}>
-                <ProjectHeader style={{height:100}} project={this.props.selectedProject}/>
-                <NavList baseUrl={baseUrl}/>
-              </div>
-            </IsDesktop>
+            <SideNav>
+              <IsDesktop>
+                <ProjectHeader style={{height:100}} project={this.props.selectedProject}
+                 primaryText={project && project.name}
+                 />
+              </IsDesktop>
+              <NavList baseUrl={baseUrl}/>
+            </SideNav>
             <div style={{flex:1}}>
-              { React.cloneElement(this.props.children, {selectedProject:this.props.selectedProject}) }
+              { cloned }
             </div>
           </div>
         </ShowIf>
