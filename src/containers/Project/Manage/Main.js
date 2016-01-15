@@ -9,9 +9,9 @@ class Main extends React.Component {
     return (
       <div>
         <ProjectTabs {...this.props} secondaryText="Manage">
-          <Tab label='Describe' route='' />
-          <Tab label='Exchange' route='/exchange' />
-          <Tab label='Other' route='/other' />
+          <Tab label='Describe' route='/manage' />
+          <Tab label='Exchange' route='/manage/exchange' />
+          <Tab label='Other' route='/manage/other' />
         </ProjectTabs>
         { this.props.children }
       </div>
