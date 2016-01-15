@@ -23,7 +23,9 @@ class ProjectsComponent extends React.Component {
   handleOpen() { this.setState({open:true}) }
   handleClose(val=null) {
     this.setState({open:false})
-    if (val) this.props.projectPush({name:val})
+    if (val) this.props.projectPush({name:val}).then( (projectKey)=>{
+      this.props.pushPath('/project/'+projectKey)
+    })
   }
 
   render() {
