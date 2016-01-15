@@ -13,7 +13,7 @@ class Main extends React.Component {
           <Tab label='Staff' route='/staff' />
           <Tab label='History' route='/history' />
         </ProjectTabs>
-        { this.props.children }
+        { React.cloneElement(this.props.children,this.props) }
       </div>
     );
   }
