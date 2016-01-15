@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Query from 'containers/Query'
+
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
 
@@ -10,18 +12,25 @@ import EmailIcon from 'material-ui/lib/svg-icons/communication/email';
 import CreateInviteListItem from 'containers/Project/Glance/CreateInviteListItem'
 
 class Staff extends React.Component {
-  
+
   render() {
+    const { projectKey, invites } = this.props
     return (
       <div>
+        <Query collection='Invites'/>
         <List>
-          <CreateInviteListItem projectKey={this.props.projectKey}/>
+          <CreateInviteListItem projectKey={projectKey}/>
         </List>
         <List subheader="Open Invites">
-          <ListItem primaryText='foo@bar'
-            secondaryText='Sent three days ago.'
-            leftIcon={<EmailIcon/>}
-            onTouchTap={()=>this.handleOpen()} />
+
+          {invites && Object.keys(invites).map(key=>{
+            return (
+              <ListItem key={key} primaryText={invites[key].name}
+                secondaryText='Sent three days ago.'
+                leftIcon={<EmailIcon/>}
+                onTouchTap={()=>this.handleOpen()} />
+            )
+          })}
         </List>
       </div>
     );
@@ -29,8 +38,15 @@ class Staff extends React.Component {
 
 }
 
-function mapStateToProps(state) {
-  return state;
+function mapStateToProps(state,ownProps) {
+  const invites = state.data.Invites
+  const selectedInvites = invites && Object.keys(invites)
+    .filter(k=>invites[k].projectKey==ownProps.projectKey)
+    .map(k=>Object.assign({$key:k},invites[k]))
+
+  return {
+    invites: selectedInvites
+  };
 }
 
 export default connect(mapStateToProps)(Staff);
