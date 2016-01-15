@@ -18,16 +18,15 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import { pushPath } from 'redux-simple-router'
 // import {login, logout} from '../actions'
 
-import IsAuthed from '../containers/IsAuthed'
-import IsUser from '../containers/IsUser'
-import IsAdmin from '../containers/IsAdmin'
+import IsAuthed from 'containers/IsAuthed'
+import IsAdmin from 'containers/IsAdmin'
 import remote from '../remote'
 
 class AppIconMenu extends React.Component {
   render() {
     return (
       <IconMenu
-        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+        iconButtonElement={<IconButton><MoreVertIcon color='white'/></IconButton>}
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >

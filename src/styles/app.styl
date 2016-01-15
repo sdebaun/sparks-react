@@ -1,3 +1,26 @@
+@import url(http://fonts.googleapis.com/css?family=Montserrat\+Alternates)
+@import url(http://fonts.googleapis.com/css?family=Roboto)
+
+$heart-size = 6em
+
+$sm-max = 640px
+$md-max = 1440px
+
+$warm-grey = #3a3934
+$orange = #EB8C58
+$light-blue = #619CB9
+// $orange = #f68e56
+
+$font-title = 'Amatic SC'
+$font-subtitle = 'Ubuntu'
+$font-body = 'Roboto'
+
+*
+  font-family: $font-body
+
+a
+  color: $orange
+
 body
   background-color: white
 
@@ -5,3 +28,242 @@ body
   margin: 0 auto
   padding: 0em 1em
   max-width: 1024px
+
+.row
+  padding: 0.25em 0.5em
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+
+// .cell
+  // display: flex
+    
+#landing
+  h1, h2, h1 span, h2 span
+    font-family: $font-title !important
+
+$hook-size = 3.2em
+$promise-size = 4.25em
+
+#hook, #promise, #cta, #benefits
+  
+  h1
+    padding-top: 2.5em
+    // padding-top: 40%
+    font-size: $hook-size
+    line-height: 110%
+    text-shadow: 3px 3px 3px #333
+    text-align: center
+
+  h2
+    font-size: $promise-size
+    text-align: center
+  
+  h3
+    font-size: 2em
+    color: $warm-grey
+    margin: 1em 0 0.75em
+    font-weight: normal
+    
+  h4
+    font-size: 2em
+    text-align: center
+    margin-bottom: 0.5em
+
+  h5
+    font-size: 1.5em
+    text-align: center
+    margin: 0.5em 0em
+        
+#hook
+  background-image: url(/images/pitch/sparklerHeader-2048.jpg)
+  background-repeat: no-repeat
+  background-position: center top
+  background-size: cover
+  color: white
+  padding: 1em 0em
+  
+// @media screen and (min-width: $sm-max+1) and (max-width: $md-max)
+//  #hook
+//    background-image: url(/assets/images/pitch/sparklerHeader-1440.png)
+
+// @media screen and (max-width: $sm-max)
+//  #hook
+//    background-image: url(/assets/images/pitch/sparklerHeader-640.png)
+
+#promise
+  background-color: $orange
+  color: white
+  padding-top: 1em
+  padding-bottom: ($heart-size * 0.5)
+
+#more-heart
+  background: url(/images/pitch/heartIcon.svg)
+  background-position: center top
+  background-repeat: no-repeat
+  background-size: $heart-size $heart-size
+  margin: ($heart-size * -0.5) 0em
+  padding: ($heart-size * 0.5) 0em
+  z-index: 100
+  position: relative
+
+$sm-icon-size = 4em
+
+#benefits
+  padding-top: ($heart-size * 0.5) - 1em
+
+  ul
+    list-style-type: none
+    padding: 0 1em
+    
+    li
+      text-align: center
+      font-size: 1.2em
+      line-height: 1.6em
+      margin-bottom: 1em
+      padding-top: 0.5em
+
+      &.sn-icon
+        padding-top: $sm-icon-size + 0.5em
+        // padding-bottom: $sm-icon-size
+        background-size: $sm-icon-size $sm-icon-size
+        background-repeat: no-repeat
+        background-position: center top
+        
+        &.checklist
+          background-image: url(/images/pitch/icon-checklist.svg)
+        &.clock
+          background-image: url(/images/pitch/icon-clock.svg)
+        &.direct
+          background-image: url(/images/pitch/icon-direct.svg)
+        &.first
+          background-image: url(/images/pitch/icon-first.svg)
+        &.flag
+          background-image: url(/images/pitch/icon-flag.svg)
+        &.mountains
+          background-image: url(/images/pitch/icon-mountains.svg)
+        &.piggy
+          background-image: url(/images/pitch/icon-piggy.svg)
+        &.sailboat
+          background-image: url(/images/pitch/icon-sailboat.svg)
+
+        
+$lg-icon-size = 3em
+
+@media screen and (min-width: $sm-max+1)
+
+  $hook-size = 5.5em
+  $promise-size = 3em
+
+  #hook, #promise
+    h1
+      font-size: $hook-size
+    h2
+      font-size: $promise-size
+
+  h1, h2
+    span
+      display: inline;
+
+  #benefits ul
+    margin: 0 auto
+    max-width: 640px
+    
+    li
+      font-size: 1.3em
+      line-height: 1.5em
+      text-align: left
+
+      b
+        font-size: 120%
+
+      &.sn-icon
+        // padding-bottom: $sm-icon-size
+        padding: 0.5em 0 0.5em $lg-icon-size + 1em
+        background-size: $lg-icon-size $lg-icon-size
+        background-repeat: no-repeat
+        background-position: left center
+
+#footer
+  padding: 2em 0
+  color: lighten($warm-grey,80%)
+  background-color: darken($warm-grey,20%)
+  // display: flex
+  // flex-direction: column
+  // justify-content: space-between
+  
+  a
+    color white
+    text-decoration none
+  .container
+    text-align: center
+    
+  .links
+    text-align left
+    display: flex
+    align-items: flex-start
+    flex-direction: row
+    justify-content: space-between
+    
+    ul
+      padding 0
+      
+    li
+      list-style-type none
+      line-height 2em
+      
+    
+$logo-size = 24px
+
+#logo
+  background: url(/assets/images/sn-logo-32.png)
+  background-position: left center
+  background-repeat: no-repeat
+  background-size: contain
+  height: $logo-size
+  // width: $logo-size
+  padding-left: $logo-size * 1.25
+  font-size: $logo-size * 0.75
+  color: white
+    
+  .alt
+    color: lighten($warm-grey,50%)
+
+md-input-container.md-default-theme
+  label, .md-placeholder
+    color: $warm-grey
+  .md-input
+    background-color: white
+
+#cta
+  // background: $warm-grey
+  background: $orange
+  color: white
+  padding: 1em 0em
+  // height: 9em
+  overflow: hidden
+  position: relative
+  
+  img
+    width 60%
+  
+#cta .container
+  &.ng-animate
+    -webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s
+    transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s
+
+    position: absolute
+    top:0
+    left:0;
+    right:0;
+    bottom:0;
+
+  &.ng-leave.ng-leave-active, &.ng-enter
+    top:-100%
+  
+  &.ng-enter.ng-enter-active, &.ng-leave
+    top:0
+
+#tools > div > div
+  position: relative !important

@@ -1,7 +1,6 @@
 import Firebase from 'firebase'
 import Immutable from 'seamless-immutable'
 
-import buildMiddleware from './buildMiddleware'
 import {LOCAL_UPDATE} from './types'
 
 import rfAuth from './rfAuth'
@@ -14,7 +13,6 @@ class Reduxfire {
   constructor(fbUrl) {
     this.fbUrl = fbUrl
     this.ref = new Firebase(fbUrl)
-    this.middleware = buildMiddleware(fbUrl)
     this.auth = new rfAuth(this.ref);
     this.data = new rfData(this.ref);
   }
@@ -26,7 +24,7 @@ class Reduxfire {
     }
   }
 
-  query(collection,params) {
+  query(collection) { // ,params) {
     return (dispatch)=>{
       if (!collection) return
       let q = this.ref.child(collection)
@@ -85,16 +83,30 @@ class rfModel {
     }
   }
 
-
-  // watch(key,cb) {
-  //   return (dispatch)=>{
-  //     this.ref.child(key).on('value', (snap)=>{
-  //       dispatch({type:LOCAL_UPDATE, data:snap.val(), model:this.name, key})
-  //       if (cb) cb(snap)
-  //     })
-  //   }
-  // }
-
 }
 
 export default Reduxfire
+
+// function OAuthToProfile(authData) {
+//   const provider = authData.provider,
+//     d = authData[provider];
+
+//   switch (provider) {
+//     case 'google':
+//       return {
+//         uid: authData.uid,
+//         fullName: d.displayName,
+//         email: d.email,
+//         profileImageURL: d.profileImageURL
+//       }
+//     case 'facebook':
+//       return {
+//         uid: authData.uid,
+//         fullName: 'FB Full name',
+//         email: 'FB email',
+//         profileImageURL: 'FB image url'
+//       }
+//     default:
+//       throw 'Can only handle google or facebook oauth.'
+//   }
+// }

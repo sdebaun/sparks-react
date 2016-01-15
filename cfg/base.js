@@ -30,6 +30,8 @@ module.exports = {
     alias: {
       actions: srcPath + '/actions/',
       components: srcPath + '/components/',
+      containers: srcPath + '/containers/',
+      reducers: srcPath + '/reducers/',
       sources: srcPath + '/sources/',
       stores: srcPath + '/stores/',
       styles: srcPath + '/styles/',
