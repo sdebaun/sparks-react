@@ -6,12 +6,10 @@ import remote from '../remote'
 class Fetch extends React.Component {
 
   componentWillMount() {
-    console.log('Fetch.componentWillMount this.props:', this.props)
     this.loadFrom(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('Fetch.componentWillReceiveProps', nextProps)
     if ((nextProps.collection != this.props.collection) || (nextProps.itemKey != this.props.itemKey)) {
       this.loadFrom(nextProps)
     }

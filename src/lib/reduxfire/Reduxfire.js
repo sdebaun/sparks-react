@@ -26,7 +26,7 @@ class Reduxfire {
     }
   }
 
-  query(collection,params) {
+  query(collection) { // ,params) {
     return (dispatch)=>{
       if (!collection) return
       let q = this.ref.child(collection)

@@ -2,9 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RaisedButton from 'material-ui/lib/raised-button'
-import AppBar from 'material-ui/lib/app-bar'
-import Tabs from 'material-ui/lib/tabs/tabs'
-import Tab from 'material-ui/lib/tabs/tab'
 import Dialog from 'material-ui/lib/dialog'
 
 import List from 'material-ui/lib/lists/list'
@@ -17,8 +14,6 @@ import Query from 'containers/Query'
 import NavListItem from 'components/NavListItem'
 
 import { pushPath } from 'redux-simple-router'
-
-import Inspector from 'react-json-inspector'
 
 class ProjectsComponent extends React.Component {
   componentWillMount() {

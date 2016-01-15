@@ -9,8 +9,8 @@ export default combineReducers({
   routing,
   navPopout: (state=false,action)=>{
     switch (action.type) {
-      case "@@router/UPDATE_PATH": return false
-      case "POPOUT_TOGGLE": return !state
+      case '@@router/UPDATE_PATH': return false
+      case 'POPOUT_TOGGLE': return !state
       default: return state
     }
   }
