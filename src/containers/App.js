@@ -17,15 +17,13 @@ class App extends React.Component {
   
   render() {
     return (
-      <div style={{display:'flex',flexDirection:'row'}}>
+      <div>
         <div className="index" style={{flex:1}}>
           <Auth/>
           <IsAuthed><User/></IsAuthed>
           {this.props.children}
         </div>
-        <div id="tools">
-          <DevTools/>
-        </div>
+        <DevTools/>
       </div>
     );
   }
