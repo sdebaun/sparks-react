@@ -86,3 +86,27 @@ class rfModel {
 }
 
 export default Reduxfire
+
+// function OAuthToProfile(authData) {
+//   const provider = authData.provider,
+//     d = authData[provider];
+
+//   switch (provider) {
+//     case 'google':
+//       return {
+//         uid: authData.uid,
+//         fullName: d.displayName,
+//         email: d.email,
+//         profileImageURL: d.profileImageURL
+//       }
+//     case 'facebook':
+//       return {
+//         uid: authData.uid,
+//         fullName: 'FB Full name',
+//         email: 'FB email',
+//         profileImageURL: 'FB image url'
+//       }
+//     default:
+//       throw 'Can only handle google or facebook oauth.'
+//   }
+// }
