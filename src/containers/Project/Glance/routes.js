@@ -6,6 +6,6 @@ export default {
   component: Main,
   indexRoute: { component: Todo },
   childRoutes: [
-    { path:'invite', component: Invite}
+    { path:'staff', component: Invite }
   ]
 }
