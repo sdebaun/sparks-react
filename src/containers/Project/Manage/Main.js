@@ -11,7 +11,7 @@ class Main extends React.Component {
         <ProjectTabs {...this.props} secondaryText="Manage">
           <Tab label='Describe' route='/manage' />
           <Tab label='Exchange' route='/manage/exchange' />
-          <Tab label='Other' route='/manage/other' />
+          <Tab label='Applying' route='/manage/applying' />
         </ProjectTabs>
         { this.props.children }
       </div>

@@ -17,7 +17,7 @@ class Staff extends React.Component {
     const { projectKey, invites } = this.props
     return (
       <div>
-        <Query collection='Invites'/>
+        <Query collection='Invites' orderByChild='projectKey' equalTo={projectKey} />
         <List>
           <CreateInviteListItem projectKey={projectKey}/>
         </List>
