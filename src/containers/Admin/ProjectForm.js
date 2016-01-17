@@ -7,12 +7,10 @@ import TextField from 'material-ui/lib/text-field'
 export const fields = ['name'];
 
 const validate = values => {
-  console.log('validating', values)
   const errors = {};
   if (!values.name) {
     errors.name = 'Required';
   }
-  console.log('errors',errors)
   return errors;
 };
 
@@ -25,12 +23,12 @@ class SynchronousValidationForm extends Component {
   };
 
   render() {
-    const {fields: {name}, errors, resetForm, handleSubmit, submitting} = this.props;
+    const {fields: {name}, errors, handleSubmit, submitting} = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <TextField floatingLabelText='Name' errorText={name.touched && name.error} {...name} />
         <div style={{display:'flex',width:'100%',justifyContent:'flex-end'}}>
-          <RaisedButton disabled={errors.name} primary={true} onTouchTap={handleSubmit} label='OK' style={{marginRight:'1em'}}/>
+          <RaisedButton disabled={errors.name || submitting} primary={true} onTouchTap={handleSubmit} label='OK' style={{marginRight:'1em'}}/>
           {this.props.children}
         </div>
       </form>

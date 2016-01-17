@@ -21,12 +21,12 @@ class InviteForm extends Component {
   };
 
   render() {
-    const {fields: {email}, errors, resetForm, handleSubmit, submitting} = this.props;
+    const {fields: {email}, errors, handleSubmit, submitting} = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <TextField floatingLabelText='Email Address' errorText={email.touched && email.error} {...email} />
         <div style={{display:'flex',width:'100%',justifyContent:'flex-end'}}>
-          <RaisedButton disabled={errors.email} primary={true} onTouchTap={handleSubmit} label='Send Invite' style={{marginRight:'1em'}}/>
+          <RaisedButton disabled={errors.email || submitting} primary={true} onTouchTap={handleSubmit} label='Send Invite' style={{marginRight:'1em'}}/>
           {this.props.children}
         </div>
       </form>

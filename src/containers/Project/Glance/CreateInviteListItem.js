@@ -1,28 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect'
 
-import RaisedButton from 'material-ui/lib/raised-button'
+// import RaisedButton from 'material-ui/lib/raised-button'
 import FlatButton from 'material-ui/lib/flat-button'
 import Dialog from 'material-ui/lib/dialog'
 
-import List from 'material-ui/lib/lists/list'
+// import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
-import TextField from 'material-ui/lib/text-field'
+// import TextField from 'material-ui/lib/text-field'
 
 import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
 
-import Query from 'containers/Query'
-import NavListItem from 'components/NavListItem'
+// import Query from 'containers/Query'
+// import NavListItem from 'components/NavListItem'
 import InviteForm from 'containers/Project/Glance/InviteForm'
 
-import { pushPath } from 'redux-simple-router'
+// import { pushPath } from 'redux-simple-router'
 
 class CreateInviteListItem extends React.Component {
   state = { open: false }
-  handleOpen = ev => this.setState({open:true})
-  handleClose = ev => this.setState({open:false})
+  handleOpen = ()=> this.setState({open:true})
+  handleClose = ()=> this.setState({open:false})
   handleSubmit = data => {
-    if (data) this.props.invitePush(Object.assign(data,{projectKey:this.props.projectKey}))
+    if (data) this.props.invitePush(Object.assign(data,{
+      projectKey:this.props.projectKey,
+      authorProfileKey:this.props.userProfileKey
+    }))
     this.handleClose()
   }
 
@@ -49,13 +53,19 @@ class CreateInviteListItem extends React.Component {
 
 import { Invites } from '../../../remote'
 
-function mapStateToProps(state) {
-  return {}
-}
+import { currentProfileKeySelector } from '../../../selectors'
+
+const mapStateToProps = createSelector(
+  currentProfileKeySelector,
+  (userProfileKey)=>{
+    return {userProfileKey}
+  }
+)
+
 
 function mapDispatchToProps(dispatch) {
   return {
-    invitePush: (...args)=>dispatch(Invites.push(...args)),
+    invitePush: (...args)=>dispatch(Invites.push(...args))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CreateInviteListItem);

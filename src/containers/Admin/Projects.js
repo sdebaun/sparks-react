@@ -1,14 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import RaisedButton from 'material-ui/lib/raised-button'
-import Dialog from 'material-ui/lib/dialog'
-
 import List from 'material-ui/lib/lists/list'
-import ListItem from 'material-ui/lib/lists/list-item'
-import TextField from 'material-ui/lib/text-field'
-
-import AddCircle from 'material-ui/lib/svg-icons/content/add-circle';
 
 import Query from 'containers/Query'
 import NavListItem from 'components/NavListItem'

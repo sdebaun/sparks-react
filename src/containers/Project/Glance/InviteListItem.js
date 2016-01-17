@@ -11,6 +11,8 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import EmailIcon from 'material-ui/lib/svg-icons/communication/email';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 
+import TimeAgo from 'react-timeago'
+
 const iconButtonElement = (
   <IconButton
     touch={true}
@@ -29,6 +31,7 @@ class InviteListItem extends React.Component {
 
     const rightIconMenu = (
       <IconMenu iconButtonElement={iconButtonElement}>
+        <MenuItem href={'/joinProject/'+invite.$key} target='new'>Preview</MenuItem>
         <MenuItem onTouchTap={this.handlePreview}>Preview</MenuItem>
         <MenuItem onTouchTap={this.handleResend}>Resend</MenuItem>
         <MenuItem onTouchTap={this.handleRevoke}>Revoke</MenuItem>
@@ -37,7 +40,7 @@ class InviteListItem extends React.Component {
 
     return (
       <ListItem primaryText={invite.email}
-        secondaryText='Sent three days ago.'
+        secondaryText={invite.lastSent && <TimeAgo date={invite.lastSent} minPeriod={10}/> || 'Sending...'}
         leftIcon={<EmailIcon/>}
         rightIconButton={rightIconMenu} />
     );
@@ -45,7 +48,7 @@ class InviteListItem extends React.Component {
 
 }
 
-const mapStateToProps = (state)=>{ return {} }
+const mapStateToProps = ()=>{ return {} }
 
 // function mapStateToProps(state,ownProps) {
 //   const invites = state.data.Invites

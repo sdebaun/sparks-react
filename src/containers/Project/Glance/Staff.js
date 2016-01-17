@@ -1,13 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect'
 
 import Query from 'containers/Query'
 
 import List from 'material-ui/lib/lists/list'
-import ListItem from 'material-ui/lib/lists/list-item'
-
-import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
-import EmailIcon from 'material-ui/lib/svg-icons/communication/email';
 
 import CreateInviteListItem from 'containers/Project/Glance/CreateInviteListItem'
 import InviteListItem from 'containers/Project/Glance/InviteListItem'
@@ -24,8 +21,8 @@ class Staff extends React.Component {
         </List>
         <List subheader="Open Invites">
 
-          {invites && Object.keys(invites).map(key=>{
-            return ( <InviteListItem key={key} invite={invites[key]} /> )
+          {invites && invites.map(invite=>{
+            return ( <InviteListItem key={invite.$key} invite={invite} /> )
             })
           }
         </List>
@@ -35,15 +32,28 @@ class Staff extends React.Component {
 
 }
 
-function mapStateToProps(state,ownProps) {
-  const invites = state.data.Invites
-  const selectedInvites = invites && Object.keys(invites)
-    .filter(k=>invites[k].projectKey==ownProps.projectKey)
-    .map(k=>Object.assign({$key:k},invites[k]))
+// import { currentProfileSelector } from '../../../selectors'
 
-  return {
-    invites: selectedInvites
-  };
-}
+// function mapStateToProps(state,ownProps) {
+//   const invites = state.data.Invites
+//   const selectedInvites = invites && Object.keys(invites)
+//     .filter(k=>invites[k].projectKey==ownProps.projectKey)
+//     .map(k=>Object.assign({$key:k},invites[k]))
+
+//   return {
+//     invites: selectedInvites
+//   };
+// }
+
+const mapStateToProps = createSelector(
+  (state,ownProps)=>{ return state.data.Invites &&
+    Object.keys(state.data.Invites)
+    .filter(k=>state.data.Invites[k].projectKey==ownProps.projectKey)
+    .map(k=>Object.assign({$key:k},state.data.Invites[k]))
+  },
+  (invites)=>{
+    return {invites}
+  }
+)
 
 export default connect(mapStateToProps)(Staff);

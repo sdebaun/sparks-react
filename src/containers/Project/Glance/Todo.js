@@ -14,7 +14,7 @@ class Todo extends React.Component {
     return (
       <List>
         <NavListItem leftIcon={<ForwardIcon/>}
-         primaryText="What's Your Project All About?" route={baseUrl + "/manage"}/>
+         primaryText="What's Your Project All About?" route={baseUrl + '/manage'}/>
         <ListItem leftIcon={<ForwardIcon/>}
          primaryText="Build Your First Team"/>
       </List>

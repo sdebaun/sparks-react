@@ -31,6 +31,7 @@ class Reduxfire {
       if (params.orderByChild) { q = q.orderByChild(params.orderByChild) }
       if (params.equalTo) { q = q.equalTo(params.equalTo) }
       q.on('child_added', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
+      q.on('child_changed', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
     }
   }
 }
