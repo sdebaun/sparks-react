@@ -4,17 +4,17 @@ import reducers from './reducers'
 
 import DevTools from 'components/DevTools';
 
-const logger = store => next => action => {
-  console.group(action.type)
-  console.info('DISPATCH', action)
-  let result = next(action)
-  console.log('NEW STATE:', store.getState())
-  console.groupEnd(action.type)
-  return result
-}
+// const logger = store => next => action => {
+//   console.group(action.type)
+//   console.info('DISPATCH', action)
+//   let result = next(action)
+//   console.log('NEW STATE:', store.getState())
+//   console.groupEnd(action.type)
+//   return result
+// }
 
 const buildStore = compose(
-  applyMiddleware(thunk, logger),
+  applyMiddleware(thunk),
   DevTools.instrument()
   )
 
