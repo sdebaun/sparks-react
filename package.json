@@ -75,6 +75,7 @@
     "express": "^4.13.3",
     "firebase": "^2.3.2",
     "material-ui": "^0.14.0",
+    "moment": "^2.11.1",
     "normalize.css": "^3.0.3",
     "react": "^0.14.5",
     "react-dom": "^0.14.0",
