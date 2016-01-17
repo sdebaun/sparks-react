@@ -6,13 +6,19 @@ import TextField from 'material-ui/lib/text-field'
 
 export const fields = ['email'];
 
-const validate = values => {
-  const errors = {};
-  if (!values.email) {
-    errors.email = 'Required';
-  }
-  return errors;
-};
+import {createValidator, isRequired, isEmail} from 'lib/validation'
+
+const validate = createValidator({
+  email: [isEmail, isRequired]
+})
+
+// const validate = values => {
+//   const errors = {};
+//   if (!values.email) {
+//     errors.email = 'Required';
+//   }
+//   return errors;
+// };
 
 class InviteForm extends Component {
   static propTypes = {
