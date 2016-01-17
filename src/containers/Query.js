@@ -18,6 +18,7 @@ class Query extends React.Component {
   }
 
   loadFrom(props) {
+    // const {orderByChild, equalTo} = this.props
     const params = {
       orderByChild: this.props.orderByChild,
       equalTo: this.props.equalTo
