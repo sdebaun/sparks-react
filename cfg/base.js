@@ -35,6 +35,7 @@ module.exports = {
       sources: srcPath + '/sources/',
       stores: srcPath + '/stores/',
       styles: srcPath + '/styles/',
+      remote: srcPath + '/remote',
       config: srcPath + '/config/' + process.env.REACT_WEBPACK_ENV
     }
   },
