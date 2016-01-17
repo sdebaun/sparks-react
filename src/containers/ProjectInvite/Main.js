@@ -23,10 +23,13 @@ import Fetch from 'containers/Fetch'
 // import NavList from 'containers/Project/NavList'
 // import SideNav from 'components/SideNav'
 
+// import IsUser from 'containers/IsUser'
+import LoginButton from 'containers/LoginButton'
+
 class Main extends React.Component {
   
   render() {
-    const {invite, project, authorProfile, params:{inviteKey} } = this.props
+    const {invite, project, authorProfile, userProfile, params:{inviteKey} } = this.props
 
     return (
       <div className="index">
@@ -40,9 +43,20 @@ class Main extends React.Component {
         { project && authorProfile && (
           <div style={{display:'flex'}}>
             <div style={{flex:1}}>
-              Hello {invite.email}!
-              Invite to join {project.name}
-              From user {authorProfile.google.displayName}
+              <h1>Hello {invite.email}!</h1>
+              <h2>
+                {authorProfile.google.displayName} has invited you to join {project.name}
+              </h2>
+              { userProfile && (
+                <div>
+                Accept this invitation
+                </div>
+              )}
+              { !userProfile && (
+                <div>
+                <LoginButton provider='google'/>
+                </div>
+              )}
             </div>
           </div>
           )}
@@ -53,7 +67,7 @@ class Main extends React.Component {
 }
 
 import { Invites } from 'remote'
-import { currentProfileSelector } from '../../../selectors'
+import { currentProfileSelector } from 'selectors'
 
 const mapStateToProps = createSelector(
   (state,ownProps)=>Invites.selectors.loaded(state,ownProps.params.inviteKey),

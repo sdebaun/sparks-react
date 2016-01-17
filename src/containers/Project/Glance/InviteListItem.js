@@ -22,7 +22,6 @@ const iconButtonElement = (
 );
 
 class InviteListItem extends React.Component {
-  handlePreview = ()=>{}
   handleResend = ()=>{}
   handleRevoke = ()=>{}
 
@@ -32,9 +31,8 @@ class InviteListItem extends React.Component {
     const rightIconMenu = (
       <IconMenu iconButtonElement={iconButtonElement}>
         <MenuItem href={'/joinProject/'+invite.$key} target='new'>Preview</MenuItem>
-        <MenuItem onTouchTap={this.handlePreview}>Preview</MenuItem>
-        <MenuItem onTouchTap={this.handleResend}>Resend</MenuItem>
-        <MenuItem onTouchTap={this.handleRevoke}>Revoke</MenuItem>
+        <MenuItem disabled={true} onTouchTap={this.handleResend}>Resend</MenuItem>
+        <MenuItem disabled={true} onTouchTap={this.handleRevoke}>Revoke</MenuItem>
       </IconMenu>
     );
 
