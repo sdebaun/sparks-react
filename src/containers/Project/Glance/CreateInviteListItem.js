@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RaisedButton from 'material-ui/lib/raised-button'
+import FlatButton from 'material-ui/lib/flat-button'
 import Dialog from 'material-ui/lib/dialog'
 
 import List from 'material-ui/lib/lists/list'
@@ -27,16 +28,17 @@ class CreateInviteListItem extends React.Component {
 
   render() {
     return (
-          <ListItem primaryText='Invite a Staff Member'
-            secondaryText='Add Owners or Admins to help run everything.'
+          <ListItem primaryText='Invite Organizer'
+            secondaryText='Invite another person to help you manage this project.'
             leftIcon={<AddCircleIcon/>}
             onTouchTap={this.handleOpen}>
-            <Dialog title='Invite New Staff'
+            <Dialog title='Who Are You Inviting?'
               modal={false}
               open={this.state.open}
               onRequestClose={this.handleClose}
               >
               <InviteForm onSubmit={this.handleSubmit}>
+                <FlatButton onTouchTap={this.handleClose} label='CANCEL' secondary={true}/>
               </InviteForm>
             </Dialog>
           </ListItem>

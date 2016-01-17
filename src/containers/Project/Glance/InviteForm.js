@@ -12,14 +12,6 @@ const validate = createValidator({
   email: [isEmail, isRequired]
 })
 
-// const validate = values => {
-//   const errors = {};
-//   if (!values.email) {
-//     errors.email = 'Required';
-//   }
-//   return errors;
-// };
-
 class InviteForm extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,

@@ -10,6 +10,7 @@ import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
 import EmailIcon from 'material-ui/lib/svg-icons/communication/email';
 
 import CreateInviteListItem from 'containers/Project/Glance/CreateInviteListItem'
+import InviteListItem from 'containers/Project/Glance/InviteListItem'
 
 class Staff extends React.Component {
 
@@ -24,13 +25,9 @@ class Staff extends React.Component {
         <List subheader="Open Invites">
 
           {invites && Object.keys(invites).map(key=>{
-            return (
-              <ListItem key={key} primaryText={invites[key].email}
-                secondaryText='Sent three days ago.'
-                leftIcon={<EmailIcon/>}
-                onTouchTap={()=>this.handleOpen()} />
-            )
-          })}
+            return ( <InviteListItem key={key} invite={invites[key]} /> )
+            })
+          }
         </List>
       </div>
     );
