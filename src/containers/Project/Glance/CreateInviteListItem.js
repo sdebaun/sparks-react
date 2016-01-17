@@ -12,18 +12,17 @@ import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
 
 import Query from 'containers/Query'
 import NavListItem from 'components/NavListItem'
+import InviteForm from 'containers/Project/Glance/InviteForm'
 
 import { pushPath } from 'redux-simple-router'
 
 class CreateInviteListItem extends React.Component {
-  componentWillMount() {
-    this.setState({open:false})
-  }
-
-  handleOpen() { this.setState({open:true}) }
-  handleClose(val=null) {
-    this.setState({open:false})
-    if (val) this.props.invitePush({name:val,projectKey:this.props.projectKey})
+  state = { open: false }
+  handleOpen = ev => this.setState({open:true})
+  handleClose = ev => this.setState({open:false})
+  handleSubmit = data => {
+    if (data) this.props.invitePush(Object.assign(data,{projectKey:this.props.projectKey}))
+    this.handleClose()
   }
 
   render() {
@@ -31,24 +30,19 @@ class CreateInviteListItem extends React.Component {
           <ListItem primaryText='Invite a Staff Member'
             secondaryText='Add Owners or Admins to help run everything.'
             leftIcon={<AddCircleIcon/>}
-            onTouchTap={()=>this.handleOpen()}>
+            onTouchTap={this.handleOpen}>
             <Dialog title='Invite New Staff'
-              actions={[<RaisedButton label='OK' onTouchTap={()=>this.handleClose(this.refs.nameField.getValue())}/>,
-                <RaisedButton label='Cancel' onTouchTap={()=>this.handleClose()}/>]}
               modal={false}
               open={this.state.open}
               onRequestClose={this.handleClose}
               >
-              <TextField floatingLabelText='Name' ref='nameField' />
+              <InviteForm onSubmit={this.handleSubmit}>
+              </InviteForm>
             </Dialog>
           </ListItem>
     );
   }
 
-}
-
-CreateInviteListItem.defaultState = {
-  open: false
 }
 
 import { Invites } from '../../../remote'

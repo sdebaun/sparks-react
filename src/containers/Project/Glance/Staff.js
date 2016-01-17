@@ -25,7 +25,7 @@ class Staff extends React.Component {
 
           {invites && Object.keys(invites).map(key=>{
             return (
-              <ListItem key={key} primaryText={invites[key].name}
+              <ListItem key={key} primaryText={invites[key].email}
                 secondaryText='Sent three days ago.'
                 leftIcon={<EmailIcon/>}
                 onTouchTap={()=>this.handleOpen()} />
