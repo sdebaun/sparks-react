@@ -1,11 +1,13 @@
+import { combineReducers } from 'redux'
+import {reducer as formReducer} from 'redux-form'
+
 import routing from './routing'
 import remote from '../remote'
-
-import { combineReducers } from 'redux'
 
 export default combineReducers({
   auth: remote.auth.reducer,
   data: remote.data.reducer,
+  form: formReducer,
   routing,
   navPopout: (state=false,action)=>{
     switch (action.type) {
