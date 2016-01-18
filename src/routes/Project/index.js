@@ -12,13 +12,13 @@ import ProjectHeader from 'containers/Project/ProjectHeader'
 import Fetch from 'containers/Fetch'
 
 class Main extends React.Component {
+        // <Fetch collection="Projects" itemKey={projectKey}/>
 
   render() {
     const {project, params:{projectKey}} = this.props
     return (
       <div className="index">
         <MainBar />
-        <Fetch collection="Projects" itemKey={projectKey}/>
         { !project && <PageLoadSpinner/>}
         { project &&
           <div style={{display:'flex'}}>
@@ -40,12 +40,15 @@ class Main extends React.Component {
 
 import { Projects } from 'remote'
 
+const selectedProject = createSelector(
+  Projects.select.collection,
+  (state,ownProps)=>ownProps.params.projectKey,
+  (projects,projectKey)=>projects && projects[projectKey]
+  )
+
 const mapStateToProps = createSelector(
-  (state,ownProps)=>Projects.selectors.loaded(state,ownProps.params.projectKey),
-  (state,ownProps)=>Projects.selectors.single(state,ownProps.params.projectKey),
-  (projectLoaded,project)=>{
-    return {projectLoaded,project}
-  }
+  selectedProject,
+  (project)=>{ return {project} }
 )
 
 import Glance from './Glance'

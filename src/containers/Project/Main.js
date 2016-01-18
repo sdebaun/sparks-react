@@ -20,10 +20,11 @@ class Main extends React.Component {
     const {project} = this.props
     const projectKey = this.props.params.projectKey
 
+        // <Fetch collection="Projects" itemKey={projectKey}/>
+
     return (
       <div className="index">
         <MainBar />
-        <Fetch collection="Projects" itemKey={projectKey}/>
         <ShowIf isTrue={!project}><PageLoadSpinner/></ShowIf>
         <ShowIf isTrue={project}>
           <div style={{display:'flex'}}>

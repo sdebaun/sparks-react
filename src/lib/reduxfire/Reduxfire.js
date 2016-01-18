@@ -1,13 +1,15 @@
 import Firebase from 'firebase'
-import Immutable from 'seamless-immutable'
 
 import {LOCAL_UPDATE} from './types'
 
 import rfAuth from './rfAuth'
+import rfData from './rfData'
 
-const actions={
-  localUpdate: (collection,key,data)=>{ return {type:LOCAL_UPDATE, collection, key, data} }
-}
+// const actions={
+//   localUpdate: (collection,key,data)=>{ return {type:LOCAL_UPDATE, collection, key, data} },
+//   remoteWatch: (collection,key)=>{return {type:REMOTE_WATCH,collection,key} },
+//   remoteQuery: (collection,params)=>{return {type:REMOTE_QUERY,collection,params} }
+// }
 
 class Reduxfire {
   constructor(fbUrl) {
@@ -17,80 +19,23 @@ class Reduxfire {
     this.data = new rfData(this.ref);
   }
 
-  watch(collection,key) {
-    return (dispatch)=>{
-      if (!collection || !key) return
-      this.ref.child(collection).child(key).on('value', (snap)=>dispatch(actions.localUpdate(collection,key,snap.val())))
-    }
-  }
+  // watch(collection,key) {
+  //   return (dispatch)=>{
+  //     if (!collection || !key) return
+  //     this.ref.child(collection).child(key).on('value', (snap)=>dispatch(actions.localUpdate(collection,key,snap.val())))
+  //   }
+  // }
 
-  query(collection,params={}) {
-    return (dispatch)=>{
-      if (!collection) return
-      let q = this.ref.child(collection)
-      if (params.orderByChild) { q = q.orderByChild(params.orderByChild) }
-      if (params.equalTo) { q = q.equalTo(params.equalTo) }
-      q.on('child_added', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
-      q.on('child_changed', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
-    }
-  }
-}
-
-const initialState = Immutable({})
-
-class rfData {
-  constructor(ref) {
-    this.ref = ref
-    this.models = {}
-  }
-
-  reducer(state=initialState,action) {
-    switch (action.type) {
-      case (LOCAL_UPDATE):
-        return state.merge({ [action.collection]: { [action.key]: action.data } }, {deep:true});
-      default: return state;
-    }
-  }
-
-  model(name) {
-    this.models[name] = this.models[name] || new rfModel(this.ref, name)
-    return this.models[name]
-  }
-
-}
-
-class rfModel {
-  constructor(ref, name) {
-    this.name = name
-    this.ref = ref.child(name)
-    this.actions = {
-      watch: (...args)=>this.watch(...args)
-    }
-    this.selectors = {
-      loaded: (state,key)=>state.data[this.name] && (key in state.data[this.name]),
-      single: (state,key)=>state.data[this.name] && state.data[this.name][key]
-    }
-  }
-
-  push(val) {
-    return ()=>{
-      return new Promise( (resolve)=>{
-        resolve(this.ref.push(val).key())
-      })
-    }
-  }
-
-  set(key,val) {
-    return ()=>{
-      this.ref.child(key).set(val);
-    }
-  }
-  update(key,props) {
-    return ()=>{
-      this.ref.child(key).update(props);
-    }
-  }
-
+  // query(collection,params={}) {
+  //   return (dispatch)=>{
+  //     if (!collection) return
+  //     let q = this.ref.child(collection)
+  //     if (params.orderByChild) { q = q.orderByChild(params.orderByChild) }
+  //     if (params.equalTo) { q = q.equalTo(params.equalTo) }
+  //     q.on('child_added', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
+  //     q.on('child_changed', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
+  //   }
+  // }
 }
 
 export default Reduxfire

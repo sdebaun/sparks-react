@@ -8,8 +8,15 @@ import sagaMiddleware from 'redux-saga'
 import sagas from 'sagas'
 import {sagas as AdminProjectSagas} from './routes/Admin/Projects'
 
+import remote from 'remote'
+
 const buildStore = compose(
-  applyMiddleware(thunk, sagaMiddleware(...sagas, ...AdminProjectSagas)),
+  applyMiddleware(
+    thunk,
+    remote.auth.middleware,
+    remote.data.middleware,
+    sagaMiddleware(...sagas, ...AdminProjectSagas)
+  ),
   DevTools.instrument()
   )
 
