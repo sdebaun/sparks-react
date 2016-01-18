@@ -7,8 +7,8 @@ import Query from 'containers/Query'
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
 
-import CreateInviteListItem from 'containers/Project/Glance/CreateInviteListItem'
-import InviteListItem from 'containers/Project/Glance/InviteListItem'
+import CreateInviteListItem from 'containers/Invite/CreateInviteListItem'
+import InviteListItem from 'containers/Invite/InviteListItem'
 
 class Staff extends React.Component {
   componentDidMount() {
