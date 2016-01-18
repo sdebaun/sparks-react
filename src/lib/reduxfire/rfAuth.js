@@ -25,8 +25,7 @@ export default class rfAuth {
     }
   }
 
-  middleware = store => next => action => {
-    const {dispatch}=store
+  middleware = ({dispatch}) => next => action => {
     switch (action.type) {
       case AUTH_LISTEN:
         this.ref.onAuth( authData=>dispatch({type:authData && AUTH_SUCCESS || AUTH_CLEAR,authData}) )

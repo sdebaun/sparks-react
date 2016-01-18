@@ -27,8 +27,12 @@ import PageLoadSpinner from 'components/PageLoadSpinner'
 import LoginButton from 'containers/LoginButton'
 
 class AcceptInvite extends React.Component {
+  componentDidMount() {
+    this.props.loadInvite(this.props.params.inviteKey)
+  }
+
   handle = ()=>{
-    this.props.acceptInvite(this.props.params.inviteKey, this.props.invite)
+    this.props.acceptProjectInvite(this.props.params.inviteKey, this.props.invite)
   }
 
   render() {
@@ -38,11 +42,6 @@ class AcceptInvite extends React.Component {
       <div className="index">
         <MainBar />
         { (!project || !authorProfile) && <PageLoadSpinner/>}
-        <Fetch collection="Invites" itemKey={inviteKey}/>
-        { invite && (<div>
-          <Fetch collection="Projects" itemKey={invite && invite.projectKey}/>
-          <Fetch collection="Profiles" itemKey={invite && invite.authorProfileKey}/>
-          </div>)}
         { project && authorProfile && (
           <div style={{display:'flex'}}>
             <div style={{flex:1}}>
@@ -69,35 +68,43 @@ class AcceptInvite extends React.Component {
 
 }
 
-import { Invites } from 'remote'
-import { authedProfileSelector } from 'selectors'
+import { Invites, Projects, Profiles } from 'remote'
+// import { authedProfileSelector } from 'selectors'
+
+const selectedInvite = createSelector(
+  Invites.select.collection,
+  (state,ownProps)=>ownProps.params.inviteKey,
+  (invites,inviteKey)=>invites && invites[inviteKey]
+  )
+
+const selectedProject = createSelector(
+  selectedInvite,
+  Projects.select.collection,
+  (invite,projects)=>invite && projects[invite.projectKey]
+  )
+
+const selectedAuthorProfile = createSelector(
+  selectedInvite,
+  Profiles.select.collection,
+  (invite,profiles)=>invite && profiles[invite.authorProfileKey]
+  )
 
 const mapStateToProps = createSelector(
-  (state,ownProps)=>Invites.selectors.loaded(state,ownProps.params.inviteKey),
-  (state,ownProps)=>Invites.selectors.single(state,ownProps.params.inviteKey),
-  (state,ownProps)=>{
-    return ownProps.params.inviteKey &&
-      state.data.Invites && state.data.Invites[ownProps.params.inviteKey] &&
-      state.data.Projects && state.data.Projects[state.data.Invites[ownProps.params.inviteKey].projectKey]
-  },
-  (state,ownProps)=>{
-    return ownProps.params.inviteKey &&
-      state.data.Invites && state.data.Invites[ownProps.params.inviteKey] &&
-      state.data.Profiles && state.data.Profiles[state.data.Invites[ownProps.params.inviteKey].authorProfileKey]
-  },
-  authedProfileSelector,
-  (inviteLoaded, invite, project, authorProfile, userProfile)=>{
-    return {inviteLoaded, invite, project, authorProfile, userProfile}
+  selectedInvite,
+  selectedProject,
+  selectedAuthorProfile,
+  (invite,project,authorProfile)=>{
+    return {invite,project,authorProfile}
   }
 )
 
 import { acceptProjectInvite } from 'actions'
 
-function mapDispatchToProps(dispatch) {
-  return {
-    acceptInvite: (...args)=>dispatch(acceptProjectInvite(...args)) //,
-    // inviteSet: (...args)=>dispatch(inviteSet(...args))
-  }
+const mapDispatchToProps = {
+  acceptProjectInvite,
+  loadProject: Projects.actions.watch,
+  loadProfile: Profiles.actions.watch,
+  loadInvite: Invites.actions.watch
 }
 
 export default {

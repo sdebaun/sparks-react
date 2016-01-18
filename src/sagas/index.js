@@ -31,13 +31,20 @@ function* loadUserProfile(getState) {
   while(true) {
     let userResult = yield* authedUserUpdated(getState)
     const profileKey = userResult.data
+    if (profileKey) {
+      yield put(Profiles.actions.watch(profileKey))
+    }
+  }
+}
+
+function* createUserProfileIfMissing(getState) {
+  while(true) {
+    let userResult = yield* authedUserUpdated(getState)
+    const profileKey = userResult.data
     if (!profileKey) {
       const authData = getState().auth
-      Profiles.push(authData)().then((newKey)=>{
-        Users.set(authData.uid,newKey)()
-      })
-    } else {
-      yield put(Profiles.actions.watch(profileKey))
+      const newProfileRef = yield put(Profiles.actions.create(authData))
+      yield put( Users.actions.set(authData.uid, newProfileRef.key()) )
     }
   }
 }
@@ -93,4 +100,8 @@ function* projectInviteAcceptance(getState) {
   }
 
 }
-export default [startListening, logoutRedirect, loginRedirect, loadAuthedUser, loadUserProfile, projectInviteAcceptance]
+export default [startListening,
+  logoutRedirect, loginRedirect,
+  loadAuthedUser, loadUserProfile, createUserProfileIfMissing,
+  projectInviteAcceptance
+  ]

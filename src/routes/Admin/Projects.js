@@ -6,7 +6,7 @@ import List from 'material-ui/lib/lists/list'
 import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
 import NavListItem from 'components/NavListItem'
 
-class Projects extends React.Component {
+class Container extends React.Component {
   render() {
     return (
       <div className="index">
@@ -21,6 +21,19 @@ class Projects extends React.Component {
   }
 }
 
+import {Projects} from 'remote'
+
+function* loadSaga() {
+  while(true) {
+    yield take( (action)=>{
+      return action.type.includes('@@router') && (action.payload.path=='/admin')
+    })
+    yield put( Projects.actions.query() )
+  }
+}
+
+export const sagas = [loadSaga]
+
 const mapStateToProps = (state)=>{
   return {
     projects: state.data.Projects || {}
@@ -28,18 +41,6 @@ const mapStateToProps = (state)=>{
 }
 
 export default {
-  component: connect(mapStateToProps)(Projects)
+  component: connect(mapStateToProps)(Container)
 }
 
-import remote from 'remote'
-
-function* loadSaga() {
-  while(true) {
-    // console.log('loadSaga waiting')
-    yield take( (action)=>{ return action.type.includes('@@router') && (action.payload.path=='/admin') })
-    // console.log('loadSaga action received')
-    yield put( remote.query('Projects') )
-  }
-}
-
-export const sagas = [loadSaga]

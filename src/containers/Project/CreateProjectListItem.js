@@ -15,7 +15,7 @@ class CreateInviteListItem extends React.Component {
   handleOpen = ()=> this.setState({open:true})
   handleClose = ()=> this.setState({open:false})
   handleSubmit = data => {
-    if (data) this.props.projectPush(data)
+    if (data) this.props.push(data)
     this.handleClose()
   }
 
@@ -46,9 +46,7 @@ function mapStateToProps() {
   return {}
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    projectPush: (...args)=>dispatch(Projects.push(...args))
-  }
+const mapDispatchToProps = {
+  push: Projects.actions.push
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CreateInviteListItem);

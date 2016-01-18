@@ -3,6 +3,7 @@ export const AUTH_LOGIN = '@@auth/LOGIN'
 export const AUTH_LOGOUT = '@@auth/LOGOUT'
 export const AUTH_SUCCESS = '@@auth/SUCCESS'
 export const AUTH_CLEAR = '@@auth/CLEAR'
+export const AUTH_START = '@@auth/START'
 
 export const LOCAL_UPDATE = '@@local/UPDATE'
 

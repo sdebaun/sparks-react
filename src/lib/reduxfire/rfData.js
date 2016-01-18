@@ -10,24 +10,13 @@ const localUpdate = (collection,key,data)=>{
   return {type:LOCAL_UPDATE,collection,key,data}
 }
 
-  // query(collection,params={}) {
-  //   return (dispatch)=>{
-  //     if (!collection) return
-  //     let q = this.ref.child(collection)
-  //     if (params.orderByChild) { q = q.orderByChild(params.orderByChild) }
-  //     if (params.equalTo) { q = q.equalTo(params.equalTo) }
-  //     q.on('child_added', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
-  //     q.on('child_changed', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
-  //   }
-  // }
-
 export default class rfData {
   constructor(ref) {
     this.ref = ref
     this.models = {}
   }
 
-  middleware = ({dispatch,getState}) => next => action => {
+  middleware = ({dispatch}) => next => action => {
     const {collection,key,params,val,vals} = action
     switch (action.type) {
       case REMOTE_WATCH:
@@ -41,11 +30,12 @@ export default class rfData {
         q.on('child_changed', (snap)=>dispatch(localUpdate(collection,snap.key(),snap.val())))
         break
       case REMOTE_PUSH:
-        console.log("REMOTE_PUSH caught by middleware")
         return this.ref.child(collection).push(vals)
       case REMOTE_SET:
+        this.ref.child(collection).child(key).set(val)
         break
       case REMOTE_UPDATE:
+        this.ref.child(collection).child(key).update(vals)
         break
     }
     return next(action)

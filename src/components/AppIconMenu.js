@@ -38,7 +38,7 @@ class AppIconMenu extends React.Component {
           </IsAdmin>
         </IsAuthed>
         <IsAuthed show={false}>
-          <MenuItem primaryText="Sign In" onClick={ ()=> this.props.login() } />
+          <MenuItem primaryText="Sign In" onClick={ ()=> this.props.login('google') } />
         </IsAuthed>
       </IconMenu>
     );
@@ -49,12 +49,10 @@ function mapStateToProps() {
   return {}
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    login: ()=>dispatch(remote.auth.login()),
-    logout: ()=>dispatch(remote.auth.logout()),
-    pushPath: (...args)=>dispatch(pushPath(...args))
-  }
+const mapDispatchToProps = {
+  login: remote.auth.login,
+  logout: remote.auth.logout,
+  pushPath
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(AppIconMenu);
