@@ -14,7 +14,7 @@ import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
 
 // import Query from 'containers/Query'
 // import NavListItem from 'components/NavListItem'
-import InviteForm from 'containers/Project/Glance/InviteForm'
+import InviteForm from 'containers/Invite/InviteForm'
 
 // import { pushPath } from 'redux-simple-router'
 
@@ -51,9 +51,9 @@ class CreateInviteListItem extends React.Component {
 
 }
 
-import { Invites } from '../../../remote'
+import { Invites } from 'remote'
 
-import { authedProfileKeySelector } from '../../../selectors'
+import { authedProfileKeySelector } from 'selectors'
 
 const mapStateToProps = createSelector(
   authedProfileKeySelector,

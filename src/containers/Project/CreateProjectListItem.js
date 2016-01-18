@@ -8,7 +8,7 @@ import ListItem from 'material-ui/lib/lists/list-item'
 
 import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
 
-import ProjectForm from 'containers/Admin/ProjectForm'
+import ProjectForm from 'containers/Project/ProjectForm'
 
 class CreateInviteListItem extends React.Component {
   state = { open: false }

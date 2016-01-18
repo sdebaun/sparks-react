@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { take, put } from 'redux-saga';
 
 import List from 'material-ui/lib/lists/list'
-import CreateProjectListItem from 'containers/Admin/CreateProjectListItem'
+import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
 import NavListItem from 'components/NavListItem'
 
 class Projects extends React.Component {

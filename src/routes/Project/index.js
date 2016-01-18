@@ -6,10 +6,8 @@ import MainBar from 'components/MainBar'
 import SideNav from 'components/SideNav'
 import PageLoadSpinner from 'components/PageLoadSpinner'
 import IsDesktop from 'components/IsDesktop'
-import NavList from 'containers/Project/NavList'
+import ProjectNavList from 'containers/Project/ProjectNavList'
 import ProjectHeader from 'containers/Project/ProjectHeader'
-
-import Fetch from 'containers/Fetch'
 
 class Main extends React.Component {
   componentDidMount() {
@@ -28,7 +26,7 @@ class Main extends React.Component {
               <IsDesktop>
                 <ProjectHeader style={{height:100}} primaryText={project.name} />
               </IsDesktop>
-              <NavList baseUrl={'/project/'+projectKey}/>
+              <ProjectNavList baseUrl={'/project/'+projectKey}/>
             </SideNav>
             <div style={{flex:1}}>
               { React.cloneElement(this.props.children, {project,projectKey}) }
