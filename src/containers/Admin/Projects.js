@@ -1,17 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import RaisedButton from 'material-ui/lib/raised-button'
-import Dialog from 'material-ui/lib/dialog'
-
 import List from 'material-ui/lib/lists/list'
-import ListItem from 'material-ui/lib/lists/list-item'
-import TextField from 'material-ui/lib/text-field'
-
-import AddCircle from 'material-ui/lib/svg-icons/content/add-circle';
 
 import Query from 'containers/Query'
 import NavListItem from 'components/NavListItem'
+
+import CreateProjectListItem from 'containers/Admin/CreateProjectListItem'
 
 import { pushPath } from 'redux-simple-router'
 
@@ -33,23 +28,11 @@ class ProjectsComponent extends React.Component {
       <div>
         <Query collection='Projects'/>
         <List>
-          <ListItem primaryText='Create a Project'
-            secondaryText='Start a new project for an Early Access Partner.'
-            leftIcon={<AddCircle/>}
-            onTouchTap={()=>this.handleOpen()} />
+          <CreateProjectListItem/>
           {Object.keys(this.props.projects).map(key=>{
             return <NavListItem key={key} route={'/project/'+key} primaryText={this.props.projects[key].name}/>
           })}
         </List>
-        <Dialog title='Create Project'
-          actions={[<RaisedButton label='OK' onTouchTap={()=>this.handleClose(this.refs.nameField.getValue())}/>,
-            <RaisedButton label='Cancel' onTouchTap={()=>this.handleClose()}/>]}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-          >
-          <TextField floatingLabelText='Name' ref='nameField' />
-        </Dialog>
       </div>
     );
   }
@@ -60,7 +43,7 @@ ProjectsComponent.defaultState = {
   open: false
 }
 
-import { Projects } from '../../remote'
+import { Projects } from 'remote'
 
 function mapStateToProps(state) {
   return {

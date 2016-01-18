@@ -1,26 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// import RaisedButton from 'material-ui/lib/raised-button'
-// import AppBar from 'material-ui/lib/app-bar'
-// import Tabs from 'material-ui/lib/tabs/tabs'
-// import Tab from 'material-ui/lib/tabs/tab'
-// import IconButton from 'material-ui/lib/icon-button';
-// import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
-// import IconMenu from 'material-ui/lib/menus/icon-menu';
-// import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
-// import MenuItem from 'material-ui/lib/menus/menu-item';
+import List from 'material-ui/lib/lists/list';
+import ListItem from 'material-ui/lib/lists/list-item';
+import NavListItem from 'components/NavListItem'
 
-// import { Link } from 'react-router';
-// import { pushPath } from 'redux-simple-router'
+import ForwardIcon from 'material-ui/lib/svg-icons/content/forward';
 
 class Todo extends React.Component {
   
   render() {
+    const baseUrl = '/project/'+this.props.params.projectKey
     return (
-      <div className="index">
-        This is the Glance/Todo page
-      </div>
+      <List>
+        <NavListItem leftIcon={<ForwardIcon/>}
+         primaryText="What's Your Project All About?" route={baseUrl + '/manage'}/>
+        <ListItem leftIcon={<ForwardIcon/>}
+         primaryText="Build Your First Team"/>
+      </List>
     );
   }
 

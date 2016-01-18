@@ -24,11 +24,14 @@ class Reduxfire {
     }
   }
 
-  query(collection) { // ,params) {
+  query(collection,params={}) {
     return (dispatch)=>{
       if (!collection) return
       let q = this.ref.child(collection)
+      if (params.orderByChild) { q = q.orderByChild(params.orderByChild) }
+      if (params.equalTo) { q = q.equalTo(params.equalTo) }
       q.on('child_added', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
+      q.on('child_changed', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
     }
   }
 }
@@ -80,6 +83,11 @@ class rfModel {
   set(key,val) {
     return ()=>{
       this.ref.child(key).set(val);
+    }
+  }
+  update(key,props) {
+    return ()=>{
+      this.ref.child(key).update(props);
     }
   }
 

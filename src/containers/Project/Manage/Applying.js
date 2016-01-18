@@ -14,12 +14,12 @@ import { connect } from 'react-redux';
 // import { Link } from 'react-router';
 // import { pushPath } from 'redux-simple-router'
 
-class Invite extends React.Component {
+class Applying extends React.Component {
   
   render() {
     return (
       <div className="index">
-        This is the Glance/Invite page
+        This is the Manage/Applying page
       </div>
     );
   }
@@ -30,4 +30,4 @@ function mapStateToProps(state) {
   return state;
 }
 
-export default connect(mapStateToProps)(Invite);
+export default connect(mapStateToProps)(Applying);

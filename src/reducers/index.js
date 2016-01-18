@@ -1,12 +1,15 @@
+import { combineReducers } from 'redux'
+import {reducer as formReducer} from 'redux-form'
+import { routeReducer } from 'redux-simple-router'
+
 import routing from './routing'
 import remote from '../remote'
-
-import { combineReducers } from 'redux'
 
 export default combineReducers({
   auth: remote.auth.reducer,
   data: remote.data.reducer,
-  routing,
+  form: formReducer,
+  routing: routeReducer,
   navPopout: (state=false,action)=>{
     switch (action.type) {
       case '@@router/UPDATE_PATH': return false

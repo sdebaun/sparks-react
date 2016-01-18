@@ -1,11 +1,11 @@
 import Main from './Main'
 import Todo from './Todo'
-import Invite from './Invite'
+import Staff from './Staff'
 
 export default {
   component: Main,
   indexRoute: { component: Todo },
   childRoutes: [
-    { path:'invite', component: Invite}
+    { path:'staff', component: Staff }
   ]
 }

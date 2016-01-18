@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
 
-import { currentProfileSelector } from '../selectors'
+import { authedProfileSelector } from '../selectors'
 
 class IsUser extends React.Component {
   render() { return (<div>
@@ -16,7 +16,7 @@ IsUser.defaultProps = {
 }
 
 const mapStateToProps = createSelector(
-  currentProfileSelector,
+  authedProfileSelector,
   (profile)=>{ return {profile} }
 )
 
