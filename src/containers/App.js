@@ -8,11 +8,8 @@ import Theme from '../theme'
 
 import Auth from './Auth'
 import IsAuthed from './IsAuthed'
-import User from './User'
 
 import DevTools from 'components/DevTools'
-
-          // <IsAuthed><User/></IsAuthed>
 
 class App extends React.Component {
   

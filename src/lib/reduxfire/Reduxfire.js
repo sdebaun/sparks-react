@@ -85,6 +85,11 @@ class rfModel {
       this.ref.child(key).set(val);
     }
   }
+  update(key,props) {
+    return ()=>{
+      this.ref.child(key).update(props);
+    }
+  }
 
 }
 
