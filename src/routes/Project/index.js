@@ -24,7 +24,7 @@ class Main extends React.Component {
           <div style={{display:'flex'}}>
             <SideNav>
               <IsDesktop>
-                <ProjectHeader style={{height:100}} primaryText={project && project.name} />
+                <ProjectHeader style={{height:100}} primaryText={project.name} />
               </IsDesktop>
               <NavList baseUrl={'/project/'+projectKey}/>
             </SideNav>
