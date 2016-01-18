@@ -12,7 +12,9 @@ import ProjectHeader from 'containers/Project/ProjectHeader'
 import Fetch from 'containers/Fetch'
 
 class Main extends React.Component {
-        // <Fetch collection="Projects" itemKey={projectKey}/>
+  componentDidMount() {
+    this.props.load(this.props.params.projectKey)
+  }
 
   render() {
     const {project, params:{projectKey}} = this.props
@@ -44,18 +46,22 @@ const selectedProject = createSelector(
   Projects.select.collection,
   (state,ownProps)=>ownProps.params.projectKey,
   (projects,projectKey)=>projects && projects[projectKey]
-  )
+)
 
 const mapStateToProps = createSelector(
   selectedProject,
   (project)=>{ return {project} }
 )
 
+const mapDispatchToProps = {
+  load: Projects.actions.watch
+}
+
 import Glance from './Glance'
 import Manage from './Manage'
 
 export default {
   path: 'project/:projectKey',
-  component: connect(mapStateToProps)(Main),
+  component: connect(mapStateToProps,mapDispatchToProps)(Main),
   childRoutes: [ Glance, Manage ]
 }

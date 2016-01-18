@@ -6,10 +6,15 @@ import { ACCEPT_INVITE } from 'actions'
 import remote, { Profiles, Users, Invites, Organizers } from 'remote'
 import { authedProfileKeySelector } from 'selectors'
 
+function* startListening() {
+  yield put(remote.auth.listen())
+}
+
 function* loadAuthedUser() {
   while(true) {
-    const authResult = yield take(AUTH_SUCCESS)
-    yield put(remote.watch('Users', authResult.authData.uid))
+    const {authData:{uid}} = yield take(AUTH_SUCCESS)
+    yield put(Users.actions.watch(uid))
+    // yield put(remote.watch('Users', authResult.authData.uid))
   }
 }
 
@@ -32,7 +37,7 @@ function* loadUserProfile(getState) {
         Users.set(authData.uid,newKey)()
       })
     } else {
-      yield put(remote.watch('Profiles', profileKey))
+      yield put(Profiles.actions.watch(profileKey))
     }
   }
 }
@@ -88,4 +93,4 @@ function* projectInviteAcceptance(getState) {
   }
 
 }
-export default [logoutRedirect, loginRedirect, loadAuthedUser, loadUserProfile, projectInviteAcceptance]
+export default [startListening, logoutRedirect, loginRedirect, loadAuthedUser, loadUserProfile, projectInviteAcceptance]

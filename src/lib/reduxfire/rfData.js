@@ -6,6 +6,9 @@ import rfModel from './rfModel'
 
 const initialState = Immutable({})
 
+const localUpdate = (collection,key,data)=>{
+  return {type:LOCAL_UPDATE,collection,key,data}
+}
 export default class rfData {
   constructor(ref) {
     this.ref = ref
@@ -15,6 +18,8 @@ export default class rfData {
   middleware = ({dispatch,getState}) => next => action => {
     switch (action.type) {
       case REMOTE_WATCH:
+        const {collection,key} = action
+        this.ref.child(collection).child(key).on('value', (snap)=>dispatch(localUpdate(collection,key,snap.val())))
         break
       case REMOTE_QUERY:
         break
