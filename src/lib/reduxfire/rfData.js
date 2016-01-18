@@ -41,14 +41,14 @@ export default class rfData {
         q.on('child_changed', (snap)=>dispatch(localUpdate(collection,snap.key(),snap.val())))
         break
       case REMOTE_PUSH:
-        break
+        console.log("REMOTE_PUSH caught by middleware")
+        return this.ref.child(collection).push(vals)
       case REMOTE_SET:
         break
       case REMOTE_UPDATE:
         break
-      default:
-        return next(action)
     }
+    return next(action)
   }
 
   reducer(state=initialState,action) {
@@ -59,8 +59,8 @@ export default class rfData {
     }
   }
 
-  model(name) {
-    this.models[name] = this.models[name] || new rfModel(this.ref, name)
+  model(name,extenders={}) {
+    this.models[name] = this.models[name] || new rfModel(this.ref, name, extenders)
     return this.models[name]
   }
 

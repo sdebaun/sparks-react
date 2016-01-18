@@ -7,9 +7,15 @@ import {REMOTE_WATCH,REMOTE_QUERY,REMOTE_PUSH,REMOTE_SET,REMOTE_UPDATE} from './
 // }
 
 export default class rfModel {
-  constructor(ref, name) {
+  constructor(ref, name, extenders) {
     this.name = name
     this.ref = ref.child(name)
+    if (extenders.actions) {
+      Object.assign(this.actions,extenders.actions)
+    }
+    if (extenders.select) {
+      Object.assign(this.select,extenders.select)
+    }
   }
 
   actions = {
