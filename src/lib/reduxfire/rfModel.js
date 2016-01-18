@@ -16,7 +16,8 @@ export default class rfModel {
     watch: (key)=>{ return {type:REMOTE_WATCH,collection:this.name,key} },
     push: (vals)=>{ return {type:REMOTE_PUSH,collection:this.name,vals} },
     set: (key,val)=>{ return {type:REMOTE_SET,collection:this.name,key,val} },
-    update: (key,vals)=>{ return {type:REMOTE_UPDATE,collection:this.name,key,vals} }
+    update: (key,vals)=>{ return {type:REMOTE_UPDATE,collection:this.name,key,vals} },
+    query: (params)=>{ return {type:REMOTE_QUERY,collection:this.name,params} }
   }
 
   select = {

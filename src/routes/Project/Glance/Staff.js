@@ -12,17 +12,15 @@ import InviteListItem from 'containers/Project/Glance/InviteListItem'
 
 class Staff extends React.Component {
   componentDidMount() {
-    const query = {orderByChild:'projectKey',equalTo:this.props.projectKey}
-    // this.props.queryInvites(query)
-    // this.props.queryOrganizers(query)
+    const params = { orderByChild:'projectKey', equalTo:this.props.params.projectKey }
+    this.props.loadInvites(params)
+    this.props.loadOrganizers(params)
   }
 
   render() {
     const { projectKey, invites, organizers } = this.props
     return (
       <div>
-        <Query collection='Invites' orderByChild='projectKey' equalTo={projectKey} />
-        <Query collection='Organizers' orderByChild='projectKey' equalTo={projectKey} />
         <List>
           <CreateInviteListItem projectKey={projectKey}/>
         </List>
@@ -63,7 +61,14 @@ const mapStateToProps = createSelector(
   }
 )
 
+import {Organizers,Invites} from 'remote'
+
+const mapDispatchToProps = {
+  loadOrganizers: Organizers.actions.query,
+  loadInvites: Invites.actions.query
+}
+
 export default {
-  component: connect(mapStateToProps)(Staff),
+  component: connect(mapStateToProps,mapDispatchToProps)(Staff),
   path: 'staff'
 }

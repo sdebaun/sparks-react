@@ -1,4 +1,4 @@
-import {AUTH_LISTEN, AUTH_LOGIN, AUTH_LOGOUT, AUTH_SUCCESS, AUTH_CLEAR} from './types'
+import {AUTH_LISTEN, AUTH_LOGIN, AUTH_LOGOUT, AUTH_SUCCESS, AUTH_CLEAR, AUTH_START} from './types'
 
 export default class rfAuth {
   constructor(ref) {

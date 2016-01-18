@@ -9,6 +9,18 @@ const initialState = Immutable({})
 const localUpdate = (collection,key,data)=>{
   return {type:LOCAL_UPDATE,collection,key,data}
 }
+
+  // query(collection,params={}) {
+  //   return (dispatch)=>{
+  //     if (!collection) return
+  //     let q = this.ref.child(collection)
+  //     if (params.orderByChild) { q = q.orderByChild(params.orderByChild) }
+  //     if (params.equalTo) { q = q.equalTo(params.equalTo) }
+  //     q.on('child_added', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
+  //     q.on('child_changed', (snap)=>dispatch(actions.localUpdate(collection,snap.key(),snap.val())))
+  //   }
+  // }
+
 export default class rfData {
   constructor(ref) {
     this.ref = ref
@@ -16,12 +28,17 @@ export default class rfData {
   }
 
   middleware = ({dispatch,getState}) => next => action => {
+    const {collection,key,params,val,vals} = action
     switch (action.type) {
       case REMOTE_WATCH:
-        const {collection,key} = action
         this.ref.child(collection).child(key).on('value', (snap)=>dispatch(localUpdate(collection,key,snap.val())))
         break
       case REMOTE_QUERY:
+        let q = this.ref.child(collection)
+        if (params.orderByChild) { q = q.orderByChild(params.orderByChild) }
+        if (params.equalTo) { q = q.equalTo(params.equalTo) }
+        q.on('child_added', (snap)=>dispatch(localUpdate(collection,snap.key(),snap.val())))
+        q.on('child_changed', (snap)=>dispatch(localUpdate(collection,snap.key(),snap.val())))
         break
       case REMOTE_PUSH:
         break
