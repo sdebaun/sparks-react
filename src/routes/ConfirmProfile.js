@@ -4,15 +4,12 @@ import { createSelector } from 'reselect'
 
 import RaisedButton from 'material-ui/lib/raised-button'
 
-import AppIconMenu from 'components/AppIconMenu';
-import HeaderLogo from 'components/HeaderLogo'
 import MainBar from 'components/MainBar'
 
 import {Profiles} from 'remote'
 
 class ConfirmProfile extends React.Component {
   handle = ()=>{
-    console.log("updating", this.props.userProfileKey)
     this.props.updateProfile(this.props.userProfileKey,{isConfirmed:true})
   }
 

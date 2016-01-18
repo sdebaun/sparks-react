@@ -33,11 +33,11 @@ export default {
 
 import remote from 'remote'
 
-function* loadSaga(getState) {
+function* loadSaga() {
   while(true) {
-    console.log('loadSaga waiting')
+    // console.log('loadSaga waiting')
     yield take( (action)=>{ return action.type.includes('@@router') && (action.payload.path=='/admin') })
-    console.log('loadSaga action received')
+    // console.log('loadSaga action received')
     yield put( remote.query('Projects') )
   }
 }

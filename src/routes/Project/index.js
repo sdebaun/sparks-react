@@ -11,7 +11,7 @@ import ProjectHeader from 'containers/Project/ProjectHeader'
 
 import Fetch from 'containers/Fetch'
 
-class Main extends React.Component {  
+class Main extends React.Component {
 
   render() {
     const {project, params:{projectKey}} = this.props

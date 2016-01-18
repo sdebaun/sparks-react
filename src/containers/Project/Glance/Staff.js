@@ -21,7 +21,7 @@ class Staff extends React.Component {
         <List>
           <CreateInviteListItem projectKey={projectKey}/>
         </List>
-        { (invites && (invites.length > 0)) && 
+        { (invites && (invites.length > 0)) &&
           <List subheader="Open Invites">
             {invites && invites.map(invite=>{
               return ( <InviteListItem key={invite.$key} invite={invite} /> )
@@ -29,7 +29,7 @@ class Staff extends React.Component {
             }
           </List>
         }
-        { (organizers && (organizers.length > 0)) && 
+        { (organizers && (organizers.length > 0)) &&
           <List subheader="Organizers">
             {organizers && organizers.map(organizer=>{
               return ( <ListItem key={organizer.$key} primaryText={organizer.profileKey} /> )

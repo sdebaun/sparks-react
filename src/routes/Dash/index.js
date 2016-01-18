@@ -4,7 +4,7 @@ import MainBar from 'components/MainBar'
 import NavTabs from 'components/NavTabs'
 import Tab from 'material-ui/lib/tabs/tab'
 
-class Main extends React.Component {  
+class Main extends React.Component {
   render() {
     return (
       <div className="index">

@@ -11,5 +11,5 @@ class Doing extends React.Component {
 }
 
 export default {
-  component: Doing,
+  component: Doing
 }

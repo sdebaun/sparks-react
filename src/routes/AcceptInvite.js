@@ -11,7 +11,7 @@ import MainBar from 'components/MainBar'
 // import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 // import MenuItem from 'material-ui/lib/menus/menu-item';
 
-import { pushPath } from 'redux-simple-router'
+// import { pushPath } from 'redux-simple-router'
 
 // import ShowIf from 'components/ShowIf'
 // import IsMobile from 'components/IsMobile'
@@ -28,7 +28,6 @@ import LoginButton from 'containers/LoginButton'
 
 class AcceptInvite extends React.Component {
   handle = ()=>{
-    console.log('accepting invite')
     this.props.acceptInvite(this.props.params.inviteKey, this.props.invite)
   }
 
@@ -103,5 +102,5 @@ function mapDispatchToProps(dispatch) {
 
 export default {
   path:'acceptInvite/:inviteKey',
-  component: connect(mapStateToProps)(AcceptInvite)
+  component: connect(mapStateToProps,mapDispatchToProps)(AcceptInvite)
 }
