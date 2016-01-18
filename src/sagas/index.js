@@ -1,8 +1,10 @@
 import { take, put } from 'redux-saga';
 import { LOCAL_UPDATE, AUTH_SUCCESS, AUTH_CLEAR } from 'lib/reduxfire/types';
 import { pushPath } from 'redux-simple-router'
+import { ACCEPT_INVITE } from 'actions'
 
-import remote, { Profiles, Users } from 'remote'
+import remote, { Profiles, Users, Invites, Organizers } from 'remote'
+import { authedProfileKeySelector } from 'selectors'
 
 function* loadAuthedUser() {
   while(true) {
@@ -37,11 +39,10 @@ function* loadUserProfile(getState) {
 
 function* authedProfileUpdated(getState) {
   return yield take( (action)=>{
-    const state = getState()
-    return state.auth && state.data.Users && state.data.Users[state.auth.uid] &&
-      (action.type==LOCAL_UPDATE) &&
+    const authedProfileKey = authedProfileKeySelector(getState())
+    return (action.type==LOCAL_UPDATE) &&
       (action.collection=='Profiles') &&
-      (action.key==state.data.Users[state.auth.uid])
+      (action.key==authedProfileKey)
   })
 }
 
@@ -77,13 +78,14 @@ function* logoutRedirect(getState) {
   }
 }
 
-function* acceptInvite(getState) {
+function* projectInviteAcceptance(getState) {
   while(true) {
-    yield take(AUTH_CLEAR)
-    if (getState().routing.path!='/') {
-      yield put( pushPath('/') )
-    }
-  }  
-}
+    const inviteAction = yield take(ACCEPT_INVITE)
+    console.log("updating",inviteAction.key)
+    const profileKey = authedProfileKeySelector(getState())
+    yield put(Invites.update(inviteAction.key,{isClaimed:true,claimingProfileKey:profileKey}))
+    yield put(Organizers.push({profileKey:profileKey,projectKey:inviteAction.invite.projectKey}))
+  }
 
-export default [logoutRedirect, loginRedirect, loadAuthedUser, loadUserProfile]
+}
+export default [logoutRedirect, loginRedirect, loadAuthedUser, loadUserProfile, projectInviteAcceptance]

@@ -28,11 +28,11 @@ class ConfirmProfile extends React.Component {
 
 }
 
-import {currentProfileKeySelector, currentProfileSelector} from 'selectors'
+import {authedProfileKeySelector, authedProfileSelector} from 'selectors'
 
 const mapStateToProps = createSelector(
-  currentProfileKeySelector,
-  currentProfileSelector,
+  authedProfileKeySelector,
+  authedProfileSelector,
   (userProfileKey, userProfile)=>{
     return {userProfileKey, userProfile}
   }

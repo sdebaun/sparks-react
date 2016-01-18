@@ -1,11 +1,14 @@
 // import { createSelector } from 'reselect'
 
-const currentProfileKeySelector = (state)=>
-  state.auth && state.auth.uid &&
+const authedUidSelector = (state)=>
+  state.auth && state.auth.uid
+
+const authedProfileKeySelector = (state)=>
+  authedUidSelector(state) &&
   state.data.Users && state.data.Users[state.auth.uid]
 
-const currentProfileSelector = (state)=>
-  currentProfileKeySelector(state) &&
+const authedProfileSelector = (state)=>
+  authedProfileKeySelector(state) &&
   state.data.Profiles && state.data.Profiles[state.data.Users[state.auth.uid]]
 
-export { currentProfileKeySelector, currentProfileSelector }
+export { authedUidSelector, authedProfileKeySelector, authedProfileSelector }

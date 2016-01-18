@@ -7,5 +7,6 @@ const Profiles = remote.data.model('Profiles')
 const Users = remote.data.model('Users')
 const Projects = remote.data.model('Projects')
 const Invites = remote.data.model('Invites')
+const Organizers = remote.data.model('Organizers')
 
-export { Profiles, Users, Projects, Invites }
+export { Profiles, Users, Projects, Invites, Organizers }

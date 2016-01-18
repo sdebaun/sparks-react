@@ -27,8 +27,11 @@ import Fetch from 'containers/Fetch'
 import LoginButton from 'containers/LoginButton'
 
 class Main extends React.Component {
-  handle = ()=>true
-  
+  handle = ()=>{
+    console.log('accepting invite')
+    this.props.acceptInvite(this.props.params.inviteKey, this.props.invite)
+  }
+
   render() {
     const {invite, project, authorProfile, userProfile, params:{inviteKey} } = this.props
 
@@ -50,7 +53,7 @@ class Main extends React.Component {
               </h2>
               { userProfile && (
                 <div>
-                <RaisedButton onTapTouch={this.handle} label='Accept This Invitation'/>
+                <RaisedButton onTouchTap={this.handle} label='Accept This Invitation'/>
                 </div>
               )}
               { !userProfile && (
@@ -68,7 +71,7 @@ class Main extends React.Component {
 }
 
 import { Invites } from 'remote'
-import { currentProfileSelector } from 'selectors'
+import { authedProfileSelector } from 'selectors'
 
 const mapStateToProps = createSelector(
   (state,ownProps)=>Invites.selectors.loaded(state,ownProps.params.inviteKey),
@@ -83,15 +86,17 @@ const mapStateToProps = createSelector(
       state.data.Invites && state.data.Invites[ownProps.params.inviteKey] &&
       state.data.Profiles && state.data.Profiles[state.data.Invites[ownProps.params.inviteKey].authorProfileKey]
   },
-  currentProfileSelector,
+  authedProfileSelector,
   (inviteLoaded, invite, project, authorProfile, userProfile)=>{
     return {inviteLoaded, invite, project, authorProfile, userProfile}
   }
 )
 
+import { acceptProjectInvite } from 'actions'
+
 function mapDispatchToProps(dispatch) {
   return {
-    pushPath: (...args)=>dispatch(pushPath(...args)) //,
+    acceptInvite: (...args)=>dispatch(acceptProjectInvite(...args)) //,
     // inviteSet: (...args)=>dispatch(inviteSet(...args))
   }
 }
