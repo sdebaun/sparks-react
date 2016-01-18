@@ -13,8 +13,11 @@ import DevTools from 'components/DevTools';
 //   return result
 // }
 
+import sagaMiddleware from 'redux-saga'
+import sagas from 'sagas'
+
 const buildStore = compose(
-  applyMiddleware(thunk),
+  applyMiddleware(thunk, sagaMiddleware(...sagas)),
   DevTools.instrument()
   )
 

@@ -12,6 +12,7 @@ import User from './User'
 
 import DevTools from 'components/DevTools'
 
+          // <IsAuthed><User/></IsAuthed>
 
 class App extends React.Component {
   
@@ -20,7 +21,6 @@ class App extends React.Component {
       <div>
         <div className="index" style={{flex:1}}>
           <Auth/>
-          <IsAuthed><User/></IsAuthed>
           {this.props.children}
         </div>
         <DevTools/>

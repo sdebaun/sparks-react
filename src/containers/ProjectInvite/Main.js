@@ -90,7 +90,8 @@ const mapStateToProps = createSelector(
 
 function mapDispatchToProps(dispatch) {
   return {
-    pushPath: (...args)=>dispatch(pushPath(...args))
+    pushPath: (...args)=>dispatch(pushPath(...args)) //,
+    // inviteSet: (...args)=>dispatch(inviteSet(...args))
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Main);
