@@ -72,7 +72,7 @@ function* confirmProfile(getState) {
 function* logoutRedirect(getState) {
   while(true) {
     yield take(AUTH_CLEAR)
-    if (getState().routing.path!='/') {
+    if (getState().routing.path.includes('/dash')) {
       yield put( pushPath('/') )
     }
   }
