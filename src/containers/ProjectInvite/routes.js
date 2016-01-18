@@ -1,6 +1,6 @@
-import Main from './Main'
+// import Main from './Main'
 
-export default {
-  path:'joinProject/:inviteKey',
-  component: Main
-}
+// export default {
+//   path:'joinProject/:inviteKey',
+//   component: Main
+// }

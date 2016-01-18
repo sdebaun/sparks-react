@@ -1,4 +1,4 @@
-import Main from './Main'
-import Projects from './Projects'
+// import Main from './Main'
+// import Projects from './Projects'
 
-export default { Main, Projects }
+// export default { Main, Projects }
