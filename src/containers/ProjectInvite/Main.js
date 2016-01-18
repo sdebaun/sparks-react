@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
 
-// import RaisedButton from 'material-ui/lib/raised-button'
+import RaisedButton from 'material-ui/lib/raised-button'
 import MainBar from 'components/MainBar'
 
 // import IconButton from 'material-ui/lib/icon-button';
@@ -27,6 +27,7 @@ import Fetch from 'containers/Fetch'
 import LoginButton from 'containers/LoginButton'
 
 class Main extends React.Component {
+  handle = ()=>true
   
   render() {
     const {invite, project, authorProfile, userProfile, params:{inviteKey} } = this.props
@@ -49,7 +50,7 @@ class Main extends React.Component {
               </h2>
               { userProfile && (
                 <div>
-                Accept this invitation
+                <RaisedButton onTapTouch={this.handle} label='Accept This Invitation'/>
                 </div>
               )}
               { !userProfile && (
