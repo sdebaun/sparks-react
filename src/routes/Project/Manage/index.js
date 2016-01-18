@@ -7,7 +7,7 @@ class Manage extends React.Component {
   render() {
     return (
       <div>
-        <ProjectTabs {...this.props} secondaryText="At a Glance">
+        <ProjectTabs {...this.props} secondaryText="Manage">
           <Tab label='Describe' route='/manage' />
           <Tab label='Exchange' route='/manage/exchange' />
           <Tab label='Applying' route='/manage/applying' />
