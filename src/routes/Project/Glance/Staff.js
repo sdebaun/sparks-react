@@ -11,6 +11,11 @@ import CreateInviteListItem from 'containers/Project/Glance/CreateInviteListItem
 import InviteListItem from 'containers/Project/Glance/InviteListItem'
 
 class Staff extends React.Component {
+  componentDidMount() {
+    const query = {orderByChild:'projectKey',equalTo:this.props.projectKey}
+    // this.props.queryInvites(query)
+    // this.props.queryOrganizers(query)
+  }
 
   render() {
     const { projectKey, invites, organizers } = this.props
@@ -43,18 +48,16 @@ class Staff extends React.Component {
 
 }
 
+import {dataInvitesRowsByProjectKey,dataOrganizersRowsByProjectKey} from 'selectors'
+
+const filteredInvites = createSelector(
+  dataInvitesRowsByProjectKey,
+  (invites)=>invites && invites.filter(invite=>!invite.isClaimed)
+  )
+
 const mapStateToProps = createSelector(
-  (state,ownProps)=>{ return state.data.Invites &&
-    Object.keys(state.data.Invites)
-    .filter(k=>!state.data.Invites[k].isClaimed)
-    .filter(k=>state.data.Invites[k].projectKey==ownProps.projectKey)
-    .map(k=>Object.assign({$key:k},state.data.Invites[k]))
-  },
-  (state,ownProps)=>{ return state.data.Organizers &&
-    Object.keys(state.data.Organizers)
-    .filter(k=>state.data.Organizers[k].projectKey==ownProps.projectKey)
-    .map(k=>Object.assign({$key:k},state.data.Organizers[k]))
-  },
+  filteredInvites,
+  dataOrganizersRowsByProjectKey,
   (invites,organizers)=>{
     return {invites,organizers}
   }
