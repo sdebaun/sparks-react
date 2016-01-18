@@ -60,7 +60,7 @@ function* loginRedirect(getState) {
 
 function* confirmProfile(getState) {
   yield put( pushPath('/confirmProfile') )
-  const profileResult = yield take( (action)=>{
+  yield take( (action)=>{
     const state = getState()
     return state.auth && state.data.Users && state.data.Users[state.auth.uid] &&
       (action.type==LOCAL_UPDATE) &&
@@ -72,7 +72,8 @@ function* confirmProfile(getState) {
 function* logoutRedirect(getState) {
   while(true) {
     yield take(AUTH_CLEAR)
-    if (getState().routing.path!='/') {
+    const {routing: { path } } = getState()
+    if (path.includes('/dash') || path.includes('/project')) {
       yield put( pushPath('/') )
     }
   }
@@ -81,7 +82,6 @@ function* logoutRedirect(getState) {
 function* projectInviteAcceptance(getState) {
   while(true) {
     const inviteAction = yield take(ACCEPT_INVITE)
-    console.log("updating",inviteAction.key)
     const profileKey = authedProfileKeySelector(getState())
     yield put(Invites.update(inviteAction.key,{isClaimed:true,claimingProfileKey:profileKey}))
     yield put(Organizers.push({profileKey:profileKey,projectKey:inviteAction.invite.projectKey}))

@@ -1,3 +1,6 @@
+require('normalize.css');
+require('styles/app.styl');
+
 import 'core-js/fn/object/assign';
 
 import React from 'react'
@@ -18,7 +21,7 @@ import routes from './routes'
 
 ReactDOM.render(
   <Provider {...{store}}>
-    <Router {...{history,routes}}/>
+    <Router {...{history,routes:[routes]}}/>
   </Provider>,
   document.getElementById('app')
 )

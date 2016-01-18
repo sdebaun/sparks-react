@@ -2,7 +2,6 @@ import { combineReducers } from 'redux'
 import {reducer as formReducer} from 'redux-form'
 import { routeReducer } from 'redux-simple-router'
 
-import routing from './routing'
 import remote from '../remote'
 
 export default combineReducers({
