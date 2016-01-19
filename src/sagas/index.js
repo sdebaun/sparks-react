@@ -4,7 +4,6 @@ import { pushPath } from 'redux-simple-router'
 import { ACCEPT_INVITE } from 'actions'
 
 import remote, { Profiles, Users, Invites, Organizers } from 'remote'
-// import { authedProfileKeySelector } from 'selectors'
 
 function* startListening() {
   yield put(remote.auth.listen())
@@ -16,16 +15,6 @@ function* loadAuthedUser() {
     yield put(Users.actions.watch(uid))
   }
 }
-
-// replace with taker
-// function* authedUserUpdated(getState) {
-//   return yield take( (action)=>{
-//     const state = getState()
-//     return state.auth && (action.type==LOCAL_UPDATE) &&
-//       (action.collection=='Users') &&
-//       (action.key==state.auth.uid)
-//   })
-// }
 
 function* loadUserData(getState) {
   while(true) {
@@ -48,16 +37,6 @@ function* createUserProfileIfMissing(getState) {
   }
 }
 
-// replace with taker
-// function* authedProfileUpdated(getState) {
-//   return yield take( (action)=>{
-//     const authedProfileKey = Users.select.authed(getState())
-//     return (action.type==LOCAL_UPDATE) &&
-//       (action.collection=='Profiles') &&
-//       (action.key==authedProfileKey)
-//   })
-// }
-
 const LOGIN_REDIRECT_AWAY = ['/#?','/','/confirmProfile']
 function* loginRedirect(getState) {
   while(true) {
@@ -74,12 +53,6 @@ function* loginRedirect(getState) {
   }
 }
 
-// function* confirmProfile(getState) {
-//   yield put( pushPath('/confirmProfile') )
-//   yield take( Profiles.taker(Users.select.authed(getState())) )
-//   // yield* authedProfileUpdated(getState)
-// }
-
 const LOGOUT_REDIRECT_AWAY = ['/dash','/project','/confirmProfile']
 function* logoutRedirect(getState) {
   while(true) {
@@ -90,16 +63,6 @@ function* logoutRedirect(getState) {
     }
   }
 }
-
-// function* projectInviteAcceptance(getState) {
-//   while(true) {
-//     const inviteAction = yield take(ACCEPT_INVITE)
-//     const profileKey = Users.select.authed(getState())
-//     yield put(Invites.update(inviteAction.key,{claimingProfileKey:profileKey}))
-//     // this behavior should be triggered on the server when claimingProfileKey is set on an invite
-//     yield put(Organizers.push({profileKey:profileKey,projectKey:inviteAction.invite.projectKey}))
-//   }
-// }
 
 import SagaMaster from 'lib/SagaMaster'
 export const master = new SagaMaster()
