@@ -28,41 +28,15 @@ export default class rfModel {
     (rows,keyVal)=>rows.filter(r=>r[childKey]==keyVal)
   )
 
-  taker = key => {
-    console.log('building taker for key', key)
-    return action => {
-      console.log('testing action',action)
-      return (action.type==LOCAL_UPDATE) &&
-      (action.collection==this.name) &&
-      (action.key==key)
-    }
-  }
-    // action => {
-    //   console.log('testing action',action)
-    //   return (action.type==LOCAL_UPDATE) &&
-    //   (action.collection==this.name) &&
-    //   (action.key==key)
-    // }
-      // (action.type==LOCAL_UPDATE) &&
-      // (action.collection==this.name) &&
-      // (action.key==key)
-
   select = {
     collection: this._collection,
     rows: this._rows,
     by: this._by
-    // collection: (state)=>state.data[this.name] || {},
-    // rows: createSelector(
-    //   this.select.collection,
-    //   (col)=>col && Object.keys(col).map(k=>Object.assign({$key:k},col[k]))
-    // ),
-    // by: (childKey)=>{
-    //   return createSelector(
-    //     this.select.rows,
-    //     (state,props)=>props[childKey],
-    //     (rows,keyVal)=>rows.filter(r=>r[childKey]==keyVal)
-    //     )
-    // }
   }
+
+  taker = key => action =>
+    (action.type==LOCAL_UPDATE) &&
+    (action.collection==this.name) &&
+    (action.key==key)
 
 }

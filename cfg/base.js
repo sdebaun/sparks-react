@@ -39,6 +39,7 @@ module.exports = {
       sagas: srcPath + '/sagas/',
       remote: srcPath + '/remote',
       lib: srcPath + '/lib',
+      nodeLib: path.join(__dirname, '/../node_modules'),
       config: srcPath + '/config/' + process.env.REACT_WEBPACK_ENV
     }
   },

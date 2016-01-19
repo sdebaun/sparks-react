@@ -48,12 +48,10 @@ class CreateInviteListItem extends React.Component {
 
 }
 
-import { Invites } from 'remote'
-
-import { authedProfileKeySelector } from 'selectors'
+import { Invites, Users } from 'remote'
 
 const mapStateToProps = createSelector(
-  authedProfileKeySelector,
+  Users.select.authed,
   (userProfileKey)=>{
     return {userProfileKey}
   }

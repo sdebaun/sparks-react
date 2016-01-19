@@ -52,14 +52,16 @@ const mapStateToProps = createSelector(
 )
 
 import { put } from 'redux-saga';
-import { addSaga } from 'store'
+import { master } from 'sagas'
 
 export default {
   path: 'staff',
   component: connect(mapStateToProps)(Container),
-  onEnter: ({params:{projectKey}})=>addSaga( function*() {
-    const params = { orderByChild:'projectKey', equalTo:projectKey }
-    yield put( Organizers.actions.query(params) )
-    yield put( Invites.actions.query(params) )
-  }())
+  onEnter: ({params:{projectKey}})=>{
+    master.start( function*() {
+      const params = { orderByChild:'projectKey', equalTo:projectKey }
+      yield put( Organizers.actions.query(params) )
+      yield put( Invites.actions.query(params) )
+    })
+  }
 }

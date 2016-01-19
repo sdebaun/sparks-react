@@ -4,7 +4,7 @@ import { pushPath } from 'redux-simple-router'
 import { ACCEPT_INVITE } from 'actions'
 
 import remote, { Profiles, Users, Invites, Organizers } from 'remote'
-import { authedProfileKeySelector } from 'selectors'
+// import { authedProfileKeySelector } from 'selectors'
 
 function* startListening() {
   yield put(remote.auth.listen())
@@ -36,6 +36,16 @@ function* loadUserProfile(getState) {
   }
 }
 
+function* loadUserOrganizers(getState) {
+  while(true) {
+    let userResult = yield* authedUserUpdated(getState)
+    const profileKey = userResult.data
+    if (profileKey) {
+      yield put(Organizers.actions.query({orderByChild:'profileKey', equalTo:profileKey}))
+    }
+  }
+}
+
 function* createUserProfileIfMissing(getState) {
   while(true) {
     let userResult = yield* authedUserUpdated(getState)
@@ -50,7 +60,7 @@ function* createUserProfileIfMissing(getState) {
 
 function* authedProfileUpdated(getState) {
   return yield take( (action)=>{
-    const authedProfileKey = authedProfileKeySelector(getState())
+    const authedProfileKey = Users.select.authed(getState())
     return (action.type==LOCAL_UPDATE) &&
       (action.collection=='Profiles') &&
       (action.key==authedProfileKey)
@@ -84,18 +94,21 @@ function* logoutRedirect(getState) {
   }
 }
 
-function* projectInviteAcceptance(getState) {
-  while(true) {
-    const inviteAction = yield take(ACCEPT_INVITE)
-    const profileKey = authedProfileKeySelector(getState())
-    yield put(Invites.update(inviteAction.key,{claimingProfileKey:profileKey}))
-    // this behavior should be triggered on the server when claimingProfileKey is set on an invite
-    yield put(Organizers.push({profileKey:profileKey,projectKey:inviteAction.invite.projectKey}))
-  }
-}
+// function* projectInviteAcceptance(getState) {
+//   while(true) {
+//     const inviteAction = yield take(ACCEPT_INVITE)
+//     const profileKey = Users.select.authed(getState())
+//     yield put(Invites.update(inviteAction.key,{claimingProfileKey:profileKey}))
+//     // this behavior should be triggered on the server when claimingProfileKey is set on an invite
+//     yield put(Organizers.push({profileKey:profileKey,projectKey:inviteAction.invite.projectKey}))
+//   }
+// }
 
-export default [startListening,
+import SagaMaster from 'lib/SagaMaster'
+export const master = new SagaMaster()
+
+export const sagas = [startListening,
   logoutRedirect, loginRedirect,
   loadAuthedUser, loadUserProfile, createUserProfileIfMissing,
-  projectInviteAcceptance
+  loadUserOrganizers
   ]
