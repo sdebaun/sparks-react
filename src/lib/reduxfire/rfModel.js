@@ -1,4 +1,4 @@
-import {REMOTE_WATCH,REMOTE_QUERY,REMOTE_PUSH,REMOTE_SET,REMOTE_UPDATE} from './types'
+import {REMOTE_WATCH,REMOTE_QUERY,REMOTE_PUSH,REMOTE_SET,REMOTE_UPDATE,LOCAL_UPDATE} from './types'
 import { createSelector } from 'reselect'
 
 export default class rfModel {
@@ -17,16 +17,35 @@ export default class rfModel {
     query: (params={})=>{ return {type:REMOTE_QUERY,collection:this.name,params} }
   }
 
-  _collection = (state)=>state.data[this.name] || {}
+  _collection = state => state.data[this.name] || {}
   _rows = createSelector(
     this._collection,
     (col)=>col && Object.keys(col).map(k=>Object.assign({$key:k},col[k]))
   )
-  _by = (childKey)=>createSelector(
+  _by = childKey => createSelector(
     this.select.rows,
     (state,props)=>props[childKey],
     (rows,keyVal)=>rows.filter(r=>r[childKey]==keyVal)
   )
+
+  taker = key => {
+    console.log('building taker for key', key)
+    return action => {
+      console.log('testing action',action)
+      return (action.type==LOCAL_UPDATE) &&
+      (action.collection==this.name) &&
+      (action.key==key)
+    }
+  }
+    // action => {
+    //   console.log('testing action',action)
+    //   return (action.type==LOCAL_UPDATE) &&
+    //   (action.collection==this.name) &&
+    //   (action.key==key)
+    // }
+      // (action.type==LOCAL_UPDATE) &&
+      // (action.collection==this.name) &&
+      // (action.key==key)
 
   select = {
     collection: this._collection,

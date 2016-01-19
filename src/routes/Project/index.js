@@ -10,10 +10,6 @@ import ProjectNavList from 'containers/Project/ProjectNavList'
 import ProjectHeader from 'containers/Project/ProjectHeader'
 
 class Main extends React.Component {
-  componentDidMount() {
-    this.props.load(this.props.params.projectKey)
-  }
-
   render() {
     const {project, params:{projectKey}} = this.props
     return (
@@ -51,15 +47,17 @@ const mapStateToProps = createSelector(
   (project)=>{ return {project} }
 )
 
-const mapDispatchToProps = {
-  load: Projects.actions.watch
-}
+import { put } from 'redux-saga';
+import { addSaga } from 'store'
 
 import Glance from './Glance'
 import Manage from './Manage'
 
 export default {
   path: 'project/:projectKey',
-  component: connect(mapStateToProps,mapDispatchToProps)(Main),
-  childRoutes: [ Glance, Manage ]
+  component: connect(mapStateToProps)(Main),
+  childRoutes: [ Glance, Manage ],
+  onEnter: (route)=>addSaga( function*() {
+    yield put( Projects.actions.watch(route.params.projectKey) )
+  }())
 }

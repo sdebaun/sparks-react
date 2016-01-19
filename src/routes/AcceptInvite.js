@@ -26,11 +26,7 @@ import PageLoadSpinner from 'components/PageLoadSpinner'
 // import IsUser from 'containers/IsUser'
 import LoginButton from 'containers/LoginButton'
 
-class AcceptInvite extends React.Component {
-  componentDidMount() {
-    this.props.loadInvite(this.props.params.inviteKey)
-  }
-
+class Container extends React.Component {
   handle = ()=>{
     this.props.acceptProjectInvite(this.props.params.inviteKey, this.props.invite)
   }
@@ -101,13 +97,26 @@ const mapStateToProps = createSelector(
 import { acceptProjectInvite } from 'actions'
 
 const mapDispatchToProps = {
-  acceptProjectInvite,
-  loadProject: Projects.actions.watch,
-  loadProfile: Profiles.actions.watch,
-  loadInvite: Invites.actions.watch
+  acceptProjectInvite
 }
+
+import { put, take } from 'redux-saga';
+import { addSaga } from 'store'
 
 export default {
   path:'acceptInvite/:inviteKey',
-  component: connect(mapStateToProps,mapDispatchToProps)(AcceptInvite)
+  component: connect(mapStateToProps,mapDispatchToProps)(Container),
+  onEnter: (route)=>{
+    addSaga( function*() {
+      console.log('watching invite',route.params.inviteKey)
+      const inviteUpdate = yield take( Invites.taker(route.params.inviteKey) )
+      console.log('got inviteUpdte',inviteUpdate)
+      yield put( Projects.actions.watch(inviteUpdate.data.projectKey) )
+      yield put( Profiles.actions.watch(inviteUpdate.data.authorProfileKey) )
+    }())
+    addSaga( function*() {
+      console.log('querying invite', route.params.inviteKey)
+      yield put( Invites.actions.watch(route.params.inviteKey) )
+    }())
+  }
 }
