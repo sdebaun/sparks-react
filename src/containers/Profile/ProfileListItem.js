@@ -17,14 +17,6 @@ import TimeAgo from 'react-timeago'
 import { createSelector } from 'reselect'
 import { Profiles } from 'remote'
 
-const iconButtonElement = (
-  <IconButton
-    touch={true}
-    tooltipPosition="bottom-left">
-    <MoreVertIcon color={Colors.grey400} />
-  </IconButton>
-);
-
 class ProfileListItem extends React.Component {
   componentWillMount() {
     this.props.dispatch(Profiles.actions.watch(this.props.profileKey))
@@ -34,8 +26,7 @@ class ProfileListItem extends React.Component {
     const { profile, profileKey } = this.props
     if (!profile) return <ListItem>...</ListItem>
     return <ListItem leftAvatar={<Avatar src={profile.profileImageURL}/>}
-      primaryText={profile.fullName} secondaryText={profileKey}
-      {...this.props}
+      primaryText={profile.fullName} {...this.props}
       />
       
   }

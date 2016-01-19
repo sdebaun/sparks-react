@@ -3,29 +3,18 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
 
 import List from 'material-ui/lib/lists/list'
-import ListItem from 'material-ui/lib/lists/list-item'
 
 import CreateInviteListItem from 'containers/Invite/CreateInviteListItem'
 import InviteListItem from 'containers/Invite/InviteListItem'
 import ProfileListItem from 'containers/Profile/ProfileListItem'
 
-import IconButton from 'material-ui/lib/icon-button';
-import IconMenu from 'material-ui/lib/menus/icon-menu';
+import ActionMenu from 'components/ActionMenu'
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
-import Colors from 'material-ui/lib/styles/colors';
-
-const iconButtonElement = (
-  <IconButton
-    touch={true}
-    tooltipPosition="bottom-left">
-    <MoreVertIcon color={Colors.grey400} />
-  </IconButton>
-);
 
 class Container extends React.Component {
   render() {
     const { projectKey, invites, organizers } = this.props
+
     return (
       <div>
         <List>
@@ -45,11 +34,13 @@ class Container extends React.Component {
               return <ProfileListItem
                 key={organizer.$key}
                 profileKey={organizer.profileKey}
+                secondaryText='Admin'
                 rightIconButton={
-                  <IconMenu iconButtonElement={iconButtonElement}>
-                    <MenuItem href={'/profile/'+organizer.profileKey} target='new'>Profile</MenuItem>
+                  <ActionMenu>
+                    <MenuItem href={'/profile/' + organizer.profileKey} target='new'>Profile</MenuItem>
                     <MenuItem disabled={true} onTouchTap={this.handleResend}>Remove</MenuItem>
-                  </IconMenu>}
+                  </ActionMenu>
+                }
                 />
               })
             }
@@ -60,6 +51,11 @@ class Container extends React.Component {
   }
 
 }
+
+                // rightIconButton={<ActionMenu>
+                //     <MenuItem href={'/profile/'+organizer.profileKey} target='new'>Profile</MenuItem>
+                //     <MenuItem disabled={true} onTouchTap={this.handleResend}>Remove</MenuItem>
+                //   </ActionMenu>}
 
 import {Organizers,Invites} from 'remote'
 

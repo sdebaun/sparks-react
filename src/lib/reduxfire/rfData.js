@@ -44,9 +44,7 @@ export default class rfData {
   reducer(state=initialState,action) {
     switch (action.type) {
       case (LOCAL_UPDATE):
-        console.log('DATA',action.data)
         const val = typeof action.data != 'object' ? action.data : Object.assign({$key:action.key},action.data)
-        console.log('KEYED',val)
         return state.merge({ [action.collection]: { [action.key]: val } }, {deep:true});
       default: return state;
     }
