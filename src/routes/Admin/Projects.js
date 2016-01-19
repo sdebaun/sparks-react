@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { take, put } from 'redux-saga';
 
 import List from 'material-ui/lib/lists/list'
-import CreateProjectListItem from 'containers/Admin/CreateProjectListItem'
+import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
 import NavListItem from 'components/NavListItem'
+import { createSelector } from 'reselect'
 
-class Projects extends React.Component {
+class Container extends React.Component {
   render() {
     return (
       <div className="index">
@@ -21,25 +21,20 @@ class Projects extends React.Component {
   }
 }
 
-const mapStateToProps = (state)=>{
-  return {
-    projects: state.data.Projects || {}
-  };
-}
+import {Projects} from 'remote'
+
+const mapStateToProps = createSelector(
+  Projects.select.collection,
+  (projects)=>{ return {projects} }
+)
+
+import { put } from 'redux-saga';
+import {master} from 'sagas'
 
 export default {
-  component: connect(mapStateToProps)(Projects)
+  component: connect(mapStateToProps)(Container),
+  onEnter: ()=>master.start( function*() {
+    yield put( Projects.actions.query() )
+  })
 }
 
-import remote from 'remote'
-
-function* loadSaga() {
-  while(true) {
-    // console.log('loadSaga waiting')
-    yield take( (action)=>{ return action.type.includes('@@router') && (action.payload.path=='/admin') })
-    // console.log('loadSaga action received')
-    yield put( remote.query('Projects') )
-  }
-}
-
-export const sagas = [loadSaga]

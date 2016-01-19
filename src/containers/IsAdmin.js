@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
 
-import { authedProfileSelector } from '../selectors'
+// import { authedProfileSelector } from '../selectors'
 
 class IsAdmin extends React.Component {
   render() { return (<div>
@@ -18,8 +18,11 @@ IsAdmin.defaultProps = {
 // function mapStateToProps(state) {
 //   return { profile: state.auth }
 // }
+
+import { Profiles } from 'remote'
+
 const mapStateToProps = createSelector(
-  authedProfileSelector,
+  Profiles.select.authed,
   (profile)=>{ return { isAdmin: profile && profile.isAdmin } }
 )
 

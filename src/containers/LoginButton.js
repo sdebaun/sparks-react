@@ -20,7 +20,7 @@ import RaisedButton from 'material-ui/lib/raised-button'
 
 // import IsAuthed from 'containers/IsAuthed'
 // import IsAdmin from 'containers/IsAdmin'
-import remote from '../remote'
+import remote from 'remote'
 
 class LoginButton extends React.Component {
   handleClick = ()=> this.props.login(this.props.provider)
@@ -38,10 +38,8 @@ function mapStateToProps() {
   return {}
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    login: ()=>dispatch(remote.auth.login())
-  }
+const mapDispatchToProps = {
+  login: remote.auth.login
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(LoginButton);

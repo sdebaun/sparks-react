@@ -6,12 +6,8 @@ import RaisedButton from 'material-ui/lib/raised-button'
 
 import MainBar from 'components/MainBar'
 
-import {Profiles} from 'remote'
-
 class ConfirmProfile extends React.Component {
-  handle = ()=>{
-    this.props.updateProfile(this.props.userProfileKey,{isConfirmed:true})
-  }
+  handle = ()=>this.props.confirm(this.props.userProfile.$key)
 
   render() {
     return (
@@ -25,20 +21,17 @@ class ConfirmProfile extends React.Component {
 
 }
 
-import {authedProfileKeySelector, authedProfileSelector} from 'selectors'
+// import {authedProfileKeySelector, authedProfileSelector} from 'selectors'
+
+import {Profiles} from 'remote'
 
 const mapStateToProps = createSelector(
-  authedProfileKeySelector,
-  authedProfileSelector,
-  (userProfileKey, userProfile)=>{
-    return {userProfileKey, userProfile}
-  }
+  Profiles.select.authed,
+  (userProfile)=>{ return {userProfile} }
 )
 
-const mapStateToDispatch = (dispatch)=>{
-  return {
-    updateProfile: (...args)=>dispatch(Profiles.update(...args))
-  }
+const mapStateToDispatch = {
+  confirm: Profiles.actions.confirm
 }
 
 export default {

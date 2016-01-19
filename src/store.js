@@ -4,13 +4,26 @@ import reducers from './reducers'
 
 import DevTools from 'components/DevTools';
 
-import sagaMiddleware from 'redux-saga'
-import sagas from 'sagas'
-import {sagas as AdminProjectSagas} from './routes/Admin/Projects'
+// import sagaMiddleware, {runSaga, storeIO} from 'redux-saga'
+// import {runSaga, storeIO} from 'redux-saga'
+import {master,sagas} from 'sagas'
+
+import remote from 'remote'
 
 const buildStore = compose(
-  applyMiddleware(thunk, sagaMiddleware(...sagas, ...AdminProjectSagas)),
+  applyMiddleware(
+    thunk,
+    remote.auth.middleware,
+    remote.data.middleware,
+    master.middleware,
+  ),
   DevTools.instrument()
   )
 
-export default buildStore(createStore)(reducers);
+const store = buildStore(createStore)(reducers)
+export default store
+
+sagas.forEach( saga=>master.start(saga) )
+
+// const io = storeIO(store)
+// export const addSaga = (saga) => runSaga(saga,io)

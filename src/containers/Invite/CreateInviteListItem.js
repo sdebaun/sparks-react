@@ -14,7 +14,7 @@ import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
 
 // import Query from 'containers/Query'
 // import NavListItem from 'components/NavListItem'
-import InviteForm from 'containers/Project/Glance/InviteForm'
+import InviteForm from 'containers/Invite/InviteForm'
 
 // import { pushPath } from 'redux-simple-router'
 
@@ -23,10 +23,7 @@ class CreateInviteListItem extends React.Component {
   handleOpen = ()=> this.setState({open:true})
   handleClose = ()=> this.setState({open:false})
   handleSubmit = data => {
-    if (data) this.props.invitePush(Object.assign(data,{
-      projectKey:this.props.projectKey,
-      authorProfileKey:this.props.userProfileKey
-    }))
+    if (data) this.props.create(data,this.props.projectKey,this.props.userProfileKey)
     this.handleClose()
   }
 
@@ -51,21 +48,18 @@ class CreateInviteListItem extends React.Component {
 
 }
 
-import { Invites } from '../../../remote'
-
-import { authedProfileKeySelector } from '../../../selectors'
+import { Invites, Users } from 'remote'
 
 const mapStateToProps = createSelector(
-  authedProfileKeySelector,
+  Users.select.authed,
   (userProfileKey)=>{
     return {userProfileKey}
   }
 )
 
-
-function mapDispatchToProps(dispatch) {
-  return {
-    invitePush: (...args)=>dispatch(Invites.push(...args))
-  }
+const mapDispatchToProps = {
+  create: Invites.actions.create,
+  push: Invites.actions.push
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(CreateInviteListItem);

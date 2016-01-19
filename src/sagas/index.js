@@ -4,88 +4,71 @@ import { pushPath } from 'redux-simple-router'
 import { ACCEPT_INVITE } from 'actions'
 
 import remote, { Profiles, Users, Invites, Organizers } from 'remote'
-import { authedProfileKeySelector } from 'selectors'
+
+function* startListening() {
+  yield put(remote.auth.listen())
+}
 
 function* loadAuthedUser() {
   while(true) {
-    const authResult = yield take(AUTH_SUCCESS)
-    yield put(remote.watch('Users', authResult.authData.uid))
+    const {authData:{uid}} = yield take(AUTH_SUCCESS)
+    yield put(Users.actions.watch(uid))
   }
 }
 
-function* authedUserUpdated(getState) {
-  return yield take( (action)=>{
-    const state = getState()
-    return state.auth && (action.type==LOCAL_UPDATE) &&
-      (action.collection=='Users') &&
-      (action.key==state.auth.uid)
-  })
-}
-
-function* loadUserProfile(getState) {
+function* loadUserData(getState) {
   while(true) {
-    let userResult = yield* authedUserUpdated(getState)
-    const profileKey = userResult.data
-    if (!profileKey) {
-      const authData = getState().auth
-      Profiles.push(authData)().then((newKey)=>{
-        Users.set(authData.uid,newKey)()
-      })
-    } else {
-      yield put(remote.watch('Profiles', profileKey))
+    const {key:uid,data:profileKey} = yield take( Users.takeAny )
+    if (profileKey && (uid == getState().auth.uid)) {
+      yield put(Profiles.actions.watch(profileKey))
+      yield put(Organizers.actions.query({orderByChild:'profileKey', equalTo:profileKey}))
     }
   }
 }
 
-function* authedProfileUpdated(getState) {
-  return yield take( (action)=>{
-    const authedProfileKey = authedProfileKeySelector(getState())
-    return (action.type==LOCAL_UPDATE) &&
-      (action.collection=='Profiles') &&
-      (action.key==authedProfileKey)
-  })
+function* createUserProfileIfMissing(getState) {
+  while(true) {
+    const {key,data:profileKey} = yield take( Users.takeAny )
+    const {auth} = getState()
+    if (!profileKey && (userResult.key == auth.uid)) {
+      const newProfileRef = yield put(Profiles.actions.create(auth))
+      yield put( Users.actions.set(auth.uid, newProfileRef.key()) )
+    }
+  }
 }
 
+const LOGIN_REDIRECT_AWAY = ['/#?','/','/confirmProfile']
 function* loginRedirect(getState) {
   while(true) {
-    const profileResult = yield* authedProfileUpdated(getState)
-    if (!profileResult.data.isConfirmed) {
-      const originalRoute = getState().routing.path
-      yield* confirmProfile(getState)
-      yield put( pushPath(originalRoute) )
+    const {key,data} = yield take( Profiles.takeAny )
+    if (key==Users.select.authed(getState())) {
+      const {routing:{path}} = getState()
+      if (!data.isConfirmed) {
+        yield put( pushPath('/confirmProfile') )
+        yield take( Profiles.taker(Users.select.authed(getState())) )
+        yield put( pushPath(path) )
+      }
+      if (LOGIN_REDIRECT_AWAY.includes(path)) { yield put( pushPath('/dash') ) }
     }
-    if (getState().routing.path.includes('/#?')) { yield put( pushPath('/dash') ) }
   }
 }
 
-function* confirmProfile(getState) {
-  yield put( pushPath('/confirmProfile') )
-  yield take( (action)=>{
-    const state = getState()
-    return state.auth && state.data.Users && state.data.Users[state.auth.uid] &&
-      (action.type==LOCAL_UPDATE) &&
-      (action.collection=='Profiles') &&
-      (action.key==state.data.Users[state.auth.uid])
-  })
-}
-
+const LOGOUT_REDIRECT_AWAY = ['/dash','/project','/confirmProfile']
 function* logoutRedirect(getState) {
   while(true) {
     yield take(AUTH_CLEAR)
     const {routing: { path } } = getState()
-    if (path.includes('/dash') || path.includes('/project')) {
+    if (LOGOUT_REDIRECT_AWAY.reduce( (acc,val)=>acc || path.includes(val) )) {
       yield put( pushPath('/') )
     }
   }
 }
 
-function* projectInviteAcceptance(getState) {
-  while(true) {
-    const inviteAction = yield take(ACCEPT_INVITE)
-    const profileKey = authedProfileKeySelector(getState())
-    yield put(Invites.update(inviteAction.key,{isClaimed:true,claimingProfileKey:profileKey}))
-    yield put(Organizers.push({profileKey:profileKey,projectKey:inviteAction.invite.projectKey}))
-  }
+import SagaMaster from 'lib/SagaMaster'
+export const master = new SagaMaster()
 
-}
-export default [logoutRedirect, loginRedirect, loadAuthedUser, loadUserProfile, projectInviteAcceptance]
+export const sagas = [
+  startListening, loadAuthedUser,
+  loadUserData, createUserProfileIfMissing,
+  loginRedirect, logoutRedirect
+  ]

@@ -6,19 +6,15 @@ import MainBar from 'components/MainBar'
 import SideNav from 'components/SideNav'
 import PageLoadSpinner from 'components/PageLoadSpinner'
 import IsDesktop from 'components/IsDesktop'
-import NavList from 'containers/Project/NavList'
+import ProjectNavList from 'containers/Project/ProjectNavList'
 import ProjectHeader from 'containers/Project/ProjectHeader'
 
-import Fetch from 'containers/Fetch'
-
 class Main extends React.Component {
-
   render() {
     const {project, params:{projectKey}} = this.props
     return (
       <div className="index">
         <MainBar />
-        <Fetch collection="Projects" itemKey={projectKey}/>
         { !project && <PageLoadSpinner/>}
         { project &&
           <div style={{display:'flex'}}>
@@ -26,7 +22,7 @@ class Main extends React.Component {
               <IsDesktop>
                 <ProjectHeader style={{height:100}} primaryText={project.name} />
               </IsDesktop>
-              <NavList baseUrl={'/project/'+projectKey}/>
+              <ProjectNavList baseUrl={'/project/'+projectKey}/>
             </SideNav>
             <div style={{flex:1}}>
               { React.cloneElement(this.props.children, {project,projectKey}) }
@@ -40,13 +36,19 @@ class Main extends React.Component {
 
 import { Projects } from 'remote'
 
-const mapStateToProps = createSelector(
-  (state,ownProps)=>Projects.selectors.loaded(state,ownProps.params.projectKey),
-  (state,ownProps)=>Projects.selectors.single(state,ownProps.params.projectKey),
-  (projectLoaded,project)=>{
-    return {projectLoaded,project}
-  }
+const selectedProject = createSelector(
+  Projects.select.collection,
+  (state,ownProps)=>ownProps.params.projectKey,
+  (projects,projectKey)=>projects && projects[projectKey]
 )
+
+const mapStateToProps = createSelector(
+  selectedProject,
+  (project)=>{ return {project} }
+)
+
+import { put } from 'redux-saga';
+import { master } from 'sagas'
 
 import Glance from './Glance'
 import Manage from './Manage'
@@ -54,5 +56,8 @@ import Manage from './Manage'
 export default {
   path: 'project/:projectKey',
   component: connect(mapStateToProps)(Main),
-  childRoutes: [ Glance, Manage ]
+  childRoutes: [ Glance, Manage ],
+  onEnter: (route)=>master.start( function*() {
+    yield put( Projects.actions.watch(route.params.projectKey) )
+  })
 }

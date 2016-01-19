@@ -33,12 +33,13 @@ module.exports = {
       containers: srcPath + '/containers/',
       reducers: srcPath + '/reducers/',
       sources: srcPath + '/sources/',
-      stores: srcPath + '/stores/',
+      store: srcPath + '/store',
       styles: srcPath + '/styles/',
       selectors: srcPath + '/selectors/',
       sagas: srcPath + '/sagas/',
       remote: srcPath + '/remote',
       lib: srcPath + '/lib',
+      nodeLib: path.join(__dirname, '/../node_modules'),
       config: srcPath + '/config/' + process.env.REACT_WEBPACK_ENV
     }
   },

@@ -3,7 +3,7 @@ import React from 'react';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import Theme from '../theme'
 
-import Auth from 'containers/Auth'
+// import Auth from 'containers/Auth'
 import DevTools from 'components/DevTools'
 
 class App extends React.Component {
@@ -18,7 +18,6 @@ class App extends React.Component {
   render() {
     return (
       <div className="index" style={{flex:1}}>
-        <Auth/>
         {this.props.children}
         <DevTools/>
       </div>

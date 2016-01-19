@@ -8,14 +8,14 @@ import ListItem from 'material-ui/lib/lists/list-item'
 
 import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
 
-import ProjectForm from 'containers/Admin/ProjectForm'
+import ProjectForm from 'containers/Project/ProjectForm'
 
 class CreateInviteListItem extends React.Component {
   state = { open: false }
   handleOpen = ()=> this.setState({open:true})
   handleClose = ()=> this.setState({open:false})
   handleSubmit = data => {
-    if (data) this.props.projectPush(data)
+    if (data) this.props.push(data)
     this.handleClose()
   }
 
@@ -46,9 +46,7 @@ function mapStateToProps() {
   return {}
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    projectPush: (...args)=>dispatch(Projects.push(...args))
-  }
+const mapDispatchToProps = {
+  push: Projects.actions.push
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CreateInviteListItem);

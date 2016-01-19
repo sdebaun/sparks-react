@@ -3,7 +3,7 @@ import React from 'react';
 import List from 'material-ui/lib/lists/list';
 import NavListItem from 'components/NavListItem'
 
-class NavList extends React.Component {
+class ProjectNavList extends React.Component {
   render() {
     return (
       <List>
@@ -14,4 +14,4 @@ class NavList extends React.Component {
   }
 }
 
-export default (NavList);
+export default (ProjectNavList);
