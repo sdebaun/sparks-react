@@ -3,14 +3,18 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
 
 import List from 'material-ui/lib/lists/list'
-import ListItem from 'material-ui/lib/lists/list-item'
 
 import CreateInviteListItem from 'containers/Invite/CreateInviteListItem'
 import InviteListItem from 'containers/Invite/InviteListItem'
+import ProfileListItem from 'containers/Profile/ProfileListItem'
+
+import ActionMenu from 'components/ActionMenu'
+import MenuItem from 'material-ui/lib/menus/menu-item';
 
 class Container extends React.Component {
   render() {
     const { projectKey, invites, organizers } = this.props
+
     return (
       <div>
         <List>
@@ -27,7 +31,17 @@ class Container extends React.Component {
         { (organizers && (organizers.length > 0)) &&
           <List subheader="Organizers">
             {organizers && organizers.map(organizer=>{
-              return ( <ListItem key={organizer.$key} primaryText={organizer.profileKey} /> )
+              return <ProfileListItem
+                key={organizer.$key}
+                profileKey={organizer.profileKey}
+                secondaryText='Admin'
+                rightIconButton={
+                  <ActionMenu>
+                    <MenuItem href={'/profile/' + organizer.profileKey} target='new'>Profile</MenuItem>
+                    <MenuItem disabled={true} onTouchTap={this.handleResend}>Remove</MenuItem>
+                  </ActionMenu>
+                }
+                />
               })
             }
           </List>
@@ -37,6 +51,11 @@ class Container extends React.Component {
   }
 
 }
+
+                // rightIconButton={<ActionMenu>
+                //     <MenuItem href={'/profile/'+organizer.profileKey} target='new'>Profile</MenuItem>
+                //     <MenuItem disabled={true} onTouchTap={this.handleResend}>Remove</MenuItem>
+                //   </ActionMenu>}
 
 import {Organizers,Invites} from 'remote'
 

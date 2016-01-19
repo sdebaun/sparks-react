@@ -38,7 +38,7 @@ export const Invites = remote.data.model('Invites', {
     },
     accept: function(invite,profile) {
       return Invites.actions.update(invite.$key,{
-        confirmedProfileKey: profile.$key
+        claimedProfileKey: profile.$key
       })
     }
   }
