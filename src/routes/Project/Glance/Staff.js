@@ -7,6 +7,7 @@ import ListItem from 'material-ui/lib/lists/list-item'
 
 import CreateInviteListItem from 'containers/Invite/CreateInviteListItem'
 import InviteListItem from 'containers/Invite/InviteListItem'
+import ProfileListItem from 'containers/Profile/ProfileListItem'
 
 class Container extends React.Component {
   render() {
@@ -27,7 +28,7 @@ class Container extends React.Component {
         { (organizers && (organizers.length > 0)) &&
           <List subheader="Organizers">
             {organizers && organizers.map(organizer=>{
-              return ( <ListItem key={organizer.$key} primaryText={organizer.profileKey} /> )
+              return ( <ProfileListItem key={organizer.$key} profileKey={organizer.profileKey} /> )
               })
             }
           </List>
