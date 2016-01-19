@@ -39,4 +39,8 @@ export default class rfModel {
     (action.collection==this.name) &&
     (action.key==key)
 
+  takeAny = action =>
+    (action.type==LOCAL_UPDATE) &&
+    (action.collection==this.name)
+
 }

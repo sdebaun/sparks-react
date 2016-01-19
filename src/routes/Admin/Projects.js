@@ -29,12 +29,12 @@ const mapStateToProps = createSelector(
 )
 
 import { put } from 'redux-saga';
-import {addSaga} from '../../store'
+import {master} from 'sagas'
 
 export default {
   component: connect(mapStateToProps)(Container),
-  onEnter: ()=>addSaga( function*() {
+  onEnter: ()=>master.start( function*() {
     yield put( Projects.actions.query() )
-  }())
+  })
 }
 

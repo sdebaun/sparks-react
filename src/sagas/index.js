@@ -17,30 +17,21 @@ function* loadAuthedUser() {
   }
 }
 
-function* authedUserUpdated(getState) {
-  return yield take( (action)=>{
-    const state = getState()
-    return state.auth && (action.type==LOCAL_UPDATE) &&
-      (action.collection=='Users') &&
-      (action.key==state.auth.uid)
-  })
-}
+// replace with taker
+// function* authedUserUpdated(getState) {
+//   return yield take( (action)=>{
+//     const state = getState()
+//     return state.auth && (action.type==LOCAL_UPDATE) &&
+//       (action.collection=='Users') &&
+//       (action.key==state.auth.uid)
+//   })
+// }
 
-function* loadUserProfile(getState) {
+function* loadUserData(getState) {
   while(true) {
-    let userResult = yield* authedUserUpdated(getState)
-    const profileKey = userResult.data
-    if (profileKey) {
+    const {key:uid,data:profileKey} = yield take( Users.takeAny )
+    if (profileKey && (uid == getState().auth.uid)) {
       yield put(Profiles.actions.watch(profileKey))
-    }
-  }
-}
-
-function* loadUserOrganizers(getState) {
-  while(true) {
-    let userResult = yield* authedUserUpdated(getState)
-    const profileKey = userResult.data
-    if (profileKey) {
       yield put(Organizers.actions.query({orderByChild:'profileKey', equalTo:profileKey}))
     }
   }
@@ -48,47 +39,53 @@ function* loadUserOrganizers(getState) {
 
 function* createUserProfileIfMissing(getState) {
   while(true) {
-    let userResult = yield* authedUserUpdated(getState)
-    const profileKey = userResult.data
-    if (!profileKey) {
-      const authData = getState().auth
-      const newProfileRef = yield put(Profiles.actions.create(authData))
-      yield put( Users.actions.set(authData.uid, newProfileRef.key()) )
+    const {key,data:profileKey} = yield take( Users.takeAny )
+    const {auth} = getState()
+    if (!profileKey && (userResult.key == auth.uid)) {
+      const newProfileRef = yield put(Profiles.actions.create(auth))
+      yield put( Users.actions.set(auth.uid, newProfileRef.key()) )
     }
   }
 }
 
-function* authedProfileUpdated(getState) {
-  return yield take( (action)=>{
-    const authedProfileKey = Users.select.authed(getState())
-    return (action.type==LOCAL_UPDATE) &&
-      (action.collection=='Profiles') &&
-      (action.key==authedProfileKey)
-  })
-}
+// replace with taker
+// function* authedProfileUpdated(getState) {
+//   return yield take( (action)=>{
+//     const authedProfileKey = Users.select.authed(getState())
+//     return (action.type==LOCAL_UPDATE) &&
+//       (action.collection=='Profiles') &&
+//       (action.key==authedProfileKey)
+//   })
+// }
 
+const LOGIN_REDIRECT_AWAY = ['/#?','/','/confirmProfile']
 function* loginRedirect(getState) {
   while(true) {
-    const profileResult = yield* authedProfileUpdated(getState)
-    if (!profileResult.data.isConfirmed) {
-      const originalRoute = getState().routing.path
-      yield* confirmProfile(getState)
-      yield put( pushPath(originalRoute) )
+    const {key,data} = yield take( Profiles.takeAny )
+    if (key==Users.select.authed(getState())) {
+      const {routing:{path}} = getState()
+      if (!data.isConfirmed) {
+        yield put( pushPath('/confirmProfile') )
+        yield take( Profiles.taker(Users.select.authed(getState())) )
+        yield put( pushPath(path) )
+      }
+      if (LOGIN_REDIRECT_AWAY.includes(path)) { yield put( pushPath('/dash') ) }
     }
-    if (getState().routing.path.includes('/#?')) { yield put( pushPath('/dash') ) }
   }
 }
 
-function* confirmProfile(getState) {
-  yield put( pushPath('/confirmProfile') )
-  yield* authedProfileUpdated(getState)
-}
+// function* confirmProfile(getState) {
+//   yield put( pushPath('/confirmProfile') )
+//   yield take( Profiles.taker(Users.select.authed(getState())) )
+//   // yield* authedProfileUpdated(getState)
+// }
 
+const LOGOUT_REDIRECT_AWAY = ['/dash','/project','/confirmProfile']
 function* logoutRedirect(getState) {
   while(true) {
     yield take(AUTH_CLEAR)
     const {routing: { path } } = getState()
-    if (path.includes('/dash') || path.includes('/project')) {
+    if (LOGOUT_REDIRECT_AWAY.reduce( (acc,val)=>acc || path.includes(val) )) {
       yield put( pushPath('/') )
     }
   }
@@ -107,8 +104,8 @@ function* logoutRedirect(getState) {
 import SagaMaster from 'lib/SagaMaster'
 export const master = new SagaMaster()
 
-export const sagas = [startListening,
-  logoutRedirect, loginRedirect,
-  loadAuthedUser, loadUserProfile, createUserProfileIfMissing,
-  loadUserOrganizers
+export const sagas = [
+  startListening, loadAuthedUser,
+  loadUserData, createUserProfileIfMissing,
+  loginRedirect, logoutRedirect
   ]

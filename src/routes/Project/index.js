@@ -48,7 +48,7 @@ const mapStateToProps = createSelector(
 )
 
 import { put } from 'redux-saga';
-import { addSaga } from 'store'
+import { master } from 'sagas'
 
 import Glance from './Glance'
 import Manage from './Manage'
@@ -57,7 +57,7 @@ export default {
   path: 'project/:projectKey',
   component: connect(mapStateToProps)(Main),
   childRoutes: [ Glance, Manage ],
-  onEnter: (route)=>addSaga( function*() {
+  onEnter: (route)=>master.start( function*() {
     yield put( Projects.actions.watch(route.params.projectKey) )
-  }())
+  })
 }
