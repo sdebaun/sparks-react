@@ -1,4 +1,5 @@
 import {REMOTE_WATCH,REMOTE_QUERY,REMOTE_PUSH,REMOTE_SET,REMOTE_UPDATE} from './types'
+import { createSelector } from 'reselect'
 
 export default class rfModel {
   constructor(ref, name, extenders) {
@@ -16,9 +17,33 @@ export default class rfModel {
     query: (params={})=>{ return {type:REMOTE_QUERY,collection:this.name,params} }
   }
 
+  _collection = (state)=>state.data[this.name] || {}
+  _rows = createSelector(
+    this._collection,
+    (col)=>col && Object.keys(col).map(k=>Object.assign({$key:k},col[k]))
+  )
+  _by = (childKey)=>createSelector(
+    this.select.rows,
+    (state,props)=>props[childKey],
+    (rows,keyVal)=>rows.filter(r=>r[childKey]==keyVal)
+  )
+
   select = {
-    collection: (state)=>state.data[this.name] || {}
+    collection: this._collection,
+    rows: this._rows,
+    by: this._by
+    // collection: (state)=>state.data[this.name] || {},
+    // rows: createSelector(
+    //   this.select.collection,
+    //   (col)=>col && Object.keys(col).map(k=>Object.assign({$key:k},col[k]))
+    // ),
+    // by: (childKey)=>{
+    //   return createSelector(
+    //     this.select.rows,
+    //     (state,props)=>props[childKey],
+    //     (rows,keyVal)=>rows.filter(r=>r[childKey]==keyVal)
+    //     )
+    // }
   }
 
 }
-
