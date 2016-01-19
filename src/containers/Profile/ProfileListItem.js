@@ -32,9 +32,12 @@ class ProfileListItem extends React.Component {
 
   render() {
     const { profile, profileKey } = this.props
-    return profile ?
-      <ListItem leftAvatar={<Avatar src={profile.profileImageURL}/>} primaryText={profile.fullName} secondaryText={profileKey}/> :
-      <ListItem>...</ListItem>
+    if (!profile) return <ListItem>...</ListItem>
+    return <ListItem leftAvatar={<Avatar src={profile.profileImageURL}/>}
+      primaryText={profile.fullName} secondaryText={profileKey}
+      {...this.props}
+      />
+      
   }
 
 }
