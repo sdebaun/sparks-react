@@ -33,7 +33,7 @@ module.exports = {
       containers: srcPath + '/containers/',
       reducers: srcPath + '/reducers/',
       sources: srcPath + '/sources/',
-      stores: srcPath + '/stores/',
+      store: srcPath + '/store',
       styles: srcPath + '/styles/',
       selectors: srcPath + '/selectors/',
       sagas: srcPath + '/sagas/',

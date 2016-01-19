@@ -8,13 +8,7 @@ import ListItem from 'material-ui/lib/lists/list-item'
 import CreateInviteListItem from 'containers/Invite/CreateInviteListItem'
 import InviteListItem from 'containers/Invite/InviteListItem'
 
-class Staff extends React.Component {
-  componentDidMount() {
-    const params = { orderByChild:'projectKey', equalTo:this.props.params.projectKey }
-    this.props.loadInvites(params)
-    this.props.loadOrganizers(params)
-  }
-
+class Container extends React.Component {
   render() {
     const { projectKey, invites, organizers } = this.props
     return (
@@ -44,29 +38,28 @@ class Staff extends React.Component {
 
 }
 
-import {dataInvitesRowsByProjectKey,dataOrganizersRowsByProjectKey} from 'selectors'
+import {Organizers,Invites} from 'remote'
 
 const filteredInvites = createSelector(
-  dataInvitesRowsByProjectKey,
-  (invites)=>invites && invites.filter(invite=>!invite.isClaimed)
-  )
+  Invites.select.by('projectKey'),
+  (invites)=>invites && invites.filter(invite=>!invite.claimedProfileKey)
+)
 
 const mapStateToProps = createSelector(
   filteredInvites,
-  dataOrganizersRowsByProjectKey,
-  (invites,organizers)=>{
-    return {invites,organizers}
-  }
+  Organizers.select.by('projectKey'),
+  (invites,organizers)=>{ return {invites,organizers} }
 )
 
-import {Organizers,Invites} from 'remote'
-
-const mapDispatchToProps = {
-  loadOrganizers: Organizers.actions.query,
-  loadInvites: Invites.actions.query
-}
+import { put } from 'redux-saga';
+import { addSaga } from 'store'
 
 export default {
-  component: connect(mapStateToProps,mapDispatchToProps)(Staff),
-  path: 'staff'
+  path: 'staff',
+  component: connect(mapStateToProps)(Container),
+  onEnter: ({params:{projectKey}})=>addSaga( function*() {
+    const params = { orderByChild:'projectKey', equalTo:projectKey }
+    yield put( Organizers.actions.query(params) )
+    yield put( Invites.actions.query(params) )
+  }())
 }

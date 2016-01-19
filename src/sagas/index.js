@@ -14,7 +14,6 @@ function* loadAuthedUser() {
   while(true) {
     const {authData:{uid}} = yield take(AUTH_SUCCESS)
     yield put(Users.actions.watch(uid))
-    // yield put(remote.watch('Users', authResult.authData.uid))
   }
 }
 
@@ -72,13 +71,7 @@ function* loginRedirect(getState) {
 
 function* confirmProfile(getState) {
   yield put( pushPath('/confirmProfile') )
-  yield take( (action)=>{
-    const state = getState()
-    return state.auth && state.data.Users && state.data.Users[state.auth.uid] &&
-      (action.type==LOCAL_UPDATE) &&
-      (action.collection=='Profiles') &&
-      (action.key==state.data.Users[state.auth.uid])
-  })
+  yield* authedProfileUpdated(getState)
 }
 
 function* logoutRedirect(getState) {
@@ -95,11 +88,12 @@ function* projectInviteAcceptance(getState) {
   while(true) {
     const inviteAction = yield take(ACCEPT_INVITE)
     const profileKey = authedProfileKeySelector(getState())
-    yield put(Invites.update(inviteAction.key,{isClaimed:true,claimingProfileKey:profileKey}))
+    yield put(Invites.update(inviteAction.key,{claimingProfileKey:profileKey}))
+    // this behavior should be triggered on the server when claimingProfileKey is set on an invite
     yield put(Organizers.push({profileKey:profileKey,projectKey:inviteAction.invite.projectKey}))
   }
-
 }
+
 export default [startListening,
   logoutRedirect, loginRedirect,
   loadAuthedUser, loadUserProfile, createUserProfileIfMissing,
