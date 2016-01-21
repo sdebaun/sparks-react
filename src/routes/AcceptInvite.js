@@ -18,7 +18,7 @@ import MainBar from 'components/MainBar'
 // import IsDesktop from 'components/IsDesktop'
 import PageLoadSpinner from 'components/PageLoadSpinner'
 // import Fetch from 'containers/Fetch'
-// import ProjectHeader from 'containers/Project/ProjectHeader'
+import ProjectHeader from 'containers/Project/ProjectHeader'
 // import NavPopout from 'components/NavPopout'
 // import NavList from 'containers/Project/NavList'
 // import SideNav from 'components/SideNav'
@@ -37,10 +37,11 @@ class Container extends React.Component {
     return (
       <div className="index">
         <MainBar />
-        { (!project || !authorProfile) && <PageLoadSpinner/>}
+        { !(project && authorProfile) && <PageLoadSpinner/>}
         { project && authorProfile && (
-          <div style={{display:'flex'}}>
-            <div style={{flex:1}}>
+          <div>
+            <ProjectHeader style={{height:'100px'}} primaryText={project.name} secondaryText={invite.authority + " invite"}/>
+            <div style={{display:'flex', margin:'0em 1em'}}>
               <h1>Hello {invite.email}!</h1>
               <h2>
                 {authorProfile.fullName} has invited you to join {project.name}
