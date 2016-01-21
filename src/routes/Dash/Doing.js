@@ -1,17 +1,19 @@
 import React from 'react';
 import ProjectListItem from 'containers/Project/ProjectListItem'
+import List from 'components/styled/List'
 
 class Doing extends React.Component {
   render() {
+    const {organizers} = this.props
     return (
       <div className="index">
-        <h1>Doing</h1>
-        { this.props.organizers.map( org=>
-          <ProjectListItem key={org.$key} projectKey={org.projectKey}
-            secondaryText='Admin'
-            targetRoute={'/project/'+org.projectKey}
-            />
-        )}
+        { organizers && (organizers.length > 0) &&
+          <List header='organizing' style={{paddingTop:0}}>
+          { organizers.map( o=>
+            <ProjectListItem key={o.$key} projectKey={o.projectKey} secondaryText={o.authority} targetRoute={'/project/'+o.projectKey} />
+          )}
+          </List>
+        }
       </div>
     );
   }
