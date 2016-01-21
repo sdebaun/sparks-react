@@ -20,6 +20,7 @@ import Avatar from 'material-ui/lib/avatar'
 // import ShowIf from 'components/ShowIf'
 // import IsMobile from 'components/IsMobile'
 // import IsDesktop from 'components/IsDesktop'
+import Content from 'components/Content'
 import PageLoadSpinner from 'components/PageLoadSpinner'
 // import Fetch from 'containers/Fetch'
 import ProjectHeader from 'containers/Project/ProjectHeader'
@@ -49,7 +50,7 @@ class Container extends React.Component {
 
         <Narrow>
           <ProjectHeader style={{height:'100px'}} primaryText={project.name} secondaryText={invite.authority + ' invite'}/>
-          <div style={{display:'flex', flexDirection:'column',margin:'0em 1em'}}>
+          <Content>
             <h1 style={{textAlign:'center'}}>Hello {userProfile && userProfile.fullName || invite.email}!</h1>
             <Avatar size={128} style={{margin:'auto'}} src={authorProfile.profileImageURL}/>
             <p>
@@ -66,7 +67,7 @@ class Container extends React.Component {
               { !hasAccess && userProfile &&  <RaisedButton primary={true} onTouchTap={this.handle} label='With Great Power Etc.'/>}
               { !userProfile &&  <LoginButton provider='google'/> }
             </div>
-          </div>
+          </Content>
         </Narrow>
         )}
       </div>

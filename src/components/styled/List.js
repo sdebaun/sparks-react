@@ -5,7 +5,7 @@ import ListItemHeader from './ListItemHeader'
 
 class StyledList extends React.Component {
   render() { return (
-    <List {...this.props}>
+    <List style={{paddingTop:0}} {...this.props}>
       {this.props.header && <ListItemHeader primaryText={this.props.header}/>}
       { this.props.children }
     </List>

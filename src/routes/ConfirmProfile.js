@@ -8,6 +8,7 @@ import PageLoadSpinner from 'components/PageLoadSpinner'
 
 import MainBar from 'components/MainBar'
 import Narrow from 'components/Narrow'
+import Content from 'components/Content'
 
 import ProfileForm from 'containers/Profile/ProfileForm'
 
@@ -26,11 +27,11 @@ class ConfirmProfile extends React.Component {
         {!userProfile && <PageLoadSpinner/>}
         {userProfile &&
           <Narrow>
-            <div style={{display:'flex', flexDirection:'column',margin:'0em 1em'}}>
+            <Content>
               <h1>Is This You?</h1>
               <Avatar size={192} src={userProfile.profileImageURL} style={{margin:'auto'}}/>
               <ProfileForm initialValues={userProfile} onSubmit={this.handleSubmit}/>
-            </div>
+            </Content>
           </Narrow>
         }
       </div>
