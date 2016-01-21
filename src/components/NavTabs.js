@@ -1,32 +1,44 @@
-import React from 'react';
+import React, {Children, cloneElement} from 'react';
 import { connect } from 'react-redux';
 
 import Tabs from 'material-ui/lib/tabs/tabs'
 import { pushPath } from 'redux-simple-router'
 
-const tabStyle = {
-  fontSize: '1.2em'
+const style = {
+  fontSize: '1.1em'
 }
 
 class NavTabs extends React.Component {
+  handleChange = (value)=>{
+    console.log('switching to ' + value)
+    this.props.pushPath(value)
+  }
+
   render() {
-    const {baseUrl} = this.props
+    const {baseUrl, route, path, children} = this.props
+    const targetRoute = baseUrl + route
 
     return (
-      <Tabs {...this.props}>
-      { React.Children.map( this.props.children, (c)=>{
-          return React.cloneElement(c,{style:tabStyle, onActive:tab=>this.props.pushPath(baseUrl + tab.props.route)})
-          }
-        )
-      }
+      <Tabs {...this.props} value={path} onChange={this.handleChange}>
+      { Children.map( children, (c)=>cloneElement(c,{style, value:baseUrl+c.props.route}) ) }
       </Tabs>
     )
   }
 }
 
+    // return (
+    //   <Tabs {...this.props}>
+    //   { React.Children.map( this.props.children, (c)=>{
+    //       return React.cloneElement(c,{style:tabStyle, value:baseUrl + tab.props.route, onActive:tab=>this.props.pushPath(baseUrl + tab.props.route)})
+    //       }
+    //     )
+    //   }
+    //   </Tabs>
+    // )
+
 NavTabs.defaultProps = {baseUrl:''}
 
-const mapStateToProps = ()=>{return {}}
+const mapStateToProps = (state)=>{ return {path: state.routing.path} }
 
 function mapDispatchToProps(dispatch) {
   return {

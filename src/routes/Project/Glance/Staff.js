@@ -31,7 +31,7 @@ class Container extends React.Component {
         { (organizers && (organizers.length > 0)) &&
           <List header='Organizers'>
             {organizers.map(o=>( <ProfileListItem key={o.$key} profileKey={o.profileKey}
-              secondaryText='Admin' rightIconButton={<ActionMenu organizer={o}/>} />
+              secondaryText={o.authority} rightIconButton={<ActionMenu organizer={o}/>} />
             ))}
           </List>
         }
