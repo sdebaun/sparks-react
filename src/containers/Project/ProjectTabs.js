@@ -12,23 +12,11 @@ class ProjectTabs extends React.Component {
     const {project,projectKey,secondaryText} = this.props
 
     return (
-      <div>
-        <IsMobile>
-          <ProjectHeader primaryText={project && project.name} secondaryText={secondaryText}>
-            <NavTabs baseUrl={'/project/'+projectKey}>
-              { this.props.children }
-            </NavTabs>
-          </ProjectHeader>
-        </IsMobile>
-        <IsDesktop>
-          <NavTabs baseUrl={'/project/'+projectKey}>
-            { this.props.children }
-          </NavTabs>
-        </IsDesktop>
-      </div>
+      <NavTabs baseUrl={'/project/'+projectKey}>
+        { this.props.children }
+      </NavTabs>
     );
   }
-
 }
 
 export default ProjectTabs;

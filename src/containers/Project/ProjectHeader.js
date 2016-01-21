@@ -13,15 +13,18 @@ import Colors from 'material-ui/lib/styles/colors';
 
 class ProjectHeader extends React.Component {
   render() {
+    const {sideNav} = this.props
     return (
       <div style={{backgroundColor:Colors.grey800, display:'flex', flexDirection:'column', justifyContent:'flex-end', ...this.props.style}}>
         <Toolbar style={{backgroundColor:'transparent', display:'flex', alignItems:'center'}}>
-          <ToolbarGroup firstChild={true}>
-            <IsMobile><LeftNavButton/></IsMobile>&nbsp;
-          </ToolbarGroup>
+          { sideNav &&
+            <ToolbarGroup firstChild={true}>
+              <IsMobile><LeftNavButton/></IsMobile>&nbsp;
+            </ToolbarGroup>
+          }
           <ToolbarGroup style={{color:'white'}}>
             <div>
-              <div style={{fontSize:'1.1em'}}>{this.props.primaryText}</div>
+              <div style={{fontSize:'1.5em'}}>{this.props.primaryText}</div>
               <div style={{fontSize:'0.9em',color:Colors.grey300}}>{this.props.secondaryText}</div>
             </div>
           </ToolbarGroup>

@@ -1,20 +1,28 @@
 import React from 'react';
 
+import NavTabs from 'components/NavTabs'
 import ProjectTabs from 'containers/Project/ProjectTabs'
 import Tab from 'material-ui/lib/tabs/tab'
 
-class Manage extends React.Component {
+class Title extends React.Component {
+  render() { return <div>Manage</div> }
+}
+
+class Tabs extends React.Component {
   render() {
     return (
-      <div>
-        <ProjectTabs {...this.props} secondaryText="Manage">
-          <Tab label='Describe' route='/manage' />
-          <Tab label='Exchange' route='/manage/exchange' />
-          <Tab label='Applying' route='/manage/applying' />
-        </ProjectTabs>
-        { React.cloneElement(this.props.children,this.props) }
-      </div>
+      <NavTabs {...this.props}>
+        <Tab label='Describe' route='/manage' />
+        <Tab label='Exchange' route='/manage/exchange' />
+        <Tab label='Applying' route='/manage/applying' />
+      </NavTabs>
     );
+  }
+}
+
+class Main extends React.Component {
+  render() {
+    return React.cloneElement(this.props.children, {...this.props})
   }
 }
 
@@ -24,7 +32,7 @@ import Applying from './Applying'
 
 export default {
   path: 'manage',
-  component: Manage,
+  components: {Title, Tabs, Main},
   indexRoute: Describe,
   childRoutes: [Exchange, Applying]
 }
