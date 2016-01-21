@@ -10,7 +10,7 @@ import Dialog from 'material-ui/lib/dialog'
 import ListItem from 'material-ui/lib/lists/list-item'
 // import TextField from 'material-ui/lib/text-field'
 import IconButton from 'material-ui/lib/icon-button';
-import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
+// import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
 import PersonAddIcon from 'material-ui/lib/svg-icons/social/person-add';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 // import Query from 'containers/Query'

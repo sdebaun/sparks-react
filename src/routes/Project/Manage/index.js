@@ -1,7 +1,6 @@
 import React from 'react';
 
 import NavTabs from 'components/NavTabs'
-import ProjectTabs from 'containers/Project/ProjectTabs'
 import Tab from 'material-ui/lib/tabs/tab'
 
 class Title extends React.Component {

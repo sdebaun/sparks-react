@@ -1,9 +1,8 @@
 import { take, put } from 'redux-saga';
-import { LOCAL_UPDATE, AUTH_SUCCESS, AUTH_CLEAR } from 'lib/reduxfire/types';
+import { AUTH_SUCCESS, AUTH_CLEAR } from 'lib/reduxfire/types';
 import { pushPath } from 'redux-simple-router'
-import { ACCEPT_INVITE } from 'actions'
 
-import remote, { Profiles, Users, Invites, Organizers } from 'remote'
+import remote, { Profiles, Users, Organizers } from 'remote'
 
 function* startListening() {
   yield put(remote.auth.listen())
@@ -59,7 +58,6 @@ function* logoutRedirect(getState) {
     yield take(AUTH_CLEAR)
     const {routing: { path } } = getState()
     if (LOGOUT_REDIRECT_AWAY.reduce( (acc,val)=>(acc || path.includes(val)),false )) {
-      console.log('redirect!', path, LOGOUT_REDIRECT_AWAY)
       yield put( pushPath('/') )
     }
   }

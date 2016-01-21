@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 
 import ListItem from 'material-ui/lib/lists/list-item'
 
-import Colors from 'material-ui/lib/styles/colors';
-import IconButton from 'material-ui/lib/icon-button';
-import IconMenu from 'material-ui/lib/menus/icon-menu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
+// import Colors from 'material-ui/lib/styles/colors';
+// import IconButton from 'material-ui/lib/icon-button';
+// import IconMenu from 'material-ui/lib/menus/icon-menu';
+// import MenuItem from 'material-ui/lib/menus/menu-item';
 import Avatar from 'material-ui/lib/avatar'
 
-import EmailIcon from 'material-ui/lib/svg-icons/communication/email';
-import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
+// import EmailIcon from 'material-ui/lib/svg-icons/communication/email';
+// import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 
-import TimeAgo from 'react-timeago'
+// import TimeAgo from 'react-timeago'
 
 import { createSelector } from 'reselect'
 import { Profiles } from 'remote'
@@ -23,7 +23,7 @@ class ProfileListItem extends React.Component {
   }
 
   render() {
-    const { profile, profileKey } = this.props
+    const { profile } = this.props
     if (!profile) return <ListItem>...</ListItem>
     return <ListItem leftAvatar={<Avatar src={profile.profileImageURL}/>}
       primaryText={profile.fullName} {...this.props}

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import List from 'material-ui/lib/lists/list'
 import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
-import NavListItem from 'components/NavListItem'
+// import NavListItem from 'components/NavListItem'
 import ProjectListItem from 'containers/Project/ProjectListItem'
 import { createSelector } from 'reselect'
 
@@ -15,7 +15,6 @@ class Container extends React.Component {
           <CreateProjectListItem/>
           {Object.keys(this.props.projects).map(key=>(
             <ProjectListItem key={key} projectKey={key}
-              secondaryText='Admin'
               targetRoute={'/project/'+key}
               />
           ))}

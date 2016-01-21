@@ -29,5 +29,5 @@ const mapStateToProps = createSelector(
 )
 
 export default {
-  component: connect(mapStateToProps)(Doing),
+  component: connect(mapStateToProps)(Doing)
 }

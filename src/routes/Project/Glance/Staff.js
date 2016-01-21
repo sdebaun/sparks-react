@@ -4,7 +4,7 @@ import { createSelector } from 'reselect'
 
 // import List from 'material-ui/lib/lists/list'
 import List from 'components/styled/List'
-import ListItem from 'material-ui/lib/lists/list-item'
+// import ListItem from 'material-ui/lib/lists/list-item'
 
 import CreateInviteListItem from 'containers/Invite/CreateInviteListItem'
 import InviteListItem from 'containers/Invite/InviteListItem'
@@ -58,8 +58,8 @@ const mapStateToProps = createSelector(
   (invites,organizers)=>{ return {invites,organizers} }
 )
 
-import { put } from 'redux-saga';
-import { master } from 'sagas'
+// import { put } from 'redux-saga';
+// import { master } from 'sagas'
 
 export default {
   path: 'staff',

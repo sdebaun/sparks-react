@@ -34,7 +34,7 @@ class Container extends React.Component {
   }
 
   render() {
-    const {invite, project, authorProfile, userProfile, userProjectKeys, params:{inviteKey} } = this.props
+    const {invite, project, authorProfile, userProfile, userProjectKeys} = this.props
     const hasAccess = invite && userProjectKeys && userProjectKeys.includes(invite.projectKey)
 
     if (!(project && authorProfile)) return <PageLoadSpinner/>
@@ -46,7 +46,7 @@ class Container extends React.Component {
         { project && authorProfile && (
 
           <div style={{maxWidth:400,margin:'auto'}}>
-            <ProjectHeader style={{height:'100px'}} primaryText={project.name} secondaryText={invite.authority + " invite"}/>
+            <ProjectHeader style={{height:'100px'}} primaryText={project.name} secondaryText={invite.authority + ' invite'}/>
             <div style={{display:'flex', flexDirection:'column',margin:'0em 1em'}}>
               <h1 style={{textAlign:'center'}}>Hello {userProfile && userProfile.fullName || invite.email}!</h1>
               <Avatar size={128} style={{margin:'auto'}} src={authorProfile.profileImageURL}/>

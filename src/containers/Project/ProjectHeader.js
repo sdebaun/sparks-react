@@ -5,7 +5,7 @@ import LeftNavButton from 'components/LeftNavButton'
 
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
-import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
+// import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
 
 import Colors from 'material-ui/lib/styles/colors';
 

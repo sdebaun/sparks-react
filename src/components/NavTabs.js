@@ -9,15 +9,12 @@ const style = {
 }
 
 class NavTabs extends React.Component {
-  handleChange = (value)=>{
-    console.log('switching to ' + value)
-    this.props.pushPath(value)
-  }
+  static defaultProps = {baseUrl:''}
+
+  handleChange = (value)=>this.props.pushPath(value)
 
   render() {
-    const {baseUrl, route, path, children} = this.props
-    const targetRoute = baseUrl + route
-
+    const {baseUrl, path, children} = this.props
     return (
       <Tabs {...this.props} value={path} onChange={this.handleChange}>
       { Children.map( children, (c)=>cloneElement(c,{style, value:baseUrl+c.props.route}) ) }
@@ -26,23 +23,8 @@ class NavTabs extends React.Component {
   }
 }
 
-    // return (
-    //   <Tabs {...this.props}>
-    //   { React.Children.map( this.props.children, (c)=>{
-    //       return React.cloneElement(c,{style:tabStyle, value:baseUrl + tab.props.route, onActive:tab=>this.props.pushPath(baseUrl + tab.props.route)})
-    //       }
-    //     )
-    //   }
-    //   </Tabs>
-    // )
-
-NavTabs.defaultProps = {baseUrl:''}
-
 const mapStateToProps = (state)=>{ return {path: state.routing.path} }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    pushPath: (...args)=>dispatch(pushPath(...args))
-  }
-}
+const mapDispatchToProps = { pushPath }
+
 export default connect(mapStateToProps,mapDispatchToProps)(NavTabs);
