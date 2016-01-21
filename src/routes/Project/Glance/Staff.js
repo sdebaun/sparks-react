@@ -2,14 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
 
-import List from 'material-ui/lib/lists/list'
+// import List from 'material-ui/lib/lists/list'
+import List from 'components/styled/List'
+import ListItem from 'material-ui/lib/lists/list-item'
 
 import CreateInviteListItem from 'containers/Invite/CreateInviteListItem'
 import InviteListItem from 'containers/Invite/InviteListItem'
 import ProfileListItem from 'containers/Profile/ProfileListItem'
 
-import ActionMenu from 'components/ActionMenu'
-import MenuItem from 'material-ui/lib/menus/menu-item';
+import ActionMenu from 'containers/Organizer/OrganizerActionMenu'
+// import ActionMenu from 'components/ActionMenu'
+// import MenuItem from 'material-ui/lib/menus/menu-item';
 
 class Container extends React.Component {
   render() {
@@ -21,35 +24,20 @@ class Container extends React.Component {
           <CreateInviteListItem projectKey={projectKey}/>
         </List>
         { (invites && (invites.length > 0)) &&
-          <List subheader="Open Invites">
-            {invites && invites.map(invite=>{
-              return ( <InviteListItem key={invite.$key} invite={invite} /> )
-              })
-            }
+          <List header="Open Invites">
+            {invites.map(i=><InviteListItem key={i.$key} invite={i} />)}
           </List>
         }
         { (organizers && (organizers.length > 0)) &&
-          <List subheader="Organizers">
-            {organizers && organizers.map(organizer=>{
-              return <ProfileListItem
-                key={organizer.$key}
-                profileKey={organizer.profileKey}
-                secondaryText='Admin'
-                rightIconButton={
-                  <ActionMenu>
-                    <MenuItem href={'/profile/' + organizer.profileKey} target='new'>Profile</MenuItem>
-                    <MenuItem disabled={true} onTouchTap={this.handleResend}>Remove</MenuItem>
-                  </ActionMenu>
-                }
-                />
-              })
-            }
+          <List header='Organizers'>
+            {organizers.map(o=>( <ProfileListItem key={o.$key} profileKey={o.profileKey}
+              secondaryText='Admin' rightIconButton={<ActionMenu organizer={o}/>} />
+            ))}
           </List>
         }
       </div>
     );
   }
-
 }
 
                 // rightIconButton={<ActionMenu>

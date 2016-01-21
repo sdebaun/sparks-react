@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import Tabs from 'material-ui/lib/tabs/tabs'
 import { pushPath } from 'redux-simple-router'
 
+const tabStyle = {
+  fontSize: '1.2em'
+}
+
 class NavTabs extends React.Component {
   render() {
     const {baseUrl} = this.props
@@ -11,7 +15,7 @@ class NavTabs extends React.Component {
     return (
       <Tabs {...this.props}>
       { React.Children.map( this.props.children, (c)=>{
-          return React.cloneElement(c,{onActive:tab=>this.props.pushPath(baseUrl + tab.props.route)})
+          return React.cloneElement(c,{style:tabStyle, onActive:tab=>this.props.pushPath(baseUrl + tab.props.route)})
           }
         )
       }

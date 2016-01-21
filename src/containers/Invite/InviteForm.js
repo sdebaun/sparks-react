@@ -3,13 +3,18 @@ import {reduxForm} from 'redux-form';
 
 import RaisedButton from 'material-ui/lib/raised-button'
 import TextField from 'material-ui/lib/text-field'
+import SelectField from 'components/SelectField';
+// import DropDownMenu from 'components/DropDownMenu';
+// import DropDownMenu from 'material-ui/lib/DropDownMenu';
+import MenuItem from 'material-ui/lib/menus/menu-item';
 
-export const fields = ['email'];
+export const fields = ['email','authority'];
 
 import {createValidator, isRequired, isEmail} from 'lib/validation'
 
 const validate = createValidator({
-  email: [isEmail, isRequired]
+  email: [isEmail, isRequired],
+  authority: [isRequired]
 })
 
 class InviteForm extends Component {
@@ -20,13 +25,31 @@ class InviteForm extends Component {
     submitting: PropTypes.bool.isRequired
   };
 
+        // <DropDownMenu value={authority.value} onChange={(e,i,v)=>authority.onChange(v)}>
+
   render() {
-    const {fields: {email}, errors, handleSubmit, submitting} = this.props;
+    const {fields: {email,authority}, errors, handleSubmit, submitting} = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <TextField floatingLabelText='Email Address' errorText={email.touched && email.error} {...email} />
+        <TextField floatingLabelText="What's their E-mail Address?" errorText={email.touched && email.error} {...email} />
+        <br/>
+        <SelectField {...authority}
+          floatingLabelText='What authority do they get?'
+          errorText={authority.touched && authority.error}
+          >
+          <MenuItem value='manager' primaryText='Manager'/>
+          <MenuItem value='owner' primaryText='Owner'/>
+        </SelectField>
+        { authority.value=='manager' &&
+          <div>They can manage most things, but they can't add or remove new Admins.</div>
+        }
+        { authority.value=='owner' &&
+          <div>They can change everything about this project, including adding and removing other Owners.</div>
+        }
         <div style={{display:'flex',width:'100%',justifyContent:'flex-end'}}>
-          <RaisedButton disabled={errors.email || submitting} primary={true} onTouchTap={handleSubmit} label='Send Invite' style={{marginRight:'1em'}}/>
+          <RaisedButton disabled={errors.email || submitting}
+            primary={true} onTouchTap={handleSubmit}
+            label='All Aboard!' style={{marginRight:'1em'}}/>
           {this.props.children}
         </div>
       </form>

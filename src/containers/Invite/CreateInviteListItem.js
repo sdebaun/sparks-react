@@ -9,14 +9,16 @@ import Dialog from 'material-ui/lib/dialog'
 // import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
 // import TextField from 'material-ui/lib/text-field'
-
+import IconButton from 'material-ui/lib/icon-button';
 import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
-
+import PersonAddIcon from 'material-ui/lib/svg-icons/social/person-add';
+import FloatingActionButton from 'material-ui/lib/floating-action-button';
 // import Query from 'containers/Query'
 // import NavListItem from 'components/NavListItem'
 import InviteForm from 'containers/Invite/InviteForm'
 
-// import { pushPath } from 'redux-simple-router'
+import AppBar from 'material-ui/lib/app-bar'
+import Colors from 'material-ui/lib/styles/colors';
 
 class CreateInviteListItem extends React.Component {
   state = { open: false }
@@ -28,18 +30,23 @@ class CreateInviteListItem extends React.Component {
   }
 
   render() {
+
+    const tb = <AppBar title='Invite an Admin' style={{backgroundColor:Colors.amber700}}
+      iconElementLeft={<IconButton disabled={true}><PersonAddIcon color='white'/></IconButton>}
+      />
+
     return (
           <ListItem primaryText='Invite Organizer'
             secondaryText='Invite another person to help you manage this project.'
-            leftIcon={<AddCircleIcon/>}
+            leftIcon={<FloatingActionButton mini={true}><PersonAddIcon/></FloatingActionButton>}
             onTouchTap={this.handleOpen}>
-            <Dialog title='Who Are You Inviting?'
+            <Dialog title={tb}
               modal={false}
               open={this.state.open}
               onRequestClose={this.handleClose}
               >
               <InviteForm onSubmit={this.handleSubmit}>
-                <FlatButton onTouchTap={this.handleClose} label='CANCEL' secondary={true}/>
+                <FlatButton onTouchTap={this.handleClose} label='Not Yet' primary={true}/>
               </InviteForm>
             </Dialog>
           </ListItem>
