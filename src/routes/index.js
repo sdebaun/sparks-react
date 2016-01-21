@@ -17,7 +17,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="index" style={{flex:1}}>
+      <div style={{height:'100%'}}>
         {this.props.children}
         <DevTools/>
       </div>

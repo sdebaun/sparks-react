@@ -35,6 +35,7 @@ export default class rfData {
         this.ref.child(collection).child(key).set(val)
         break
       case REMOTE_UPDATE:
+        Object.keys(vals).forEach( k=> !vals[k] && delete vals[k] )
         this.ref.child(collection).child(key).update(vals)
         break
     }

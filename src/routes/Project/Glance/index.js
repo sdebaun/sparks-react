@@ -1,20 +1,27 @@
 import React from 'react';
 
-import ProjectTabs from 'containers/Project/ProjectTabs'
+import NavTabs from 'components/NavTabs'
 import Tab from 'material-ui/lib/tabs/tab'
 
-class Glance extends React.Component {
+class Title extends React.Component {
+  render() { return <div>At a Glance</div> }
+}
+
+class Tabs extends React.Component {
   render() {
     return (
-      <div>
-        <ProjectTabs {...this.props} secondaryText="At a Glance">
-          <Tab label='Whats Up' route='' />
-          <Tab label='Staff' route='/staff' />
-          <Tab label='History' route='/history' />
-        </ProjectTabs>
-        { React.cloneElement(this.props.children, {...this.props}) }
-      </div>
+      <NavTabs {...this.props}>
+        <Tab label='Whats Up' route='' />
+        <Tab label='Staff' route='/staff' />
+        <Tab label='History' route='/history' />
+      </NavTabs>
     );
+  }
+}
+
+class Main extends React.Component {
+  render() {
+    return React.cloneElement(this.props.children, {...this.props})
   }
 }
 
@@ -23,7 +30,7 @@ import Staff from './Staff'
 import History from './History'
 
 export default {
-  component: Glance,
+  components: {Title, Tabs, Main},
   indexRoute: Todos,
   childRoutes: [Staff, History]
 }

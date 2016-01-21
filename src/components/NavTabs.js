@@ -1,32 +1,30 @@
-import React from 'react';
+import React, {Children, cloneElement} from 'react';
 import { connect } from 'react-redux';
 
 import Tabs from 'material-ui/lib/tabs/tabs'
 import { pushPath } from 'redux-simple-router'
 
-class NavTabs extends React.Component {
-  render() {
-    const {baseUrl} = this.props
+const style = {
+  fontSize: '1.1em'
+}
 
+class NavTabs extends React.Component {
+  static defaultProps = {baseUrl:''}
+
+  handleChange = (value)=>this.props.pushPath(value)
+
+  render() {
+    const {baseUrl, path, children} = this.props
     return (
-      <Tabs {...this.props}>
-      { React.Children.map( this.props.children, (c)=>{
-          return React.cloneElement(c,{onActive:tab=>this.props.pushPath(baseUrl + tab.props.route)})
-          }
-        )
-      }
+      <Tabs {...this.props} value={path} onChange={this.handleChange}>
+      { Children.map( children, (c)=>cloneElement(c,{style, value:baseUrl+c.props.route}) ) }
       </Tabs>
     )
   }
 }
 
-NavTabs.defaultProps = {baseUrl:''}
+const mapStateToProps = (state)=>{ return {path: state.routing.path} }
 
-const mapStateToProps = ()=>{return {}}
+const mapDispatchToProps = { pushPath }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    pushPath: (...args)=>dispatch(pushPath(...args))
-  }
-}
 export default connect(mapStateToProps,mapDispatchToProps)(NavTabs);

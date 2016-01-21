@@ -1,9 +1,8 @@
 import { take, put } from 'redux-saga';
-import { LOCAL_UPDATE, AUTH_SUCCESS, AUTH_CLEAR } from 'lib/reduxfire/types';
+import { AUTH_SUCCESS, AUTH_CLEAR } from 'lib/reduxfire/types';
 import { pushPath } from 'redux-simple-router'
-import { ACCEPT_INVITE } from 'actions'
 
-import remote, { Profiles, Users, Invites, Organizers } from 'remote'
+import remote, { Profiles, Users, Organizers } from 'remote'
 
 function* startListening() {
   yield put(remote.auth.listen())
@@ -30,7 +29,7 @@ function* createUserProfileIfMissing(getState) {
   while(true) {
     const {key,data:profileKey} = yield take( Users.takeAny )
     const {auth} = getState()
-    if (!profileKey && (userResult.key == auth.uid)) {
+    if (!profileKey && (key == auth.uid)) {
       const newProfileRef = yield put(Profiles.actions.create(auth))
       yield put( Users.actions.set(auth.uid, newProfileRef.key()) )
     }
@@ -58,7 +57,7 @@ function* logoutRedirect(getState) {
   while(true) {
     yield take(AUTH_CLEAR)
     const {routing: { path } } = getState()
-    if (LOGOUT_REDIRECT_AWAY.reduce( (acc,val)=>acc || path.includes(val) )) {
+    if (LOGOUT_REDIRECT_AWAY.reduce( (acc,val)=>(acc || path.includes(val)),false )) {
       yield put( pushPath('/') )
     }
   }

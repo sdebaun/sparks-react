@@ -3,10 +3,16 @@ import { connect } from 'react-redux';
 
 import ListItem from 'material-ui/lib/lists/list-item'
 import { pushPath } from 'redux-simple-router'
+import Colors from 'material-ui/lib/styles/colors';
 
 class NavListItem extends React.Component {
   render() {
-    return <ListItem {...this.props} onTouchTap={()=>this.props.pushPath(this.props.route)}/>
+    const isActive = this.props.location && (this.props.location.pathname==this.props.targetRoute) ||
+      this.props.activeFor && this.props.activeFor.reduce( (acc,val)=>(
+        acc || (this.props.location.pathname == this.props.targetRoute + val)
+      ),false)
+    const selectedStyle =  isActive && {borderLeft:'0.5em solid',borderColor:Colors.amber700} || {}
+    return <ListItem {...this.props} style={selectedStyle} onTouchTap={()=>this.props.pushPath(this.props.targetRoute)}/>
   }
 }
 
