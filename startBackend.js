@@ -26,6 +26,7 @@ fb.child('Invites').on('child_added', function(snap) {
 fb.child('Invites').on('child_changed', function(snap){
   var invite = snap.val()
   if (!invite.isComplete && invite.claimedProfileKey) {
+    console.log('invite accepted, add organizer', invite)
     fb.child('Organizers').push({
       profileKey: invite.claimedProfileKey,
       projectKey: invite.projectKey

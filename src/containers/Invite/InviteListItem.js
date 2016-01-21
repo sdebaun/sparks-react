@@ -24,7 +24,10 @@ class InviteListItem extends React.Component {
 
     return (
       <ListItem primaryText={invite.email}
-        secondaryText={invite.lastSent && <TimeAgo date={invite.lastSent} minPeriod={10}/> || 'Sending...'}
+        secondaryText={ invite.lastSent &&
+          <div>{invite.authority} invite sent <TimeAgo date={invite.lastSent} minPeriod={10}/></div> ||
+          <div>{invite.authority} invite sending soon...</div>
+        }
         leftIcon={<EmailIcon/>}
         rightIconButton={
           <ActionMenu>

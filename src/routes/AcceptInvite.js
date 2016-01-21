@@ -13,6 +13,8 @@ import MainBar from 'components/MainBar'
 
 // import { pushPath } from 'redux-simple-router'
 
+import Avatar from 'material-ui/lib/avatar'
+
 // import ShowIf from 'components/ShowIf'
 // import IsMobile from 'components/IsMobile'
 // import IsDesktop from 'components/IsDesktop'
@@ -39,23 +41,27 @@ class Container extends React.Component {
         <MainBar />
         { !(project && authorProfile) && <PageLoadSpinner/>}
         { project && authorProfile && (
-          <div>
+          <div style={{maxWidth:400,margin:'auto'}}>
             <ProjectHeader style={{height:'100px'}} primaryText={project.name} secondaryText={invite.authority + " invite"}/>
-            <div style={{display:'flex', margin:'0em 1em'}}>
-              <h1>Hello {invite.email}!</h1>
-              <h2>
-                {authorProfile.fullName} has invited you to join {project.name}
-              </h2>
-              { userProfile && (
-                <div>
-                <RaisedButton onTouchTap={this.handle} label='Accept This Invitation'/>
-                </div>
-              )}
-              { !userProfile && (
-                <div>
-                <LoginButton provider='google'/>
-                </div>
-              )}
+            <div style={{display:'flex', flexDirection:'column',margin:'0em 1em'}}>
+              <h1 style={{textAlign:'center'}}>Hello {userProfile && userProfile.fullName || invite.email}!</h1>
+              <Avatar size={128} style={{margin:'auto'}} src={authorProfile.profileImageURL}/>
+              <p>
+               <b>{authorProfile.fullName}</b> has invited you to join <b>{project.name}</b> with <b>{invite.authority}</b> authority.
+              </p>
+              { (invite.authority=='owner') &&
+                <p>As an <b>Owner</b>, you will have complete and total control over the volunteer project.  Can you handle the power?</p>
+              }
+              { (invite.authority=='manager') &&
+
+                <p>As a <b>Manager</b>, you will be able to do everything except create new teams, opportunities, or invite other managers.</p>
+              }
+              <div style={{display:'flex',justifyContent:'center'}}>
+                { userProfile && 
+                  <RaisedButton primary={true} onTouchTap={this.handle} label='With Great Power Etc.'/> ||
+                  <LoginButton provider='google'/>
+                }
+              </div>
             </div>
           </div>
           )}
@@ -65,7 +71,7 @@ class Container extends React.Component {
 
 }
 
-import { Invites, Projects, Profiles } from 'remote'
+import { Invites, Projects, Profiles, Users } from 'remote'
 
 const selectedInvite = createSelector(
   Invites.select.collection,
@@ -101,6 +107,7 @@ const mapDispatchToProps = {
 
 import { put, take } from 'redux-saga';
 import { master } from 'sagas';
+import { pushPath } from 'redux-simple-router'
 
 export default {
   path:'acceptInvite/:inviteKey',
@@ -113,6 +120,16 @@ export default {
     })
     master.start( function*() {
       yield put( Invites.actions.watch(route.params.inviteKey) )
+    })
+    master.start( function*(getState) {
+      while (true) {
+        const {data:{projectKey, claimedProfileKey,isComplete}} = yield take( Invites.taker(route.params.inviteKey) )
+        const userProfileKey = Users.select.authed(getState())
+        if (isComplete && (userProfileKey==claimedProfileKey)) {
+          yield put( pushPath('/project/' + projectKey) )
+          return
+        }
+      }
     })
   }
 }

@@ -14,16 +14,16 @@ class Main extends React.Component {
   render() {
     const {Title, Tabs, Main, project, params:{projectKey}} = this.props
     return (
-      <div className="index">
+      <div style={{height:'100%'}}>
         <MainBar />
         { !project && <PageLoadSpinner/>}
         { project &&
-          <div style={{display:'flex'}}>
+          <div style={{height:'100%',display:'flex'}}>
             <SideNav>
               <IsDesktop>
                 <ProjectHeader style={{height:100}} primaryText={project.name} />
               </IsDesktop>
-              <ProjectNavList baseUrl={'/project/'+projectKey}/>
+              <ProjectNavList baseUrl={'/project/'+projectKey} {...this.props}/>
             </SideNav>
             <div style={{flex:1}}>
               <IsDesktop>{ React.cloneElement(Tabs,{baseUrl:'/project/'+projectKey}) }</IsDesktop>
@@ -59,12 +59,18 @@ import { master } from 'sagas'
 
 import Glance from './Glance'
 import Manage from './Manage'
+import {Organizers,Invites} from 'remote'
 
 export default {
   path: 'project/:projectKey',
   component: connect(mapStateToProps)(Main),
   childRoutes: [ Glance, Manage ],
-  onEnter: (route)=>master.start( function*() {
-    yield put( Projects.actions.watch(route.params.projectKey) )
-  })
+  onEnter: (route)=>{
+    master.start( function*() {
+      yield put( Projects.actions.watch(route.params.projectKey) )
+      const params = { orderByChild:'projectKey', equalTo:route.params.projectKey }
+      yield put( Organizers.actions.query(params) )
+      yield put( Invites.actions.query(params) )
+    })
+  }
 }

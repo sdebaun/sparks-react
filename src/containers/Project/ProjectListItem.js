@@ -30,16 +30,13 @@ class Container extends React.Component {
   }
 
   render() {
-    const { project, projectKey, route } = this.props
+    const { project, projectKey, targetRoute } = this.props
     if (!project) return <ListItem>...</ListItem>
-    return route ? <NavListItem primaryText={project.name} {...this.props}/> :
+    return targetRoute ? <NavListItem primaryText={project.name} {...this.props}/> :
       <ListItem primaryText={project.name} {...this.props}/>
   }
 
 }
-        // secondaryText={invite.lastSent && <TimeAgo date={invite.lastSent} minPeriod={10}/> || 'Sending...'}
-        // leftIcon={<EmailIcon/>}
-        // rightIconButton={rightIconMenu} />
 
 const mapStateToProps = createSelector(
   Projects.select.matching('projectKey'),

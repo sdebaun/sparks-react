@@ -9,7 +9,7 @@ class Doing extends React.Component {
         { this.props.organizers.map( org=>
           <ProjectListItem key={org.$key} projectKey={org.projectKey}
             secondaryText='Admin'
-            route={'/project/'+org.projectKey}
+            targetRoute={'/project/'+org.projectKey}
             />
         )}
       </div>

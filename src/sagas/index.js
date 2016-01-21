@@ -30,7 +30,7 @@ function* createUserProfileIfMissing(getState) {
   while(true) {
     const {key,data:profileKey} = yield take( Users.takeAny )
     const {auth} = getState()
-    if (!profileKey && (userResult.key == auth.uid)) {
+    if (!profileKey && (key == auth.uid)) {
       const newProfileRef = yield put(Profiles.actions.create(auth))
       yield put( Users.actions.set(auth.uid, newProfileRef.key()) )
     }
@@ -58,7 +58,8 @@ function* logoutRedirect(getState) {
   while(true) {
     yield take(AUTH_CLEAR)
     const {routing: { path } } = getState()
-    if (LOGOUT_REDIRECT_AWAY.reduce( (acc,val)=>acc || path.includes(val) )) {
+    if (LOGOUT_REDIRECT_AWAY.reduce( (acc,val)=>(acc || path.includes(val)),false )) {
+      console.log('redirect!', path, LOGOUT_REDIRECT_AWAY)
       yield put( pushPath('/') )
     }
   }

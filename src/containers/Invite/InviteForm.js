@@ -41,10 +41,10 @@ class InviteForm extends Component {
           <MenuItem value='owner' primaryText='Owner'/>
         </SelectField>
         { authority.value=='manager' &&
-          <div>They can manage most things, but they can't add or remove new Admins.</div>
+          <p>They can manage most things, but they can't add or remove new Admins.</p>
         }
         { authority.value=='owner' &&
-          <div>They can change everything about this project, including adding and removing other Owners.</div>
+          <p>They can change everything about this project, including adding and removing other Owners.</p>
         }
         <div style={{display:'flex',width:'100%',justifyContent:'flex-end'}}>
           <RaisedButton disabled={errors.email || submitting}
