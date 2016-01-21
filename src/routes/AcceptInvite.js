@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
 
+import Narrow from 'components/Narrow'
+
 import RaisedButton from 'material-ui/lib/raised-button'
 import MainBar from 'components/MainBar'
 
@@ -45,28 +47,28 @@ class Container extends React.Component {
         { !(project && authorProfile) && <PageLoadSpinner/>}
         { project && authorProfile && (
 
-          <div style={{maxWidth:400,margin:'auto'}}>
-            <ProjectHeader style={{height:'100px'}} primaryText={project.name} secondaryText={invite.authority + ' invite'}/>
-            <div style={{display:'flex', flexDirection:'column',margin:'0em 1em'}}>
-              <h1 style={{textAlign:'center'}}>Hello {userProfile && userProfile.fullName || invite.email}!</h1>
-              <Avatar size={128} style={{margin:'auto'}} src={authorProfile.profileImageURL}/>
-              <p>
-               <b>{authorProfile.fullName}</b> has invited you to join <b>{project.name}</b> with <b>{invite.authority}</b> authority.
-              </p>
-              { (invite.authority=='owner') &&
-                <p>As an <b>Owner</b>, you will have complete and total control over the volunteer project.  Can you handle the power?</p>
-              }
-              { (invite.authority=='manager') &&
-                <p>As a <b>Manager</b>, you will be able to do everything except create new teams, opportunities, or invite other managers.</p>
-              }
-              <div style={{display:'flex',justifyContent:'center'}}>
-                { hasAccess && <div>If you didn't already have access to this project, you'd be able to claim it.</div>}
-                { !hasAccess && userProfile &&  <RaisedButton primary={true} onTouchTap={this.handle} label='With Great Power Etc.'/>}
-                { !userProfile &&  <LoginButton provider='google'/> }
-              </div>
+        <Narrow>
+          <ProjectHeader style={{height:'100px'}} primaryText={project.name} secondaryText={invite.authority + ' invite'}/>
+          <div style={{display:'flex', flexDirection:'column',margin:'0em 1em'}}>
+            <h1 style={{textAlign:'center'}}>Hello {userProfile && userProfile.fullName || invite.email}!</h1>
+            <Avatar size={128} style={{margin:'auto'}} src={authorProfile.profileImageURL}/>
+            <p>
+             <b>{authorProfile.fullName}</b> has invited you to join <b>{project.name}</b> with <b>{invite.authority}</b> authority.
+            </p>
+            { (invite.authority=='owner') &&
+              <p>As an <b>Owner</b>, you will have complete and total control over the volunteer project.  Can you handle the power?</p>
+            }
+            { (invite.authority=='manager') &&
+              <p>As a <b>Manager</b>, you will be able to do everything except create new teams, opportunities, or invite other managers.</p>
+            }
+            <div style={{display:'flex',justifyContent:'center'}}>
+              { hasAccess && <div>If you didn't already have access to this project, you'd be able to claim it.</div>}
+              { !hasAccess && userProfile &&  <RaisedButton primary={true} onTouchTap={this.handle} label='With Great Power Etc.'/>}
+              { !userProfile &&  <LoginButton provider='google'/> }
             </div>
           </div>
-          )}
+        </Narrow>
+        )}
       </div>
     );
   }

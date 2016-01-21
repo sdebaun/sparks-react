@@ -16,7 +16,7 @@ Object.assign(Users.select,{
 export const Profiles = remote.data.model('Profiles', {
   actions: {
     create: (authData)=>Profiles.actions.push(OAuthToProfile(authData)),
-    confirm: (profileKey)=>Profiles.actions.update(profileKey,{isConfirmed:true})
+    confirm: (key,data)=>Profiles.actions.update(key,Object.assign({isConfirmed:true},data))
   }
 })
 Object.assign(Profiles.select,{
