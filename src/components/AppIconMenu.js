@@ -1,4 +1,4 @@
-require('normalize.css');
+// require('normalize.css');
 // require('styles/App.css');
 
 import React from 'react';
@@ -13,6 +13,7 @@ import IconButton from 'material-ui/lib/icon-button';
 import IconMenu from 'material-ui/lib/menus/icon-menu';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/lib/menus/menu-item';
+import Avatar from 'material-ui/lib/avatar';
 
 // import { Link } from 'react-router';
 import { pushPath } from 'redux-simple-router'
@@ -24,9 +25,12 @@ import remote from '../remote'
 
 class AppIconMenu extends React.Component {
   render() {
+    const button = this.props.userProfile &&
+      <Avatar src={this.props.userProfile.profileImageURL}/> ||
+      <IconButton><MoreVertIcon color='white'/></IconButton>
     return (
       <IconMenu
-        iconButtonElement={<IconButton><MoreVertIcon color='white'/></IconButton>}
+        iconButtonElement={button}
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
@@ -45,9 +49,13 @@ class AppIconMenu extends React.Component {
   }
 }
 
-function mapStateToProps() {
-  return {}
-}
+import { Profiles } from 'remote'
+import { createSelector } from 'reselect'
+
+const mapStateToProps = createSelector(
+  Profiles.select.authed,
+  (userProfile)=>{ return {userProfile} }
+)
 
 const mapDispatchToProps = {
   login: remote.auth.login,
