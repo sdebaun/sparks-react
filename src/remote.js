@@ -30,6 +30,19 @@ Object.assign(Profiles.select,{
 export const Projects = remote.data.model('Projects')
 
 export const Organizers = remote.data.model('Organizers')
+Object.assign(Organizers.select,{
+  authed: createSelector(
+    Users.select.authed,
+    Organizers.select.rows,
+    (userProfileKey,organizers)=> organizers.filter( o=>o.profileKey==userProfileKey )
+  )
+})
+Object.assign(Organizers.select,{
+  authedProjectKeys: createSelector(
+    Organizers.select.authed,
+    (organizers)=>organizers.map(o=>o.projectKey)
+  )
+})
 
 export const Invites = remote.data.model('Invites', {
   actions: {

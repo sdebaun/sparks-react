@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import List from 'material-ui/lib/lists/list'
 import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
 import NavListItem from 'components/NavListItem'
+import ProjectListItem from 'containers/Project/ProjectListItem'
 import { createSelector } from 'reselect'
 
 class Container extends React.Component {
@@ -12,9 +13,12 @@ class Container extends React.Component {
       <div className="index">
         <List>
           <CreateProjectListItem/>
-          {Object.keys(this.props.projects).map(key=>{
-            return <NavListItem key={key} route={'/project/'+key} primaryText={this.props.projects[key].name}/>
-          })}
+          {Object.keys(this.props.projects).map(key=>(
+            <ProjectListItem key={key} projectKey={key}
+              secondaryText='Admin'
+              targetRoute={'/project/'+key}
+              />
+          ))}
         </List>
       </div>
     );
