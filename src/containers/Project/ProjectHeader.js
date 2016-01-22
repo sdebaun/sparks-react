@@ -9,14 +9,12 @@ import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
 
 import Colors from 'material-ui/lib/styles/colors';
 
-        // <Toolbar style={Object.assign({backgroundColor:'transparent', display:'flex', alignItems:'center'},this.props.style)}>
-
 class ProjectHeader extends React.Component {
   render() {
     const {sideNav} = this.props
     const style = {
       display:'flex', flexDirection:'column', justifyContent:'flex-end',
-      background: 'linear-gradient(rgba(0,0,0,0.70),rgba(0,0,0,0.80)), url('+this.props.imageUrl+')',
+      backgroundImage: 'linear-gradient(rgba(0,0,0,0.70),rgba(0,0,0,0.80)), url('+this.props.imageUrl+')',
       zIndex: 0,
       backgroundSize: 'cover'
     }
@@ -44,7 +42,3 @@ class ProjectHeader extends React.Component {
 
 export default ProjectHeader;
 
-        // <div style={Object.assign({display:'flex',flexDirection:'row'},this.props.style)}>
-        // </div>
-
-        // { this.props.children && React.cloneElement(this.props.children, {style:{backgroundColor:'transparent'}}) }
