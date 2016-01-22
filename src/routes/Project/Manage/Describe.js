@@ -4,6 +4,7 @@ import React from 'react';
 import Content from 'components/Content'
 
 import Cropper from 'react-crop'
+import Dropzone from 'react-dropzone'
 
 class Describe extends React.Component {
   state = {
@@ -11,7 +12,7 @@ class Describe extends React.Component {
     previewUrl: null
   }
 
-  onChange = (evt)=>this.setState({image:evt.target.files[0]})
+  onDrop = (files)=>this.setState({image:files[0]})
 
   crop = async ()=>{
     let image = await this.refs.crop.cropImage()
@@ -35,7 +36,9 @@ class Describe extends React.Component {
   render() {
     return (
       <Content>
-        <p>Find a cool background image to help identify your project.</p>
+        <Dropzone ref='dropzone' onDrop={this.onDrop} multiple={false}>
+          <div>Find a cool background image to help identify your project.</div>
+        </Dropzone>
         <input ref='file' type='file' onChange={this.onChange}/>
         {this.state.image &&
           <div>
