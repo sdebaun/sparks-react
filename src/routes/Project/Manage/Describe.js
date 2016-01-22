@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect'
+
 import Content from 'components/Content'
 
 import Cropper from 'react-cropper'
@@ -35,6 +38,11 @@ import AddAPhotoIcon from 'material-ui/lib/svg-icons/image/add-a-photo';
 class Describe extends React.Component {
   state = initialState
 
+  save = ()=>{
+    this.props.set(this.props.projectKey,{dataUrl:this.state.previewUrl})
+    this.setState({pickingImage:false})
+  }
+
   onImageChange = (dataUrl)=>this.setState({previewUrl: dataUrl})
 
   render() {
@@ -47,7 +55,7 @@ class Describe extends React.Component {
           <div style={{display:'flex',flexDirection:'row',flexWrap:'wrap'}}>
             <div style={{padding:'0.5em',minWidth:300,flexGrow:1}}>
               <DropAndCrop key='dnc' onImageChange={onImageChange} style={{height:200}}>
-                <RaisedButton primary={true} label='Use This'/>
+                <RaisedButton primary={true} label='Use This' onTouchTap={this.save}/>
               </DropAndCrop>
             </div>
             { previewUrl &&
@@ -57,9 +65,9 @@ class Describe extends React.Component {
                   <ProjectHeader style={{width:450,height:150}} imageUrl={previewUrl} primaryText={project.name} secondaryText='Applications Open!'/>
                 </IsDesktop>
                 <h4>Desktop Menu</h4>
-                <ProjectHeader style={{width:240,height:80}} imageUrl={previewUrl} primaryText='Your Project'/>
+                <ProjectHeader style={{width:240,height:80}} imageUrl={previewUrl} primaryText={project.name}/>
                 <h4>Mobile Header</h4>
-                <ProjectHeader style={{width:330,height:110}} imageUrl={previewUrl} primaryText='Your Project' secondaryText='Subtitle'>
+                <ProjectHeader style={{width:330,height:110}} imageUrl={previewUrl} primaryText={project.name} secondaryText='Subtitle'>
                   <Tabs {...this.props}>
                     <Tab label='Hot'/>
                     <Tab label='Apple'/>
@@ -73,11 +81,30 @@ class Describe extends React.Component {
         <Divider/>
       </List>
       <p>Your project can include many events on many different days.  What's the common theme?</p>
-      
+
     </Content>
   }
 }
 
+import { Projects, ProjectImages } from 'remote'
+
+const selectedProject = createSelector(
+  Projects.select.collection,
+  (state,ownProps)=>ownProps.params.projectKey,
+  (projects,projectKey)=>projects && projects[projectKey]
+)
+
+const mapStateToProps = createSelector(
+  selectedProject,
+  (project)=>{ return {project} }
+)
+
+const mapDispatchToProps = {
+  set: ProjectImages.actions.set
+}
+
+
+
 export default {
-  component: Radium(Describe)
+  component: connect(mapStateToProps,mapDispatchToProps)(Radium(Describe))
 }

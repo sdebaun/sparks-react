@@ -12,16 +12,16 @@ import ProjectHeader from 'containers/Project/ProjectHeader'
 
 class Main extends React.Component {
   render() {
-    const {Title, Tabs, Main, project, params:{projectKey}} = this.props
+    const {Title, Tabs, Main, project, projectImage, params:{projectKey}} = this.props
     return (
       <div style={{height:'100%'}}>
         <MainBar />
-        { !project && <PageLoadSpinner/>}
-        { project &&
+        { !(project && projectImage) && <PageLoadSpinner/>}
+        { project && projectImage &&
           <div style={{height:'100%',display:'flex'}}>
             <SideNav>
               <IsDesktop>
-                <ProjectHeader style={{height:100}} primaryText={project.name} />
+                <ProjectHeader imageUrl={projectImage.dataUrl} style={{height:100}} primaryText={project.name} />
               </IsDesktop>
               <ProjectNavList baseUrl={'/project/'+projectKey} {...this.props}/>
             </SideNav>
@@ -41,17 +41,26 @@ class Main extends React.Component {
   }
 }
 
-import { Projects } from 'remote'
+import { Projects, ProjectImages } from 'remote'
+
+const selectedProjectKey = (state,ownProps)=>ownProps.params.projectKey
 
 const selectedProject = createSelector(
   Projects.select.collection,
-  (state,ownProps)=>ownProps.params.projectKey,
+  selectedProjectKey,
   (projects,projectKey)=>projects && projects[projectKey]
+)
+
+const selectedProjectImage = createSelector(
+  ProjectImages.select.collection,
+  selectedProjectKey,
+  (projectImages,projectKey)=>projectImages && projectImages[projectKey]
 )
 
 const mapStateToProps = createSelector(
   selectedProject,
-  (project)=>{ return {project} }
+  selectedProjectImage,
+  (project,projectImage)=>{ return {project,projectImage} }
 )
 
 import { put } from 'redux-saga';
@@ -68,6 +77,7 @@ export default {
   onEnter: (route)=>{
     master.start( function*() {
       yield put( Projects.actions.watch(route.params.projectKey) )
+      yield put( ProjectImages.actions.watch(route.params.projectKey) )
       const params = { orderByChild:'projectKey', equalTo:route.params.projectKey }
       yield put( Organizers.actions.query(params) )
       yield put( Invites.actions.query(params) )

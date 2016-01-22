@@ -37,10 +37,10 @@ class Container extends React.Component {
   }
 
   render() {
-    const {invite, project, authorProfile, userProfile, userProjectKeys} = this.props
+    const {invite, project, projectImage, authorProfile, userProfile, userProjectKeys} = this.props
     const hasAccess = invite && userProjectKeys && userProjectKeys.includes(invite.projectKey)
 
-    if (!(project && authorProfile)) return <PageLoadSpinner/>
+    if (!(project && projectImage && authorProfile)) return <PageLoadSpinner/>
     if (invite.isComplete) return <h1>This Invite has been Claimed.</h1>
     return (
       <div className="index">
@@ -49,7 +49,7 @@ class Container extends React.Component {
         { project && authorProfile && (
 
         <Narrow>
-          <ProjectHeader style={{height:'150px'}} primaryText={project.name} secondaryText={invite.authority + ' invite'}/>
+          <ProjectHeader imageUrl={projectImage.dataUrl} style={{height:'150px'}} primaryText={project.name} secondaryText={invite.authority + ' invite'}/>
           <Content>
             <h1 style={{textAlign:'center'}}>Hello {userProfile && userProfile.fullName || invite.email}!</h1>
             <Avatar size={128} style={{margin:'auto'}} src={authorProfile.profileImageURL}/>
@@ -76,7 +76,7 @@ class Container extends React.Component {
 
 }
 
-import { Invites, Projects, Profiles, Users, Organizers } from 'remote'
+import { Invites, Projects, ProjectImages, Profiles, Users, Organizers } from 'remote'
 
 const selectedInvite = createSelector(
   Invites.select.collection,
@@ -90,6 +90,12 @@ const selectedProject = createSelector(
   (invite,projects)=>invite && projects[invite.projectKey]
   )
 
+const selectedProjectImage = createSelector(
+  selectedInvite,
+  ProjectImages.select.collection,
+  (invite,projectImages)=>invite && projectImages && projectImages[invite.projectKey]
+)
+
 const selectedAuthorProfile = createSelector(
   selectedInvite,
   Profiles.select.collection,
@@ -99,11 +105,12 @@ const selectedAuthorProfile = createSelector(
 const mapStateToProps = createSelector(
   selectedInvite,
   selectedProject,
+  selectedProjectImage,
   selectedAuthorProfile,
   Profiles.select.authed,
   Organizers.select.authedProjectKeys,
-  (invite,project,authorProfile,userProfile,userProjectKeys)=>{
-    return {invite,project,authorProfile,userProfile,userProjectKeys}
+  (invite,project,projectImage,authorProfile,userProfile,userProjectKeys)=>{
+    return {invite,project,projectImage,authorProfile,userProfile,userProjectKeys}
   }
 )
 
@@ -122,6 +129,7 @@ export default {
     master.start( function*() {
       const inviteUpdate = yield take( Invites.taker(route.params.inviteKey) )
       yield put( Projects.actions.watch(inviteUpdate.data.projectKey) )
+      yield put( ProjectImages.actions.watch(inviteUpdate.data.projectKey) )
       yield put( Profiles.actions.watch(inviteUpdate.data.authorProfileKey) )
     })
     master.start( function*() {
