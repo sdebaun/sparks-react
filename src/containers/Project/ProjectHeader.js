@@ -1,4 +1,5 @@
 import React from 'react';
+import Radium from 'radium'
 
 import IsMobile from 'components/IsMobile'
 import LeftNavButton from 'components/LeftNavButton'
@@ -14,13 +15,15 @@ class ProjectHeader extends React.Component {
     const {sideNav} = this.props
     const style = {
       display:'flex', flexDirection:'column', justifyContent:'flex-end',
-      backgroundImage: 'linear-gradient(rgba(0,0,0,0.70),rgba(0,0,0,0.80)), url('+this.props.imageUrl+')',
+      backgroundImage: 'linear-gradient(rgba(0,0,0,0.60),rgba(0,0,0,0.90)), url('+this.props.imageUrl+')',
       zIndex: 0,
-      backgroundSize: 'cover'
+      backgroundSize: 'cover' //,
+      // '@media(min-width:480px)': {
+      //   width: 256, height: 128
+      // }
     }
     return (
-
-      <div style={{...style , ...this.props.style}}>
+      <div style={[style,this.props.style]}>
         <Toolbar style={{backgroundColor:'transparent', display:'flex', alignItems:'center'}}>
           { sideNav &&
             <ToolbarGroup firstChild={true}>
@@ -40,5 +43,5 @@ class ProjectHeader extends React.Component {
   }
 }
 
-export default ProjectHeader;
+export default Radium(ProjectHeader);
 

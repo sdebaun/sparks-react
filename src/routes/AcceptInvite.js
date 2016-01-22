@@ -49,7 +49,7 @@ class Container extends React.Component {
         { project && authorProfile && (
 
         <Narrow>
-          <ProjectHeader style={{height:'100px'}} primaryText={project.name} secondaryText={invite.authority + ' invite'}/>
+          <ProjectHeader style={{height:'150px'}} primaryText={project.name} secondaryText={invite.authority + ' invite'}/>
           <Content>
             <h1 style={{textAlign:'center'}}>Hello {userProfile && userProfile.fullName || invite.email}!</h1>
             <Avatar size={128} style={{margin:'auto'}} src={authorProfile.profileImageURL}/>
