@@ -28,7 +28,7 @@ class Main extends React.Component {
             <div style={{flex:1}}>
               <IsDesktop>{ React.cloneElement(Tabs,{baseUrl:'/project/'+projectKey}) }</IsDesktop>
               <IsMobile>
-                <ProjectHeader sideNav={true} primaryText={project.name} secondaryText={Title}>
+                <ProjectHeader imageUrl={projectImage.dataUrl} sideNav={true} primaryText={project.name} secondaryText={Title}>
                   { React.cloneElement(Tabs,{baseUrl:'/project/'+projectKey}) }
                 </ProjectHeader>
               </IsMobile>
