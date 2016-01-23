@@ -13,7 +13,7 @@ class SideNav extends React.Component {
           <NavPopout>{ this.props.children }</NavPopout>
         </IsMobile>
         <IsDesktop>
-          <div style={{height:'100%', width:256}}>{this.props.children}</div>
+          <div style={{height:'100%', width:300}}>{this.props.children}</div>
         </IsDesktop>
       </div>
     );
