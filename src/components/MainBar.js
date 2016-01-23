@@ -14,7 +14,7 @@ class MainBar extends React.Component {
   render() {
     const { showMenu } = this.props
     return (
-      <AppBar style={{display:'flex',alignItems:'center'}} iconElementRight={showMenu ? <AppIconMenu/> : <div/>} iconElementLeft={
+      <AppBar style={{display:'flex',alignItems:'center',minHeight:0}} iconElementRight={showMenu ? <AppIconMenu/> : <div/>} iconElementLeft={
         <div style={{display:'flex',alignItems:'center'}}><HeaderLogo linkTo='/dash'/></div>
         }/>
     );

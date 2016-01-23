@@ -8,9 +8,9 @@ class Doing extends React.Component {
     return (
       <div className="index">
         { organizers && (organizers.length > 0) &&
-          <List header='organizing' style={{paddingTop:0}}>
+          <List header='organizing'>
           { organizers.map( o=>
-            <ProjectListItem key={o.$key} projectKey={o.projectKey} secondaryText={o.authority} targetRoute={'/project/'+o.projectKey} />
+            <ProjectListItem key={o.$key} projectKey={o.projectKey} secondaryText={o.authority} />
           )}
           </List>
         }

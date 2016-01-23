@@ -1,15 +1,33 @@
 import React from 'react';
 
-class Describe extends React.Component {
+import Content from 'components/Content'
+
+import List from 'material-ui/lib/lists/list'
+import Divider from 'material-ui/lib/divider'
+
+import Radium from 'radium'
+
+import ChooseProjectImageListItem from 'containers/ProjectImage/ChooseProjectImageListItem'
+import EditProjectDescriptionListItem from 'containers/Project/EditProjectDescriptionListItem'
+import RenameProjectListItem from 'containers/Project/RenameProjectListItem'
+
+class Page extends React.Component {
   render() {
+    const {props:{projectKey}} = this
     return (
-      <div className="index">
-        Describe
-      </div>
-    );
+      <Content>
+        <List>
+          <ChooseProjectImageListItem projectKey={projectKey}/>
+          <Divider/>
+          <EditProjectDescriptionListItem projectKey={projectKey}/>
+          <Divider/>
+          <RenameProjectListItem projectKey={projectKey}/>
+        </List>
+      </Content>
+    )
   }
 }
 
 export default {
-  component: Describe
+  component: Radium(Page)
 }

@@ -4,17 +4,19 @@ import {reduxForm} from 'redux-form';
 import RaisedButton from 'material-ui/lib/raised-button'
 import TextField from 'material-ui/lib/text-field'
 
-export const fields = ['name'];
+import { Grid } from 'react-flexr'
+
+export const fields = ['description'];
 
 const validate = values => {
   const errors = {};
-  if (!values.name) {
-    errors.name = 'Required';
+  if (!values.description) {
+    errors.description = 'Required';
   }
   return errors;
 };
 
-class SynchronousValidationForm extends Component {
+class Form extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -23,14 +25,14 @@ class SynchronousValidationForm extends Component {
   };
 
   render() {
-    const {fields: {name}, errors, handleSubmit, submitting} = this.props;
+    const {fields: {description}, errors, handleSubmit, submitting} = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <TextField floatingLabelText='Name' errorText={name.touched && name.error} {...name} />
-        <div style={{display:'flex',width:'100%',justifyContent:'flex-end'}}>
-          <RaisedButton disabled={!!errors.name || submitting} primary={true} onTouchTap={handleSubmit} label='OK' style={{marginRight:'1em'}}/>
+        <TextField floatingLabelText='Describe It' errorText={description.touched && description.error} {...description} />
+        <Grid hAlign='right'>
+          <RaisedButton disabled={!!errors.description || submitting} primary={true} onTouchTap={handleSubmit} label='OK'/>
           {this.props.children}
-        </div>
+        </Grid>
       </form>
     );
   }
@@ -40,4 +42,4 @@ export default reduxForm({
   form: 'synchronousValidation',
   fields,
   validate
-})(SynchronousValidationForm);
+})(Form);

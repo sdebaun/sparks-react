@@ -1,13 +1,11 @@
 import React from 'react';
 
+import ProjectTodos from 'containers/Project/ProjectTodos'
+
 class Todos extends React.Component {
-  render() {
-    return (
-      <div className="index">
-        <h1>Todos</h1>
-      </div>
-    );
-  }
+  render = ()=><div>
+    <ProjectTodos projectKey={this.props.projectKey}/>
+  </div>
 }
 
 export default {

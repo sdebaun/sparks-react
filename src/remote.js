@@ -29,6 +29,8 @@ Object.assign(Profiles.select,{
 
 export const Projects = remote.data.model('Projects')
 
+export const ProjectImages = remote.data.model('ProjectImages')
+
 export const Organizers = remote.data.model('Organizers')
 Object.assign(Organizers.select,{
   authed: createSelector(

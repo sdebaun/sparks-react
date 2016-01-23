@@ -20,6 +20,7 @@ import Avatar from 'material-ui/lib/avatar'
 // import ShowIf from 'components/ShowIf'
 // import IsMobile from 'components/IsMobile'
 // import IsDesktop from 'components/IsDesktop'
+import Content from 'components/Content'
 import PageLoadSpinner from 'components/PageLoadSpinner'
 // import Fetch from 'containers/Fetch'
 import ProjectHeader from 'containers/Project/ProjectHeader'
@@ -36,46 +37,45 @@ class Container extends React.Component {
   }
 
   render() {
-    const {invite, project, authorProfile, userProfile, userProjectKeys} = this.props
+    const {invite, project, projectImage, authorProfile, userProfile, userProjectKeys} = this.props
     const hasAccess = invite && userProjectKeys && userProjectKeys.includes(invite.projectKey)
 
-    if (!(project && authorProfile)) return <PageLoadSpinner/>
-    if (invite.isComplete) return <h1>This Invite has been Claimed.</h1>
     return (
       <div className="index">
         <MainBar />
-        { !(project && authorProfile) && <PageLoadSpinner/>}
-        { project && authorProfile && (
-
-        <Narrow>
-          <ProjectHeader style={{height:'100px'}} primaryText={project.name} secondaryText={invite.authority + ' invite'}/>
-          <div style={{display:'flex', flexDirection:'column',margin:'0em 1em'}}>
-            <h1 style={{textAlign:'center'}}>Hello {userProfile && userProfile.fullName || invite.email}!</h1>
-            <Avatar size={128} style={{margin:'auto'}} src={authorProfile.profileImageURL}/>
-            <p>
-             <b>{authorProfile.fullName}</b> has invited you to join <b>{project.name}</b> with <b>{invite.authority}</b> authority.
-            </p>
-            { (invite.authority=='owner') &&
-              <p>As an <b>Owner</b>, you will have complete and total control over the volunteer project.  Can you handle the power?</p>
-            }
-            { (invite.authority=='manager') &&
-              <p>As a <b>Manager</b>, you will be able to do everything except create new teams, opportunities, or invite other managers.</p>
-            }
-            <div style={{display:'flex',justifyContent:'center'}}>
-              { hasAccess && <div>If you didn't already have access to this project, you'd be able to claim it.</div>}
-              { !hasAccess && userProfile &&  <RaisedButton primary={true} onTouchTap={this.handle} label='With Great Power Etc.'/>}
-              { !userProfile &&  <LoginButton provider='google'/> }
-            </div>
-          </div>
-        </Narrow>
-        )}
+        { !(project && projectImage && authorProfile) &&
+          <PageLoadSpinner/> ||
+          ( <Narrow>
+            <ProjectHeader projectKey={invite.projectKey} style={{height:'150px'}} secondaryText={invite.authority + ' invite'}/>
+              { invite.isClaimed &&
+                <h1>This Invite has been Claimed.</h1> ||
+                <Content>
+                  <h1 style={{textAlign:'center'}}>Hello {userProfile && userProfile.fullName || invite.email}!</h1>
+                  <Avatar size={128} style={{margin:'auto'}} src={authorProfile.profileImageURL}/>
+                  <p>
+                   <b>{authorProfile.fullName}</b> has invited you to join <b>{project.name}</b> with <b>{invite.authority}</b> authority.
+                  </p>
+                  { (invite.authority=='owner') &&
+                    <p>As an <b>Owner</b>, you will have complete and total control over the volunteer project.  Can you handle the power?</p>
+                  }
+                  { (invite.authority=='manager') &&
+                    <p>As a <b>Manager</b>, you will be able to do everything except create new teams, opportunities, or invite other managers.</p>
+                  }
+                  <div style={{display:'flex',justifyContent:'center'}}>
+                    { hasAccess && <div>If you didn't already have access to this project, you'd be able to claim it.</div>}
+                    { !hasAccess && userProfile &&  <RaisedButton primary={true} onTouchTap={this.handle} label='With Great Power Etc.'/>}
+                    { !userProfile &&  <LoginButton provider='google'/> }
+                  </div>
+                </Content>
+              }
+          </Narrow> )
+        }
       </div>
     );
   }
-
 }
 
-import { Invites, Projects, Profiles, Users, Organizers } from 'remote'
+import { Invites, Projects, ProjectImages, Profiles, Users, Organizers } from 'remote'
 
 const selectedInvite = createSelector(
   Invites.select.collection,
@@ -89,6 +89,12 @@ const selectedProject = createSelector(
   (invite,projects)=>invite && projects[invite.projectKey]
   )
 
+const selectedProjectImage = createSelector(
+  selectedInvite,
+  ProjectImages.select.collection,
+  (invite,projectImages)=>invite && projectImages && projectImages[invite.projectKey]
+)
+
 const selectedAuthorProfile = createSelector(
   selectedInvite,
   Profiles.select.collection,
@@ -98,11 +104,12 @@ const selectedAuthorProfile = createSelector(
 const mapStateToProps = createSelector(
   selectedInvite,
   selectedProject,
+  selectedProjectImage,
   selectedAuthorProfile,
   Profiles.select.authed,
   Organizers.select.authedProjectKeys,
-  (invite,project,authorProfile,userProfile,userProjectKeys)=>{
-    return {invite,project,authorProfile,userProfile,userProjectKeys}
+  (invite,project,projectImage,authorProfile,userProfile,userProjectKeys)=>{
+    return {invite,project,projectImage,authorProfile,userProfile,userProjectKeys}
   }
 )
 
@@ -121,6 +128,7 @@ export default {
     master.start( function*() {
       const inviteUpdate = yield take( Invites.taker(route.params.inviteKey) )
       yield put( Projects.actions.watch(inviteUpdate.data.projectKey) )
+      yield put( ProjectImages.actions.watch(inviteUpdate.data.projectKey) )
       yield put( Profiles.actions.watch(inviteUpdate.data.authorProfileKey) )
     })
     master.start( function*() {

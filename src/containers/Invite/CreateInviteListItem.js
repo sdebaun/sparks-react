@@ -15,41 +15,38 @@ import PersonAddIcon from 'material-ui/lib/svg-icons/social/person-add';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 // import Query from 'containers/Query'
 // import NavListItem from 'components/NavListItem'
+
+import PopupListItem from 'components/PopupListItem'
 import InviteForm from 'containers/Invite/InviteForm'
 
 import AppBar from 'material-ui/lib/app-bar'
 import Colors from 'material-ui/lib/styles/colors';
 
 class CreateInviteListItem extends React.Component {
-  state = { open: false }
-  handleOpen = ()=> this.setState({open:true})
-  handleClose = ()=> this.setState({open:false})
-  handleSubmit = data => {
+  save = (data)=>{
     if (data) this.props.create(data,this.props.projectKey,this.props.userProfileKey)
-    this.handleClose()
+    this.refs.listItem.close()
   }
+
+  cancel = ()=>{ this.refs.listItem.close() }
 
   render() {
 
-    const tb = <AppBar title='Invite an Admin' style={{backgroundColor:Colors.amber700}}
-      iconElementLeft={<IconButton disabled={true}><PersonAddIcon color='white'/></IconButton>}
-      />
+    // const tb = <AppBar title='Invite an Admin' style={{backgroundColor:Colors.amber700}}
+    //   iconElementLeft={<IconButton disabled={true}><PersonAddIcon color='white'/></IconButton>}
+    //   />
+
+// <FloatingActionButton seconary={true} mini={true}><PersonAddIcon/></FloatingActionButton>
 
     return (
-          <ListItem primaryText='Invite Organizer'
+          <PopupListItem ref='listItem' primaryText='Invite Organizer'
             secondaryText='Invite another person to help you manage this project.'
-            leftIcon={<FloatingActionButton mini={true}><PersonAddIcon/></FloatingActionButton>}
-            onTouchTap={this.handleOpen}>
-            <Dialog title={tb}
-              modal={false}
-              open={this.state.open}
-              onRequestClose={this.handleClose}
-              >
-              <InviteForm onSubmit={this.handleSubmit}>
-                <FlatButton onTouchTap={this.handleClose} label='Not Yet' primary={true}/>
-              </InviteForm>
-            </Dialog>
-          </ListItem>
+            leftIcon={<PersonAddIcon/>}
+            >
+            <InviteForm onSubmit={this.save}>
+              <FlatButton onTouchTap={this.cancel} label='Not Yet' primary={true}/>
+            </InviteForm>
+          </PopupListItem>
     );
   }
 

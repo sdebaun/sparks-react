@@ -1,4 +1,7 @@
+require('react-flexr/styles.css')
+
 import React from 'react';
+import {StyleRoot} from 'radium';
 
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import Theme from '../theme'
@@ -17,12 +20,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <div style={{height:'100%'}}>
+      <StyleRoot style={{height:'100%'}}>
         {this.props.children}
         <DevTools/>
-      </div>
+      </StyleRoot>
     );
   }
+
+  // render() {
+  //   return (
+  //     <div style={{height:'100%'}}>
+  //       {this.props.children}
+  //       <DevTools/>
+  //     </div>
+  //   );
+  // }
 }
 
 import Landing from './Landing'
