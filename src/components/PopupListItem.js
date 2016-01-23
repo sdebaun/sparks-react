@@ -10,18 +10,21 @@ import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
 
 import ProjectForm from 'containers/Project/ProjectForm'
 
+import AppBar from 'material-ui/lib/app-bar'
+import Colors from 'material-ui/lib/styles/colors';
+
 class PopupListItem extends React.Component {
-  state = { open: false }
+  state = { isOpen: false }
 
-  open = ()=> this.setState({open:true})
+  open = ()=> this.setState({isOpen:true})
 
-  close = ()=> this.setState({open:false})
+  close = ()=> this.setState({isOpen:false})
 
   render() {
-    const {state:{open}, props:{primaryText,secondaryText,leftIcon}} = this
+    const {state:{isOpen}, props:{primaryText,secondaryText,leftIcon}} = this
     return (
       <ListItem onTouchTap={this.open} {...{primaryText,secondaryText,leftIcon}} >
-        <Dialog title={primaryText} modal={false} open={open} onRequestClose={this.close}>
+        <Dialog modal={false} open={isOpen} onRequestClose={this.close} {...{title:primaryText,leftIcon}}>
           {this.props.children}
         </Dialog>
       </ListItem>
