@@ -6,8 +6,8 @@ class ProjectAvatar extends React.Component {
 
     const style = {
       // display: 'inline-block',
-      height: 30,
-      width: 40,
+      // height: '30px !important',
+      // width: '40px !important',
       // display:'flex',
       // flexDirection:'column', justifyContent:'flex-end',
       backgroundImage: 'url('+projectImage.dataUrl+')',
