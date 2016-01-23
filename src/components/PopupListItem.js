@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import FlatButton from 'material-ui/lib/flat-button'
-import Dialog from 'material-ui/lib/dialog'
+// import Dialog from 'material-ui/lib/dialog'
+import Dialog from 'components/styled/Dialog'
 
 import ListItem from 'material-ui/lib/lists/list-item'
 
