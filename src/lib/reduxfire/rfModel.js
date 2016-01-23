@@ -30,7 +30,7 @@ export default class rfModel {
   _matching = propKey => createSelector(
     this.select.collection,
     (state,props)=>props[propKey],
-    (col,key)=>col[key]
+    (col,key)=>col && col[key]
   )
 
   select = {

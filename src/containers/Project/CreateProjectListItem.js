@@ -21,20 +21,20 @@ class CreateInviteListItem extends React.Component {
 
   render() {
     return (
-          <ListItem primaryText='Create New Project'
-            secondaryText='Set up a project for an Early Access Partner.'
-            leftIcon={<AddCircleIcon/>}
-            onTouchTap={this.handleOpen}>
-            <Dialog title='Create New Project'
-              modal={false}
-              open={this.state.open}
-              onRequestClose={this.handleClose}
-              >
-              <ProjectForm onSubmit={this.handleSubmit}>
-                <FlatButton onTouchTap={this.handleClose} label='CANCEL' secondary={true}/>
-              </ProjectForm>
-            </Dialog>
-          </ListItem>
+      <ListItem primaryText='Create New Project'
+        secondaryText='Set up a project for an Early Access Partner.'
+        leftIcon={<AddCircleIcon/>}
+        onTouchTap={this.handleOpen}>
+        <Dialog title='Create New Project'
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+          >
+          <ProjectForm onSubmit={this.handleSubmit}>
+            <FlatButton onTouchTap={this.handleClose} label='CANCEL' secondary={true}/>
+          </ProjectForm>
+        </Dialog>
+      </ListItem>
     );
   }
 

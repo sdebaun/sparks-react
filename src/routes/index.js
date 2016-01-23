@@ -1,3 +1,5 @@
+require('react-flexr/styles.css')
+
 import React from 'react';
 import {StyleRoot} from 'radium';
 

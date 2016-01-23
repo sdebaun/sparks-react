@@ -10,6 +10,8 @@ import IsMobile from 'components/IsMobile'
 import ProjectNavList from 'containers/Project/ProjectNavList'
 import ProjectHeader from 'containers/Project/ProjectHeader'
 
+import { Grid, Cell } from 'react-flexr'
+
 class Main extends React.Component {
   render() {
     const {Title, Tabs, Main, project, projectImage, params:{projectKey}} = this.props
@@ -18,14 +20,14 @@ class Main extends React.Component {
         <MainBar />
         { !(project && projectImage) && <PageLoadSpinner/>}
         { project && projectImage &&
-          <div style={{height:'100%',display:'flex'}}>
+          <Grid>
             <SideNav>
               <IsDesktop>
                 <ProjectHeader imageUrl={projectImage.dataUrl} style={{height:100}} primaryText={project.name} />
               </IsDesktop>
               <ProjectNavList baseUrl={'/project/'+projectKey} {...this.props}/>
             </SideNav>
-            <div style={{flex:1}}>
+            <Cell gutter='0'>
               <IsDesktop>{ React.cloneElement(Tabs,{baseUrl:'/project/'+projectKey}) }</IsDesktop>
               <IsMobile>
                 <ProjectHeader imageUrl={projectImage.dataUrl} sideNav={true} primaryText={project.name} secondaryText={Title}>
@@ -33,8 +35,8 @@ class Main extends React.Component {
                 </ProjectHeader>
               </IsMobile>
               { React.cloneElement(Main, {project,projectKey}) }
-            </div>
-          </div>
+            </Cell>
+          </Grid>
         }
       </div>
     );

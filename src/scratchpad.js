@@ -29,14 +29,19 @@ class ChooseProjectImageListItem React.Component {
       attrs = {
         primaryText: exists &&
           'Change your Project Background.' ||
-          'Upload a picture to use as your Project Background.'
-        imageUrl: projectImage.dataUrl
+          'Upload a cool picture to use as your Project Background.',
+        imageUrl: projectImage.dataUrl,
+        leftIcon: exists && <ProjectAvatar projectImage={projectImage}/> || "?"
       }
     return (
-      <OpeningListItem ref="pickProjectImage"
-        primaryText="Find a cool background image to help identify your project."
-        leftIcon={<ProjectAvatar projectImage={projectImage}/>}
-        >
+      <OpeningListItem ref='listItem' {...attrs}>
+        <Grid>
+        <Cell size="1" desk="1/2">
+        </Cell>
+        <Cell size="1" desk="1/2">
+        </Cell>
+        </Grid>
+      </OpeningListItem>
     )
   }  
 }
