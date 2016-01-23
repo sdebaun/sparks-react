@@ -20,14 +20,14 @@ class Main extends React.Component {
         <MainBar />
         { !(project && projectImage) && <PageLoadSpinner/>}
         { project && projectImage &&
-          <Grid>
+          <Grid gutter='0em'>
             <SideNav>
               <IsDesktop>
                 <ProjectHeader {...{projectKey}} style={{height:100}} />
               </IsDesktop>
               <ProjectNavList baseUrl={'/project/'+projectKey} {...this.props}/>
             </SideNav>
-            <Cell gutter='0'>
+            <Cell>
               <IsDesktop>{ React.cloneElement(Tabs,{baseUrl:'/project/'+projectKey}) }</IsDesktop>
               <IsMobile>
                 <ProjectHeader {...{projectKey, sideNav:true, secondaryText:Title}}>

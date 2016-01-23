@@ -25,8 +25,6 @@ class InviteForm extends Component {
     submitting: PropTypes.bool.isRequired
   };
 
-        // <DropDownMenu value={authority.value} onChange={(e,i,v)=>authority.onChange(v)}>
-
   render() {
     const {fields: {email,authority}, errors, handleSubmit, submitting} = this.props;
     return (
@@ -47,7 +45,7 @@ class InviteForm extends Component {
           <p>They can change everything about this project, including adding and removing other Owners.</p>
         }
         <div style={{display:'flex',width:'100%',justifyContent:'flex-end'}}>
-          <RaisedButton disabled={errors.email || submitting}
+          <RaisedButton disabled={!!errors.email || submitting}
             primary={true} onTouchTap={handleSubmit}
             label='All Aboard!' style={{marginRight:'1em'}}/>
           {this.props.children}

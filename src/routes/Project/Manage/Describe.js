@@ -9,6 +9,7 @@ import Radium from 'radium'
 
 import ChooseProjectImageListItem from 'containers/ProjectImage/ChooseProjectImageListItem'
 import EditProjectDescriptionListItem from 'containers/Project/EditProjectDescriptionListItem'
+import RenameProjectListItem from 'containers/Project/RenameProjectListItem'
 
 class Page extends React.Component {
   render() {
@@ -20,6 +21,7 @@ class Page extends React.Component {
           <Divider/>
           <EditProjectDescriptionListItem projectKey={projectKey}/>
           <Divider/>
+          <RenameProjectListItem projectKey={projectKey}/>
         </List>
       </Content>
     )
