@@ -8,7 +8,8 @@ import Cropper from 'react-cropper'
 import Dropzone from 'react-dropzone'
 
 import List from 'material-ui/lib/lists/list'
-import ListItem from 'material-ui/lib/lists/list-item'
+// import ListItem from 'material-ui/lib/lists/list-item'
+import OpeningListItem from 'components/OpeningListItem'
 
 import DropAndCrop from 'components/DropAndCrop'
 import RaisedButton from 'material-ui/lib/raised-button'
@@ -49,9 +50,9 @@ class Describe extends React.Component {
     const {onImageChange, state:{previewUrl}, props:{project}} = this
     return <Content>
       <List>
-        <ListItem primaryText="Find a cool background image to help identify your project."
-          leftIcon={<ProjectHeader style={{width:24,height:24}}/>} onTouchTap={()=>this.setState({pickingImage:!this.state.pickingImage})}/>
-        { this.state.pickingImage &&
+        <OpeningListItem primaryText="Find a cool background image to help identify your project."
+          leftIcon={<ProjectHeader style={{width:24,height:24}}/>}
+          >
           <div style={{display:'flex',flexDirection:'row',flexWrap:'wrap'}}>
             <div style={{padding:'0.5em',minWidth:300,flexGrow:1}}>
               <DropAndCrop key='dnc' onImageChange={onImageChange} style={{height:200}}>
@@ -77,10 +78,15 @@ class Describe extends React.Component {
               </div>
             }
           </div>
-        }
+        </OpeningListItem>
         <Divider/>
+        <OpeningListItem primaryText="Describe your project to the rest of the world."
+          leftIcon={<ProjectHeader style={{width:24,height:24}}/>}
+          >
+          <p>Your project can include many events on many different days.  What's the common theme?</p>
+          form
+        </OpeningListItem>
       </List>
-      <p>Your project can include many events on many different days.  What's the common theme?</p>
 
     </Content>
   }
