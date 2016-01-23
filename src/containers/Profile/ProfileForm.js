@@ -3,10 +3,6 @@ import {reduxForm} from 'redux-form';
 
 import RaisedButton from 'material-ui/lib/raised-button'
 import TextField from 'material-ui/lib/text-field'
-import SelectField from 'components/SelectField';
-// import DropDownMenu from 'components/DropDownMenu';
-// import DropDownMenu from 'material-ui/lib/DropDownMenu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
 
 const fields = ['fullName','email', 'phone', 'zip'];
 
@@ -14,7 +10,7 @@ import {createValidator, isRequired, isEmail} from 'lib/validation'
 
 const validate = createValidator({
   fullName: [isRequired],
-  email: [isEmail, isRequired],
+  email: [isEmail, isRequired]
 })
 
 class ProfileForm extends Component {
@@ -24,8 +20,6 @@ class ProfileForm extends Component {
     resetForm: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired
   };
-
-        // <DropDownMenu value={authority.value} onChange={(e,i,v)=>authority.onChange(v)}>
 
   render() {
     const {fields: {fullName,email,phone,zip}, errors, handleSubmit, submitting} = this.props;

@@ -1,19 +1,11 @@
 import React from 'react';
 
-import DropAndCrop from 'components/DropAndCrop'
-import RaisedButton from 'material-ui/lib/raised-button'
-// import FlatButton from 'material-ui/lib/flat-button'
 import PlaylistAddIcon from 'material-ui/lib/svg-icons/av/playlist-add';
 import PlaylistAddCheckIcon from 'material-ui/lib/svg-icons/av/playlist-add-check';
 
-import Tab from 'material-ui/lib/tabs/tab'
-import Tabs from 'material-ui/lib/tabs/tabs'
 
 import OpeningListItem from 'components/OpeningListItem'
-import HalfColumn from 'components/HalfColumn'
-import IsDesktop from 'components/IsDesktop'
 
-import ProjectHeader from 'containers/Project/ProjectHeader'
 import ProjectDescriptionForm from 'containers/Project/ProjectDescriptionForm'
 
 import FlatButton from 'material-ui/lib/flat-button'
@@ -54,7 +46,7 @@ class EditProjectDescriptionListItem extends React.Component {
         </ProjectDescriptionForm>
       </OpeningListItem>
     )
-  }  
+  }
 }
 
 import { connect } from 'react-redux';

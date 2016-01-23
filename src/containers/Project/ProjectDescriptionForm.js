@@ -4,7 +4,7 @@ import {reduxForm} from 'redux-form';
 import RaisedButton from 'material-ui/lib/raised-button'
 import TextField from 'material-ui/lib/text-field'
 
-import { Grid, Cell } from 'react-flexr'
+import { Grid } from 'react-flexr'
 
 export const fields = ['description'];
 

@@ -4,7 +4,6 @@ import { Grid } from 'react-flexr'
 
 import DropAndCrop from 'components/DropAndCrop'
 import RaisedButton from 'material-ui/lib/raised-button'
-// import FlatButton from 'material-ui/lib/flat-button'
 import AddAPhotoIcon from 'material-ui/lib/svg-icons/image/add-a-photo';
 
 import Tab from 'material-ui/lib/tabs/tab'
@@ -76,7 +75,7 @@ class ChooseProjectImageListItem extends React.Component {
         </Grid>
       </OpeningListItem>
     )
-  }  
+  }
 }
 
 import { connect } from 'react-redux';

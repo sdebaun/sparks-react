@@ -21,6 +21,22 @@ class Page extends React.Component {
   }
 }
 
+class Page extends React.Component {
+  render() {
+    const { props: {project,projectImage} } = this
+    return (
+      <Content>
+        <List>
+          <ChooseProjectImageListItem project={project} projectImage={projectImage}/>
+          <EditProjectDescriptionListItem project={project}/>
+          <RenameProjectListItem project={project}/>
+        </List>
+      </Content>
+    )
+  }
+}
+
+
 class ChooseProjectImageListItem React.Component {
   render() {
     const { props: {projectImage} } = this

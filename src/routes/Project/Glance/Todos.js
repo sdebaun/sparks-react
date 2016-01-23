@@ -8,29 +8,29 @@ import FAB from 'material-ui/lib/floating-action-button';
 const todos = (props)=>[
   {
     key:1,
-    primaryText: "Describe Your Project",
-    secondaryText: "Tell the world why they're volunteering for you.",
+    primaryText: 'Describe Your Project',
+    secondaryText: 'Tell the world why they\'re volunteering for you.',
     targetRoute: '/project/' + props.projectKey + '/manage',
     isComplete: false
   },
   {
     key:2,
-    primaryText: "Make a Team",
-    secondaryText: "Organize your volunteers into Teams and put Leads in charge of them.",
-    onTouchTap: ()=>console.log('clicked'),
+    primaryText: 'Make a Team',
+    secondaryText: 'Organize your volunteers into Teams and put Leads in charge of them.',
+    onTouchTap: ()=>{},
     isComplete: false
   },
   {
     key:3,
-    primaryText: "Create an Opportunity",
-    secondaryText: "Let people sign up and commit to helping you out.",
-    onTouchTap: ()=>console.log('clicked'),
+    primaryText: 'Create an Opportunity',
+    secondaryText: 'Let people sign up and commit to helping you out.',
+    onTouchTap: ()=>{},
     isComplete: false
   },
   {
     key:4,
-    primaryText: "Invite More Staff",
-    secondaryText: "Ask a friend to help organize this project.",
+    primaryText: 'Invite More Staff',
+    secondaryText: 'Ask a friend to help organize this project.',
     targetRoute: '/project/' + props.projectKey + '/staff',
     isComplete: false
   }
