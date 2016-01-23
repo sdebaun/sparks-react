@@ -22,7 +22,7 @@ const Page = ({Title, Tabs, Main, project, projectImage, projectKey, location})=
       <Grid gutter='0em'>
         <SideNav>
           { findMatch('lap','desk') && <ProjectHeader {...{projectKey}} style={{height:100}} /> }
-          <ProjectNavList {...{baseUrl, location}}/>
+          <ProjectNavList {...{baseUrl, location, projectKey}}/>
         </SideNav>
         <Cell>
           { findMatch('lap','desk') && linkedTabs ||
@@ -37,7 +37,7 @@ const Page = ({Title, Tabs, Main, project, projectImage, projectKey, location})=
   </div>
 }
 
-import { Projects, ProjectImages } from 'remote'
+import { Projects, ProjectImages, Organizers, Invites, Teams } from 'remote'
 
 const mapStateToProps = createSelector(
   (s,p)=>p.params.projectKey,
@@ -51,7 +51,6 @@ import { master } from 'sagas'
 
 import Glance from './Glance'
 import Manage from './Manage'
-import {Organizers,Invites} from 'remote'
 
 export default {
   path: 'project/:projectKey',
@@ -64,6 +63,7 @@ export default {
       const params = { orderByChild:'projectKey', equalTo:projectKey }
       yield put( Organizers.actions.query(params) )
       yield put( Invites.actions.query(params) )
+      yield put( Teams.actions.query(params) )
     })
   }
 }

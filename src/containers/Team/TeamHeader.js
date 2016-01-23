@@ -9,7 +9,7 @@ import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
 
 import Colors from 'material-ui/lib/styles/colors';
 
-class ProjectHeader extends React.Component {
+class TeamHeader extends React.Component {
   render() {
     const {props:{style,sideNav,project,projectImage,previewUrl,secondaryText}} = this
     const backgroundImageUrl = previewUrl || projectImage && projectImage.dataUrl
@@ -53,5 +53,5 @@ const mapStateToProps = createSelector(
   (project,projectImage)=>{ return {project,projectImage} }
 )
 
-export default connect(mapStateToProps)(Radium(ProjectHeader))
+export default connect(mapStateToProps)(Radium(TeamHeader))
 
