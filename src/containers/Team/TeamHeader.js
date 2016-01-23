@@ -11,7 +11,7 @@ import Colors from 'material-ui/lib/styles/colors';
 
 class TeamHeader extends React.Component {
   render() {
-    const {props:{style,sideNav,project,projectImage,previewUrl,secondaryText}} = this
+    const {props:{style,sideNav,team,project,projectImage,previewUrl,secondaryText}} = this
     const backgroundImageUrl = previewUrl || projectImage && projectImage.dataUrl
     const defaultStyle = {
       display:'flex', flexDirection:'column', justifyContent:'flex-end',
@@ -24,6 +24,7 @@ class TeamHeader extends React.Component {
 
     return (
       <div style={[defaultStyle,style]}>
+        <div style={{fontsize:'0.9em',color:'white',margin:'1em 1em 0em 1em',textTransform:'uppercase'}}>{project.name}</div>
         <Toolbar style={{backgroundColor:'transparent', display:'flex', alignItems:'center'}}>
           { sideNav &&
             <ToolbarGroup firstChild={true}>
@@ -32,7 +33,7 @@ class TeamHeader extends React.Component {
           }
           <ToolbarGroup style={{color:'white'}}>
             <div>
-              <div style={{fontSize:'1.5em'}}>{project.name}</div>
+              <div style={{fontSize:'1.5em'}}>{team.name}</div>
               <div style={{fontSize:'0.9em',color:Colors.grey300}}>{secondaryText}</div>
             </div>
           </ToolbarGroup>
@@ -45,12 +46,13 @@ class TeamHeader extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Projects, ProjectImages } from 'remote'
+import { Teams, Projects, ProjectImages } from 'remote'
 
 const mapStateToProps = createSelector(
+  Teams.select.matching('teamKey'),
   Projects.select.matching('projectKey'),
   ProjectImages.select.matching('projectKey'),
-  (project,projectImage)=>{ return {project,projectImage} }
+  (team,project,projectImage)=>{ return {team,project,projectImage} }
 )
 
 export default connect(mapStateToProps)(Radium(TeamHeader))

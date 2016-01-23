@@ -1,8 +1,8 @@
 import React from 'react';
-import Content from 'components/Content'
-import ComingSoon from 'components/ComingSoon'
+
+import TeamTodos from 'containers/Team/TeamTodos'
 
 export default {
   path: '',
-  component: ()=><Content><ComingSoon/></Content>
+  component: ({teamKey})=><TeamTodos {...{teamKey}}/>
 }
