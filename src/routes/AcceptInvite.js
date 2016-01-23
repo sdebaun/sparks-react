@@ -40,40 +40,39 @@ class Container extends React.Component {
     const {invite, project, projectImage, authorProfile, userProfile, userProjectKeys} = this.props
     const hasAccess = invite && userProjectKeys && userProjectKeys.includes(invite.projectKey)
 
-    if (!(project && projectImage && authorProfile)) return <PageLoadSpinner/>
-    if (invite.isComplete) return <h1>This Invite has been Claimed.</h1>
     return (
       <div className="index">
         <MainBar />
-        { !(project && authorProfile) && <PageLoadSpinner/>}
-        { project && authorProfile && (
-
-        <Narrow>
-          <ProjectHeader imageUrl={projectImage.dataUrl} style={{height:'150px'}} primaryText={project.name} secondaryText={invite.authority + ' invite'}/>
-          <Content>
-            <h1 style={{textAlign:'center'}}>Hello {userProfile && userProfile.fullName || invite.email}!</h1>
-            <Avatar size={128} style={{margin:'auto'}} src={authorProfile.profileImageURL}/>
-            <p>
-             <b>{authorProfile.fullName}</b> has invited you to join <b>{project.name}</b> with <b>{invite.authority}</b> authority.
-            </p>
-            { (invite.authority=='owner') &&
-              <p>As an <b>Owner</b>, you will have complete and total control over the volunteer project.  Can you handle the power?</p>
-            }
-            { (invite.authority=='manager') &&
-              <p>As a <b>Manager</b>, you will be able to do everything except create new teams, opportunities, or invite other managers.</p>
-            }
-            <div style={{display:'flex',justifyContent:'center'}}>
-              { hasAccess && <div>If you didn't already have access to this project, you'd be able to claim it.</div>}
-              { !hasAccess && userProfile &&  <RaisedButton primary={true} onTouchTap={this.handle} label='With Great Power Etc.'/>}
-              { !userProfile &&  <LoginButton provider='google'/> }
-            </div>
-          </Content>
-        </Narrow>
-        )}
+        { !(project && projectImage && authorProfile) &&
+          <PageLoadSpinner/> ||
+          ( <Narrow>
+            <ProjectHeader projectKey={invite.projectKey} style={{height:'150px'}} secondaryText={invite.authority + ' invite'}/>
+              { invite.isClaimed &&
+                <h1>This Invite has been Claimed.</h1> ||
+                <Content>
+                  <h1 style={{textAlign:'center'}}>Hello {userProfile && userProfile.fullName || invite.email}!</h1>
+                  <Avatar size={128} style={{margin:'auto'}} src={authorProfile.profileImageURL}/>
+                  <p>
+                   <b>{authorProfile.fullName}</b> has invited you to join <b>{project.name}</b> with <b>{invite.authority}</b> authority.
+                  </p>
+                  { (invite.authority=='owner') &&
+                    <p>As an <b>Owner</b>, you will have complete and total control over the volunteer project.  Can you handle the power?</p>
+                  }
+                  { (invite.authority=='manager') &&
+                    <p>As a <b>Manager</b>, you will be able to do everything except create new teams, opportunities, or invite other managers.</p>
+                  }
+                  <div style={{display:'flex',justifyContent:'center'}}>
+                    { hasAccess && <div>If you didn't already have access to this project, you'd be able to claim it.</div>}
+                    { !hasAccess && userProfile &&  <RaisedButton primary={true} onTouchTap={this.handle} label='With Great Power Etc.'/>}
+                    { !userProfile &&  <LoginButton provider='google'/> }
+                  </div>
+                </Content>
+              }
+          </Narrow> )
+        }
       </div>
     );
   }
-
 }
 
 import { Invites, Projects, ProjectImages, Profiles, Users, Organizers } from 'remote'

@@ -23,14 +23,14 @@ class Main extends React.Component {
           <Grid>
             <SideNav>
               <IsDesktop>
-                <ProjectHeader imageUrl={projectImage.dataUrl} style={{height:100}} primaryText={project.name} />
+                <ProjectHeader {...{projectKey}} style={{height:100}} />
               </IsDesktop>
               <ProjectNavList baseUrl={'/project/'+projectKey} {...this.props}/>
             </SideNav>
             <Cell gutter='0'>
               <IsDesktop>{ React.cloneElement(Tabs,{baseUrl:'/project/'+projectKey}) }</IsDesktop>
               <IsMobile>
-                <ProjectHeader imageUrl={projectImage.dataUrl} sideNav={true} primaryText={project.name} secondaryText={Title}>
+                <ProjectHeader {...{projectKey, sideNav:true, secondaryText:Title}}>
                   { React.cloneElement(Tabs,{baseUrl:'/project/'+projectKey}) }
                 </ProjectHeader>
               </IsMobile>

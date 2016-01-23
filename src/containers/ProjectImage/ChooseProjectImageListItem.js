@@ -30,7 +30,7 @@ class ChooseProjectImageListItem extends React.Component {
   onImageChange = (dataUrl)=>this.setState({previewUrl: dataUrl})
 
   render() {
-    const {onImageChange, state:{previewUrl}, props:{project, projectImage}} = this
+    const {onImageChange, state:{previewUrl}, props:{projectKey,projectImage}} = this
 
     if (!projectImage) return <div>...</div>
 
@@ -57,12 +57,12 @@ class ChooseProjectImageListItem extends React.Component {
               <div>
                 <IsDesktop>
                   <h4>Public Pages</h4>
-                  <ProjectHeader style={{width:450,height:150}} imageUrl={previewUrl} primaryText={project.name} secondaryText='Applications Open!'/>
+                  <ProjectHeader {...{projectKey,previewUrl}} style={{width:450,height:150}} secondaryText='Applications Open!'/>
                 </IsDesktop>
                 <h4>Desktop Menu</h4>
-                <ProjectHeader style={{width:240,height:80}} imageUrl={previewUrl} primaryText={project.name}/>
+                <ProjectHeader {...{projectKey,previewUrl}} style={{width:240,height:80}}/>
                 <h4>Mobile Header</h4>
-                <ProjectHeader style={{width:330,height:110}} imageUrl={previewUrl} primaryText={project.name} secondaryText='Subtitle'>
+                <ProjectHeader {...{projectKey,previewUrl}} style={{width:330,height:110}}secondaryText='Subtitle'>
                   <Tabs {...this.props}>
                     <Tab label='Hot'/>
                     <Tab label='Apple'/>

@@ -28,8 +28,6 @@ class EditProjectDescriptionListItem extends React.Component {
   render() {
     const {props:{project}} = this
 
-    if (!project) return <div>...</div>
-
     const attrs = {
         primaryText: project.description &&
           'Change your Project Description.' ||
