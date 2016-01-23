@@ -1,16 +1,8 @@
 import React from 'react';
-
-class History extends React.Component {
-  render() {
-    return (
-      <div className="index">
-        History
-      </div>
-    );
-  }
-}
+import Content from 'components/Content'
+import ComingSoon from 'components/ComingSoon'
 
 export default {
-  component: History,
-  path: 'history'
+  path: 'history',
+  component: ()=><Content><ComingSoon/></Content>
 }

@@ -1,16 +1,8 @@
 import React from 'react';
-
-class Applying extends React.Component {
-  render() {
-    return (
-      <div className="index">
-        Applying
-      </div>
-    );
-  }
-}
+import Content from 'components/Content'
+import ComingSoon from 'components/ComingSoon'
 
 export default {
-  component: Applying,
-  path: 'applying'
+  path: 'applying',
+  component: ()=><Content><ComingSoon/></Content>
 }

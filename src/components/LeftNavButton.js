@@ -4,21 +4,21 @@ import { connect } from 'react-redux';
 import IconButton from 'material-ui/lib/icon-button'
 import Menu from 'material-ui/lib/svg-icons/navigation/menu';
 
-import {popoutToggle} from 'actions'
-
 class LeftNavButton extends React.Component {
+  toggle = ()=>this.props.toggle()
+
   render() {
-    return (
-      <IconButton onTouchTap={()=>this.props.popoutToggle()}><Menu color='white'/></IconButton>
-    );
+    const { props: {icon} } = this
+    return <IconButton onTouchTap={this.toggle}>{icon || <Menu color='white'/>}</IconButton>
   }
 }
+
+import {popoutToggle} from 'actions'
 
 const mapStateToProps = ()=>{return {}}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    popoutToggle: (...args)=>dispatch(popoutToggle(...args))
-  }
+const mapDispatchToProps = {
+  toggle: popoutToggle
 }
+
 export default connect(mapStateToProps,mapDispatchToProps)(LeftNavButton);

@@ -2,22 +2,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LeftNav from 'material-ui/lib/left-nav';
-import {popoutToggle} from 'actions'
 
 class NavPopout extends React.Component {
+  toggle = ()=>this.props.toggle()
+
   render() {
+    const {props: {isOpen,children}} = this
     return (
-      <LeftNav docked={false} open={this.props.navPopout} onRequestChange={open=>this.props.popoutToggle(open)}>
-        {this.props.children}
-      </LeftNav>
+      <LeftNav docked={false} open={isOpen} onRequestChange={this.toggle}>{children}</LeftNav>
       )
   }
 }
 
-const mapStateToProps = (state)=>{return {navPopout:state.navPopout}}
-function mapDispatchToProps(dispatch) {
-  return {
-    popoutToggle: (...args)=>dispatch(popoutToggle(...args))
-  }
+import {popoutToggle} from 'actions'
+
+const mapStateToProps = (state)=>{
+  return {isOpen:state.navPopout}
 }
+
+const mapDispatchToProps = {
+  toggle: popoutToggle
+}
+
 export default connect(mapStateToProps,mapDispatchToProps)(NavPopout);

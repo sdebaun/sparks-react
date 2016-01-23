@@ -1,6 +1,6 @@
 import React from 'react';
 
-class ProjectAvatar extends React.Component {
+export default class ProjectAvatar extends React.Component {
   render() {
     const {props:{projectImage}} = this
 
@@ -14,9 +14,6 @@ class ProjectAvatar extends React.Component {
       // zIndex: 0,
       backgroundSize: 'cover' //,
     }
-    // return <img src={projectImage.dataUrl} style={iconStyle}/>
     return <div style={{...style, ...this.props.style}}>&nbsp;</div>
   }
 }
-
-export default ProjectAvatar

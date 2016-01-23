@@ -3,21 +3,17 @@ import React from 'react';
 import ActionMenu from 'components/ActionMenu'
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
-class OrganizerActionMenu extends React.Component {
+export default class OrganizerActionMenu extends React.Component {
 
-  handleRemove() {}
+  remove() {}
 
   render() {
-    const {organizer} = this.props
+    const {props: {organizer, ...props}} = this
     return (
-      <ActionMenu {...this.props}>
+      <ActionMenu {...props}>
         <MenuItem href={'/profile/' + organizer.profileKey} target='new'>Profile</MenuItem>
-        <MenuItem disabled={true} onTouchTap={this.handleRemove}>Remove</MenuItem>
+        <MenuItem disabled={true} onTouchTap={this.remove}>Remove</MenuItem>
       </ActionMenu>
     )
   }
 }
-
-export default OrganizerActionMenu
-
-

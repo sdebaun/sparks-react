@@ -1,8 +1,7 @@
 import React from 'react';
-
 import CircularProgress from 'material-ui/lib/circular-progress'
 
-class PageLoadSpinner extends React.Component {
+export default class PageLoadSpinner extends React.Component {
   render() {
     return (
       <div style={{display:'flex',justifyContent:'center',paddingTop:'2em'}}>
@@ -11,5 +10,3 @@ class PageLoadSpinner extends React.Component {
     );
   }
 }
-
-export default PageLoadSpinner;

@@ -6,24 +6,20 @@ import LeftNavButton from 'components/LeftNavButton'
 
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
-// import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
 
 import Colors from 'material-ui/lib/styles/colors';
 
 class ProjectHeader extends React.Component {
   render() {
     const {props:{style,sideNav,project,projectImage,previewUrl,secondaryText}} = this
-
-    // if (!previewUrl && !projectImage.dataUrl) return <div>...</div>
-
+    const backgroundImageUrl = previewUrl || projectImage.dataUrl
     const defaultStyle = {
       display:'flex', flexDirection:'column', justifyContent:'flex-end',
-      backgroundImage: 'linear-gradient(rgba(0,0,0,0.60),rgba(0,0,0,0.90)), url('+(previewUrl || projectImage.dataUrl)+')',
+      backgroundImage: backgroundImageUrl &&
+        'linear-gradient(rgba(0,0,0,0.60),rgba(0,0,0,0.90)), url('+backgroundImageUrl+')' ||
+        'linear-gradient(rgba(0,0,0,0.80),rgba(0,0,0,0.80))',
       zIndex: 0,
-      backgroundSize: 'cover' //,
-      // '@media(min-width:480px)': {
-      //   width: 256, height: 128
-      // }
+      backgroundSize: 'cover'
     }
 
     return (

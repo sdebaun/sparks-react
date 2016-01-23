@@ -11,23 +11,17 @@ import ChooseProjectImageListItem from 'containers/ProjectImage/ChooseProjectIma
 import EditProjectDescriptionListItem from 'containers/Project/EditProjectDescriptionListItem'
 import RenameProjectListItem from 'containers/Project/RenameProjectListItem'
 
-class Page extends React.Component {
-  render() {
-    const {props:{projectKey}} = this
-    return (
-      <Content>
-        <List>
-          <ChooseProjectImageListItem projectKey={projectKey}/>
-          <Divider/>
-          <EditProjectDescriptionListItem projectKey={projectKey}/>
-          <Divider/>
-          <RenameProjectListItem projectKey={projectKey}/>
-        </List>
-      </Content>
-    )
-  }
-}
+const Container = ({ projectKey })=>
+  <Content>
+    <List>
+      <ChooseProjectImageListItem projectKey={projectKey}/>
+      <Divider/>
+      <EditProjectDescriptionListItem projectKey={projectKey}/>
+      <Divider/>
+      <RenameProjectListItem projectKey={projectKey}/>
+    </List>
+  </Content>
 
 export default {
-  component: Radium(Page)
+  component: Radium(Container)
 }

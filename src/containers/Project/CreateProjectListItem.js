@@ -2,13 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import FlatButton from 'material-ui/lib/flat-button'
-import Dialog from 'material-ui/lib/dialog'
-
-import ListItem from 'material-ui/lib/lists/list-item'
-
 import AddIcon from 'material-ui/lib/svg-icons/content/add';
-
-// import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
 
 import PopupListItem from 'components/PopupListItem'
 
@@ -39,11 +33,10 @@ class CreateInviteListItem extends React.Component {
 
 import { Projects } from 'remote'
 
-function mapStateToProps() {
-  return {}
-}
+const mapStateToProps = ()=>{ return {} }
 
 const mapDispatchToProps = {
   push: Projects.actions.push
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(CreateInviteListItem);

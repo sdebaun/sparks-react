@@ -1,24 +1,15 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
 import {reduxForm} from 'redux-form';
 
 import RaisedButton from 'material-ui/lib/raised-button'
 import TextField from 'material-ui/lib/text-field'
 
-const fields = ['fullName','email', 'phone', 'zip'];
-
-import {createValidator, isRequired, isEmail} from 'lib/validation'
-
-const validate = createValidator({
-  fullName: [isRequired],
-  email: [isEmail, isRequired]
-})
-
-class ProfileForm extends Component {
+class ProfileForm extends React.Component {
   static propTypes = {
-    fields: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    resetForm: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired
+    fields: React.PropTypes.object.isRequired,
+    handleSubmit: React.PropTypes.func.isRequired,
+    resetForm: React.PropTypes.func.isRequired,
+    submitting: React.PropTypes.bool.isRequired
   };
 
   render() {
@@ -49,8 +40,13 @@ class ProfileForm extends Component {
   }
 }
 
+import {createValidator, isRequired, isEmail} from 'lib/validation'
+
 export default reduxForm({
   form: 'ProfileForm',
-  fields,
-  validate
+  fields: ['fullName','email', 'phone', 'zip'],
+  validate: createValidator({
+    fullName: [isRequired],
+    email: [isEmail, isRequired]
+  })
 })(ProfileForm);

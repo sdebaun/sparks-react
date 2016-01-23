@@ -4,10 +4,10 @@ import List from 'components/styled/List'
 
 class Doing extends React.Component {
   render() {
-    const {organizers} = this.props
+    const { props: { organizers } } = this
     return (
       <div className="index">
-        { organizers && (organizers.length > 0) &&
+        { (organizers.length > 0) &&
           <List header='organizing'>
           { organizers.map( o=>
             <ProjectListItem key={o.$key} projectKey={o.projectKey} secondaryText={o.authority} />
