@@ -3,15 +3,20 @@ import Radium from 'radium'
 
 import IsMobile from 'components/IsMobile'
 import LeftNavButton from 'components/LeftNavButton'
+import TeamAvatar from 'containers/Team/TeamAvatar'
 
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
+import HelpIcon from 'material-ui/lib/svg-icons/action/help';
+import ArrowDropDownIcon from 'material-ui/lib/svg-icons/navigation/arrow-drop-down';
 
 import Colors from 'material-ui/lib/styles/colors';
 
+import { findMatch } from 'react-flexr'
+
 class TeamHeader extends React.Component {
   render() {
-    const {props:{style,sideNav,team,project,projectImage,previewUrl,secondaryText}} = this
+    const {props:{style,sideNav,team,teamImage,project,projectImage,previewUrl,secondaryText}} = this
     const backgroundImageUrl = projectImage && projectImage.dataUrl
     const defaultStyle = {
       display:'flex', flexDirection:'column', justifyContent:'flex-end',
@@ -24,13 +29,21 @@ class TeamHeader extends React.Component {
 
     return (
       <div style={[defaultStyle,style]}>
-        <div style={{fontsize:'0.9em',color:'white',margin:'1em 1em 0em 1em',textTransform:'uppercase'}}>{project.name}</div>
+        <div style={{fontsize:'0.9em',color:'white',margin:'1em 1em 0em 1em',textTransform:'uppercase'}}>
+        {project.name} <ArrowDropDownIcon color='white'/>
+        </div>
         <Toolbar style={{backgroundColor:'transparent', display:'flex', alignItems:'center'}}>
-          { sideNav &&
-            <ToolbarGroup firstChild={true}>
-              <IsMobile><LeftNavButton/></IsMobile>&nbsp;
-            </ToolbarGroup>
-          }
+          <ToolbarGroup firstChild={true}>
+            { sideNav && findMatch('palm') &&
+              <LeftNavButton icon={teamImage.dataUrl && <TeamAvatar teamImage={teamImage}/>}/>
+            }
+            { !sideNav && findMatch('lap','desk') && teamImage.dataUrl &&
+              <TeamAvatar teamImage={teamImage}/>
+            }
+            { !sideNav && findMatch('lap','desk') && !teamImage.dataUrl &&
+              <HelpIcon/>
+            }
+          </ToolbarGroup>
           <ToolbarGroup style={{color:'white'}}>
             <div>
               <div style={{fontSize:'1.5em'}}>{team.name}</div>
@@ -46,13 +59,14 @@ class TeamHeader extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Teams, Projects, ProjectImages } from 'remote'
+import { Teams, TeamImages, Projects, ProjectImages } from 'remote'
 
 const mapStateToProps = createSelector(
   Teams.select.matching('teamKey'),
+  TeamImages.select.matching('teamKey'),
   Projects.select.matching('projectKey'),
   ProjectImages.select.matching('projectKey'),
-  (team,project,projectImage)=>{ return {team,project,projectImage} }
+  (team,teamImage,project,projectImage)=>{ return {team,teamImage,project,projectImage} }
 )
 
 export default connect(mapStateToProps)(Radium(TeamHeader))
