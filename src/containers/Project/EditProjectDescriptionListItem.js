@@ -29,13 +29,13 @@ class EditProjectDescriptionListItem extends React.Component {
     const {props:{project}} = this
 
     const attrs = {
-        primaryText: project.description &&
-          'Change your Project Description.' ||
-          'Describe your Project.',
-        leftIcon: project.description &&
-          <PlaylistAddCheckIcon/> ||
-          <PlaylistAddIcon/>
-      }
+      primaryText: project.description &&
+        'Edit your Project Description.' ||
+        'Write a short Description of your Project.',
+      leftIcon: project.description &&
+        <PlaylistAddCheckIcon/> ||
+        <PlaylistAddIcon/>
+    }
 
     return (
       <OpeningListItem ref='listItem' {...attrs}>

@@ -36,7 +36,7 @@ class ChooseProjectImageListItem extends React.Component {
 
     const attrs = {
         primaryText: projectImage.dataUrl &&
-          'Change your Project Background.' ||
+          'Replace your Project Background.' ||
           'Upload a cool picture to use as your Project Background.',
         leftIcon: projectImage.dataUrl &&
           <ProjectAvatar projectImage={projectImage}/> ||

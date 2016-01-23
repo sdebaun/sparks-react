@@ -36,7 +36,7 @@ class ProjectHeader extends React.Component {
           }
           <ToolbarGroup style={{color:'white'}}>
             <div>
-              <div style={{fontSize:'1.5em'}}>Name: {project.name}</div>
+              <div style={{fontSize:'1.5em'}}>{project.name}</div>
               <div style={{fontSize:'0.9em',color:Colors.grey300}}>{secondaryText}</div>
             </div>
           </ToolbarGroup>
