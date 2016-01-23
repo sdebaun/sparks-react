@@ -8,33 +8,28 @@ import ListItem from 'material-ui/lib/lists/list-item'
 
 import AddCircleIcon from 'material-ui/lib/svg-icons/content/add-circle';
 
+import PopupListItem from 'components/PopupListItem'
+
 import ProjectForm from 'containers/Project/ProjectForm'
 
 class CreateInviteListItem extends React.Component {
-  state = { open: false }
-  handleOpen = ()=> this.setState({open:true})
-  handleClose = ()=> this.setState({open:false})
-  handleSubmit = data => {
+
+  save = data => {
     if (data) this.props.push(data)
-    this.handleClose()
+    this.refs.listItem.close()
   }
+
+  cancel = ()=>this.refs.listItem.close()
 
   render() {
     return (
-      <ListItem primaryText='Create New Project'
+      <PopupListItem ref='listItem' primaryText='Create New Project'
         secondaryText='Set up a project for an Early Access Partner.'
-        leftIcon={<AddCircleIcon/>}
-        onTouchTap={this.handleOpen}>
-        <Dialog title='Create New Project'
-          modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-          >
-          <ProjectForm onSubmit={this.handleSubmit}>
-            <FlatButton onTouchTap={this.handleClose} label='CANCEL' secondary={true}/>
-          </ProjectForm>
-        </Dialog>
-      </ListItem>
+        leftIcon={<AddCircleIcon/>}>
+        <ProjectForm onSubmit={this.save}>
+          <FlatButton onTouchTap={this.cancel} label='CANCEL' secondary={true}/>
+        </ProjectForm>
+      </PopupListItem>
     );
   }
 
