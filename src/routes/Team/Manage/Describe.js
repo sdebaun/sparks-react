@@ -8,14 +8,17 @@ import Divider from 'material-ui/lib/divider'
 import Radium from 'radium'
 
 import ChooseTeamImageListItem from 'containers/TeamImage/ChooseTeamImageListItem'
-// import EditProjectDescriptionListItem from 'containers/Project/EditProjectDescriptionListItem'
-// import RenameProjectListItem from 'containers/Project/RenameProjectListItem'
+import EditTeamDescriptionListItem from 'containers/Team/EditTeamDescriptionListItem'
+import RenameTeamListItem from 'containers/Team/RenameTeamListItem'
 
 const Container = ({ teamKey })=>
   <Content>
     <List>
       <ChooseTeamImageListItem teamKey={teamKey}/>
       <Divider/>
+      <EditTeamDescriptionListItem teamKey={teamKey}/>
+      <Divider/>
+      <RenameTeamListItem teamKey={teamKey}/>
     </List>
   </Content>
 
@@ -23,6 +26,3 @@ export default {
   component: Radium(Container)
 }
 
-      // <EditProjectDescriptionListItem projectKey={projectKey}/>
-      // <Divider/>
-      // <RenameProjectListItem projectKey={projectKey}/>
