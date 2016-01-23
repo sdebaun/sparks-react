@@ -8,7 +8,6 @@ import Cropper from 'react-cropper'
 import Dropzone from 'react-dropzone'
 
 import List from 'material-ui/lib/lists/list'
-// import ListItem from 'material-ui/lib/lists/list-item'
 import OpeningListItem from 'components/OpeningListItem'
 
 import DropAndCrop from 'components/DropAndCrop'
@@ -20,6 +19,8 @@ import IsDesktop from 'components/IsDesktop'
 import Radium from 'radium'
 
 import ProjectHeader from 'containers/Project/ProjectHeader'
+import ProjectAvatar from 'containers/Project/ProjectAvatar'
+
 // import NavTabs from 'components/NavTabs'
 import Tab from 'material-ui/lib/tabs/tab'
 import Tabs from 'material-ui/lib/tabs/tabs'
@@ -41,17 +42,20 @@ class Describe extends React.Component {
 
   save = ()=>{
     this.props.set(this.props.projectKey,{dataUrl:this.state.previewUrl})
-    this.setState({pickingImage:false})
+    this.refs.pickProjectImage.close()
   }
 
   onImageChange = (dataUrl)=>this.setState({previewUrl: dataUrl})
 
+          // leftIcon={<div style={{backgroundColor:'red'}}>&nbsp;</div>}
+
   render() {
-    const {onImageChange, state:{previewUrl}, props:{project}} = this
+    const {onImageChange, state:{previewUrl}, props:{project, projectImage}} = this
     return <Content>
       <List>
-        <OpeningListItem primaryText="Find a cool background image to help identify your project."
-          leftIcon={<ProjectHeader style={{width:24,height:24}}/>}
+        <OpeningListItem ref="pickProjectImage"
+          primaryText="Find a cool background image to help identify your project."
+          leftIcon={<ProjectAvatar projectImage={projectImage}/>}
           >
           <div style={{display:'flex',flexDirection:'row',flexWrap:'wrap'}}>
             <div style={{padding:'0.5em',minWidth:300,flexGrow:1}}>
@@ -94,6 +98,12 @@ class Describe extends React.Component {
 
 import { Projects, ProjectImages } from 'remote'
 
+const selectedProjectImage = createSelector(
+  ProjectImages.select.collection,
+  (state,ownProps)=>ownProps.params.projectKey,
+  (projectImages,projectKey)=>projectImages && projectImages[projectKey]
+)
+
 const selectedProject = createSelector(
   Projects.select.collection,
   (state,ownProps)=>ownProps.params.projectKey,
@@ -102,14 +112,13 @@ const selectedProject = createSelector(
 
 const mapStateToProps = createSelector(
   selectedProject,
-  (project)=>{ return {project} }
+  selectedProjectImage,
+  (project,projectImage)=>{ return {project,projectImage} }
 )
 
 const mapDispatchToProps = {
   set: ProjectImages.actions.set
 }
-
-
 
 export default {
   component: connect(mapStateToProps,mapDispatchToProps)(Radium(Describe))
