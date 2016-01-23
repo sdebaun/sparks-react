@@ -12,13 +12,13 @@ import { Grid, Cell } from 'react-flexr'
 
 import { findMatch } from 'react-flexr'
 
-const Page = ({Title, Tabs, Main, team, teamImage, teamKey, project, location})=>{
+const Page = ({Title, Tabs, Main, team, teamImage, teamKey, project, projectImage, location})=>{
   const baseUrl = '/team/'+teamKey,
     linkedTabs = React.cloneElement(Tabs,{baseUrl})
 
   return <div>
     <MainBar />
-    { (!team || !teamImage || !project) && <PageLoadSpinner/> ||
+    { (!team || !teamImage || !project || !projectImage) && <PageLoadSpinner/> ||
       <Grid gutter='0em'>
         <SideNav>
           { findMatch('lap','desk') && <TeamHeader {...{teamKey,projectKey:team.projectKey}} style={{height:100}} /> }
@@ -44,7 +44,13 @@ const selectedTeam = (s,{params})=>{ return Teams.select.matching('teamKey')(s,p
 const parentProject = createSelector(
   selectedTeam,
   Projects.select.collection,
-  (team,projects)=>projects && team && projects[team.projectKey]
+  (team,projects)=>team && projects[team.projectKey]
+)
+
+const parentProjectImage = createSelector(
+  selectedTeam,
+  ProjectImages.select.collection,
+  (team,projectImages)=>team && projectImages[team.projectKey]
 )
 
 const mapStateToProps = createSelector(
@@ -52,7 +58,8 @@ const mapStateToProps = createSelector(
   selectedTeam,
   (s,{params})=>{ return TeamImages.select.matching('teamKey')(s,params) },
   parentProject,
-  (teamKey,team,teamImage,project)=>{ return {teamKey,team,teamImage,project} }
+  parentProjectImage,
+  (teamKey,team,teamImage,project,projectImage)=>{ return {teamKey,team,teamImage,project,projectImage} }
 )
 
 import { put, take } from 'redux-saga';

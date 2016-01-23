@@ -12,7 +12,7 @@ import Colors from 'material-ui/lib/styles/colors';
 class TeamHeader extends React.Component {
   render() {
     const {props:{style,sideNav,team,project,projectImage,previewUrl,secondaryText}} = this
-    const backgroundImageUrl = previewUrl || projectImage && projectImage.dataUrl
+    const backgroundImageUrl = projectImage && projectImage.dataUrl
     const defaultStyle = {
       display:'flex', flexDirection:'column', justifyContent:'flex-end',
       backgroundImage: backgroundImageUrl &&

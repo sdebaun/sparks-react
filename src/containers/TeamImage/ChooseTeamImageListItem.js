@@ -13,42 +13,43 @@ import OpeningListItem from 'components/OpeningListItem'
 import HalfColumn from 'components/HalfColumn'
 import IsDesktop from 'components/IsDesktop'
 
-import ProjectHeader from 'containers/Project/ProjectHeader'
+import TeamHeader from 'containers/Team/TeamHeader'
 import ProjectAvatar from 'containers/Project/ProjectAvatar'
 
-class ChooseProjectImageListItem extends React.Component {
+class ChooseTeamImageListItem extends React.Component {
   state = {
     image: null,
     previewUrl: null
   }
 
   save = ()=>{
-    this.props.set(this.props.projectKey,{dataUrl:this.state.previewUrl})
+    this.props.set(this.props.teamKey,{dataUrl:this.state.previewUrl})
     this.refs.listItem.close()
   }
 
   onImageChange = (dataUrl)=>this.setState({previewUrl: dataUrl})
 
   render() {
-    const {onImageChange, state:{previewUrl}, props:{projectKey,projectImage}} = this
+    const {onImageChange, state:{previewUrl}, props:{teamKey,teamImage,team:{projectKey}}} = this
 
-    if (!projectImage) return <div>...</div>
+    if (!teamImage) return <div>...</div>
 
     const attrs = {
-        primaryText: projectImage.dataUrl &&
+        primaryText: teamImage.dataUrl &&
           'Replace your Project Background.' ||
           'Upload a cool picture to use as your Project Background.',
-        leftIcon: projectImage.dataUrl &&
-          <ProjectAvatar projectImage={projectImage}/> ||
-          <AddAPhotoIcon/>,
-        imageUrl: projectImage.dataUrl
+        leftIcon: <AddAPhotoIcon/>,
+        // leftIcon: teamImage.dataUrl &&
+        //   <ProjectAvatar teamImage={teamImage}/> ||
+        //   <AddAPhotoIcon/>,
+        imageUrl: teamImage.dataUrl
       }
 
     return (
       <OpeningListItem ref='listItem' {...attrs}>
         <Grid>
           <HalfColumn>
-            <DropAndCrop key='dnc' onImageChange={onImageChange} style={{height:200}} aspectRatio={3/1}>
+            <DropAndCrop key='dnc' onImageChange={onImageChange} style={{height:200}} aspectRatio={1}>
               <RaisedButton primary={true} label='Use This' onTouchTap={this.save}/>
             </DropAndCrop>
           </HalfColumn>
@@ -57,18 +58,18 @@ class ChooseProjectImageListItem extends React.Component {
               <div>
                 <IsDesktop>
                   <h4>Public Pages</h4>
-                  <ProjectHeader {...{projectKey,previewUrl}} style={{width:450,height:150}} secondaryText='Applications Open!'/>
+                  <TeamHeader {...{teamKey,projectKey,previewUrl}} style={{width:450,height:150}} secondaryText='Applications Open!'/>
                 </IsDesktop>
                 <h4>Desktop Menu</h4>
-                <ProjectHeader {...{projectKey,previewUrl}} style={{width:240,height:80}}/>
+                <TeamHeader {...{teamKey,projectKey,previewUrl}} style={{width:240,height:80}}/>
                 <h4>Mobile Header</h4>
-                <ProjectHeader {...{projectKey,previewUrl}} style={{width:330,height:110}}secondaryText='Subtitle'>
+                <TeamHeader {...{teamKey,projectKey,previewUrl}} style={{width:390,height:130}} secondaryText='Subtitle'>
                   <Tabs {...this.props}>
                     <Tab label='Hot'/>
                     <Tab label='Apple'/>
                     <Tab label='Pie'/>
                   </Tabs>
-                </ProjectHeader>
+                </TeamHeader>
               </div>
             }
           </HalfColumn>
@@ -80,16 +81,16 @@ class ChooseProjectImageListItem extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Projects, ProjectImages } from 'remote'
+import { Teams, TeamImages } from 'remote'
 
 const mapStateToProps = createSelector(
-  Projects.select.matching('projectKey'),
-  ProjectImages.select.matching('projectKey'),
-  (project, projectImage)=>{ return {project, projectImage} }
+  Teams.select.matching('teamKey'),
+  TeamImages.select.matching('teamKey'),
+  (team, teamImage)=>{ return {team, teamImage} }
 )
 
 const mapDispatchToProps = {
-  set: ProjectImages.actions.set
+  set: TeamImages.actions.set
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(ChooseProjectImageListItem)
+export default connect(mapStateToProps,mapDispatchToProps)(ChooseTeamImageListItem)
