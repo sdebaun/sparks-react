@@ -75,6 +75,7 @@ export default {
   onEnter: ({params:{teamKey}})=>{
     master.start( function*() {
       const teamResult = yield take( Teams.taker(teamKey) )
+      yield put( Teams.actions.query({orderByChild:'projectKey',equalTo:teamResult.data.projectKey}) ) // need to get all of em for nav lists
       yield put( Projects.actions.watch(teamResult.data.projectKey) )
       yield put( ProjectImages.actions.watch(teamResult.data.projectKey) )
     })

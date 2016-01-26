@@ -8,7 +8,7 @@ import TeamForm from 'containers/Team/TeamForm'
 
 import FlatButton from 'material-ui/lib/flat-button'
 
-class RenameProjectListItem extends React.Component {
+class RenameTeamListItem extends React.Component {
   save = (data)=>{
     this.props.update(this.props.teamKey,data)
     this.refs.listItem.close()
@@ -20,7 +20,7 @@ class RenameProjectListItem extends React.Component {
     const {props:{team}} = this
 
     const attrs = {
-        primaryText: 'Rename your Project.',
+        primaryText: 'Rename your Team.',
         leftIcon: <EditIcon/>
       }
 
@@ -47,4 +47,4 @@ const mapDispatchToProps = {
   update: Teams.actions.update
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(RenameProjectListItem)
+export default connect(mapStateToProps,mapDispatchToProps)(RenameTeamListItem)

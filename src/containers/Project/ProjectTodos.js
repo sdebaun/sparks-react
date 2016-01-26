@@ -6,6 +6,7 @@ import FAB from 'material-ui/lib/floating-action-button'
 import AddAPhotoIcon from 'material-ui/lib/svg-icons/image/add-a-photo';
 import PlaylistAddIcon from 'material-ui/lib/svg-icons/av/playlist-add';
 import PersonAddIcon from 'material-ui/lib/svg-icons/social/person-add';
+import CreateTeamListItem from 'containers/Team/CreateTeamListItem'
 
 const todos = [
   { key:'describing',
@@ -37,6 +38,11 @@ const todos = [
         leftIcon={<FAB mini={true}><PersonAddIcon/></FAB>}
         />
     )
+  },
+  { key:'teams',
+    listItem: props => (
+      <CreateTeamListItem key='teams' projectKey={props.projectKey}/>
+    )
   }
 ]
 
@@ -56,7 +62,7 @@ class ProjectTodos extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Projects, ProjectImages, Organizers } from 'remote'
+import { Projects, ProjectImages, Organizers, Teams } from 'remote'
 
 const needsDescribing = createSelector(
   Projects.select.matching('projectKey'),
@@ -70,12 +76,17 @@ const needsAdmins = createSelector(
   Organizers.select.by('projectKey'),
   (organizers)=>!(organizers && (organizers.length>1))
 )
+const needsTeams = createSelector(
+  Teams.select.by('projectKey'),
+  (teams)=>!(teams && (teams.length>0))
+)
 
 const mapStateToProps = createSelector(
   needsDescribing,
   needsImage,
   needsAdmins,
-  (describing,image,admins)=>{ return { needs:{describing,image,admins} } }
+  needsTeams,
+  (describing,image,admins,teams)=>{ return { needs:{describing,image,admins,teams} } }
 )
 
 export default connect(mapStateToProps)(ProjectTodos)

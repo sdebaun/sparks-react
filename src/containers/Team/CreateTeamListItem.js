@@ -8,10 +8,16 @@ import PopupListItem from 'components/PopupListItem'
 
 import TeamForm from 'containers/Team/TeamForm'
 
+import { pushPath } from 'redux-simple-router'
+
 class CreateTeamListItem extends React.Component {
 
   save = data => {
-    if (data) this.props.push({...data, ...{projectKey:this.props.projectKey}})
+    if (data) {
+      this.props.push({...data, ...{projectKey:this.props.projectKey}})
+      this.props.pushPath('/team/'+teamKey)
+    }
+      
     this.refs.listItem.close()
   }
 
@@ -36,7 +42,8 @@ import { Teams } from 'remote'
 const mapStateToProps = ()=>{ return {} }
 
 const mapDispatchToProps = {
-  push: Teams.actions.push
+  push: Teams.actions.push,
+  pushPath
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateTeamListItem);

@@ -5,12 +5,12 @@ import IsMobile from 'components/IsMobile'
 import LeftNavButton from 'components/LeftNavButton'
 import TeamAvatar from 'containers/Team/TeamAvatar'
 
-import SelectField from 'material-ui/lib/select-field';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
 import HelpIcon from 'material-ui/lib/svg-icons/action/help';
-import ArrowDropDownIcon from 'material-ui/lib/svg-icons/navigation/arrow-drop-down';
+
+import ProjectDropdownMenu from 'containers/Project/ProjectDropdownMenu'
 
 import Colors from 'material-ui/lib/styles/colors';
 
@@ -31,11 +31,7 @@ class TeamHeader extends React.Component {
 
     return (
       <div style={[defaultStyle,style]}>
-        <SelectField value={<div style={{color:'white'}}>{project.name}</div>} style={{fontsize:'0.9em',color:'white',margin:'0em 1em 0em 1em',textTransform:'uppercase'}}
-          selectFieldRoot={{color:'white'}} underlineStyle={{color:'white'}}
-          >
-          <MenuItem value={project.name} primaryText={project.name} style={{textTransform:'uppercase'}}/>
-        </SelectField>        
+        <ProjectDropdownMenu projectKey={team.projectKey}/>
         <Toolbar style={{backgroundColor:'transparent', display:'flex', alignItems:'center'}}>
           <ToolbarGroup firstChild={true}>
             { sideNav && findMatch('palm') &&
