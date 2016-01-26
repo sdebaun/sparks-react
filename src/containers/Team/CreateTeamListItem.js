@@ -14,8 +14,8 @@ class CreateTeamListItem extends React.Component {
 
   save = data => {
     if (data) {
-      this.props.push({...data, ...{projectKey:this.props.projectKey}})
-      this.props.pushPath('/team/'+teamKey)
+      const teamRef = this.props.push({...data, ...{projectKey:this.props.projectKey}})
+      this.props.pushPath('/team/'+teamRef.key())
     }
       
     this.refs.listItem.close()
