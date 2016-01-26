@@ -48,7 +48,7 @@ class ChooseProjectImageListItem extends React.Component {
       <OpeningListItem ref='listItem' {...attrs}>
         <Grid>
           <HalfColumn>
-            <DropAndCrop key='dnc' onImageChange={onImageChange} style={{height:200}}>
+            <DropAndCrop key='dnc' onImageChange={onImageChange} style={{height:200}} aspectRatio={3/1}>
               <RaisedButton primary={true} label='Use This' onTouchTap={this.save}/>
             </DropAndCrop>
           </HalfColumn>

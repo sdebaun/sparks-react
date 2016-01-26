@@ -1,23 +1,13 @@
 import React from 'react';
 
-import IsMobile from 'components/IsMobile'
-import IsDesktop from 'components/IsDesktop'
-import NavPopout from 'components/NavPopout'
-// import Paper from 'material-ui/lib/paper';
+import { findMatch } from 'react-flexr'
 
-class SideNav extends React.Component {
+import NavPopout from 'components/NavPopout'
+
+export default class SideNav extends React.Component {
   render() {
-    return (
-      <div style={{height:'100%'}}>
-        <IsMobile>
-          <NavPopout>{ this.props.children }</NavPopout>
-        </IsMobile>
-        <IsDesktop>
-          <div style={{height:'100%', width:256}}>{this.props.children}</div>
-        </IsDesktop>
-      </div>
-    );
+    return findMatch('palm') &&
+      <NavPopout>{ this.props.children }</NavPopout> ||
+      <div style={{height:'100%', width:300}}>{this.props.children}</div>
   }
 }
-
-export default SideNav;

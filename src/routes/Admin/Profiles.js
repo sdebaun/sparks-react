@@ -1,16 +1,8 @@
 import React from 'react';
-
-class Profiles extends React.Component {
-  render() {
-    return (
-      <div className="index">
-        <h1>Profiles</h1>
-      </div>
-    );
-  }
-}
+import Content from 'components/Content'
+import ComingSoon from 'components/ComingSoon'
 
 export default {
   path: 'profiles',
-  component: Profiles
+  component: ()=><Content><ComingSoon/></Content>
 }

@@ -4,21 +4,15 @@ import MainBar from 'components/MainBar'
 import NavTabs from 'components/NavTabs'
 import Tab from 'material-ui/lib/tabs/tab'
 
-class Main extends React.Component {
-  render() {
-    const {profileKey} = this.props
-    return (
-      <div className="index">
-        <MainBar/>
-        <NavTabs>
-          <Tab label='Doing' route='/dash' />
-          <Tab label='Finding' route='/dash/finding' />
-        </NavTabs>
-        {React.cloneElement(this.props.children,{profileKey})}
-      </div>
-    );
-  }
-}
+const Page = ({profileKey,children})=>
+  <div className="index">
+    <MainBar/>
+    <NavTabs>
+      <Tab label='Doing' route='/dash' />
+      <Tab label='Finding' route='/dash/finding' />
+    </NavTabs>
+    {React.cloneElement(children,{profileKey})}
+  </div>
 
 import Doing from './Doing'
 import Finding from './Finding'
@@ -34,7 +28,7 @@ const mapStateToProps = createSelector(
 
 export default {
   path: 'dash',
-  component: connect(mapStateToProps)(Main),
+  component: connect(mapStateToProps)(Page),
   indexRoute: Doing,
   childRoutes: [ Finding ]
 }

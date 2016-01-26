@@ -2,20 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ListItem from 'material-ui/lib/lists/list-item'
-
-// import Colors from 'material-ui/lib/styles/colors';
-// import IconButton from 'material-ui/lib/icon-button';
-// import IconMenu from 'material-ui/lib/menus/icon-menu';
-// import MenuItem from 'material-ui/lib/menus/menu-item';
 import Avatar from 'material-ui/lib/avatar'
-
-// import EmailIcon from 'material-ui/lib/svg-icons/communication/email';
-// import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
-
-// import TimeAgo from 'react-timeago'
-
-import { createSelector } from 'reselect'
-import { Profiles } from 'remote'
 
 class ProfileListItem extends React.Component {
   componentWillMount() {
@@ -23,18 +10,17 @@ class ProfileListItem extends React.Component {
   }
 
   render() {
-    const { profile } = this.props
+    const { props: { profile, ...props } } = this
     if (!profile) return <ListItem>...</ListItem>
-    return <ListItem leftAvatar={<Avatar src={profile.profileImageURL}/>}
-      primaryText={profile.fullName} {...this.props}
+    return <ListItem {...props}
+      leftAvatar={<Avatar src={profile.profileImageURL}/>}
+      primaryText={profile.fullName}
       />
-      
   }
-
 }
-        // secondaryText={invite.lastSent && <TimeAgo date={invite.lastSent} minPeriod={10}/> || 'Sending...'}
-        // leftIcon={<EmailIcon/>}
-        // rightIconButton={rightIconMenu} />
+
+import { createSelector } from 'reselect'
+import { Profiles } from 'remote'
 
 const mapStateToProps = createSelector(
   Profiles.select.matching('profileKey'),

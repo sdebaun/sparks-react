@@ -11,10 +11,6 @@ import ProjectDescriptionForm from 'containers/Project/ProjectDescriptionForm'
 import FlatButton from 'material-ui/lib/flat-button'
 
 class EditProjectDescriptionListItem extends React.Component {
-  // state = {
-  //   image: null,
-  //   previewUrl: null
-  // }
 
   save = (data)=>{
     this.props.update(this.props.projectKey,data)
@@ -22,8 +18,6 @@ class EditProjectDescriptionListItem extends React.Component {
   }
 
   cancel = ()=>{ this.refs.listItem.close() }
-
-  // onImageChange = (dataUrl)=>this.setState({previewUrl: dataUrl})
 
   render() {
     const {props:{project}} = this

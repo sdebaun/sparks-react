@@ -11,12 +11,12 @@ const style = {
 class NavTabs extends React.Component {
   static defaultProps = {baseUrl:''}
 
-  handleChange = (value)=>this.props.pushPath(value)
+  navigate = (value)=>this.props.pushPath(value)
 
   render() {
-    const {baseUrl, path, children} = this.props
+    const {props:{baseUrl, path, children, ...props}} = this
     return (
-      <Tabs {...this.props} value={path} onChange={this.handleChange}>
+      <Tabs {...props} value={path} onChange={this.navigate}>
       { Children.map( children, (c)=>cloneElement(c,{style, value:baseUrl+c.props.route}) ) }
       </Tabs>
     )

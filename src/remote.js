@@ -59,6 +59,10 @@ export const Invites = remote.data.model('Invites', {
   }
 })
 
+export const Teams = remote.data.model('Teams')
+
+export const TeamImages = remote.data.model('TeamImages')
+
 function OAuthToProfile(authData) {
   const provider = authData.provider,
     d = authData[provider];

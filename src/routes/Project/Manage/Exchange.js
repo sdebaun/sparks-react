@@ -1,16 +1,8 @@
 import React from 'react';
-
-class Exchange extends React.Component {
-  render() {
-    return (
-      <div className="index">
-        Exchange
-      </div>
-    );
-  }
-}
+import Content from 'components/Content'
+import ComingSoon from 'components/ComingSoon'
 
 export default {
-  component: Exchange,
-  path: 'exchange'
+  path: 'exchange',
+  component: ()=><Content><ComingSoon/></Content>
 }

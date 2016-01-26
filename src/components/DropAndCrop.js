@@ -28,7 +28,7 @@ class DropAndCrop extends React.Component {
   }
 
   render() {
-    const { open, onDrop, onCrop, state:{image}, props:{style} } = this
+    const { open, onDrop, onCrop, state:{image}, props:{style, aspectRatio} } = this
     return <Dropzone ref='dropzone' onDrop={onDrop} multiple={false} disableClick={true} style={{}}>
       {image &&
         <div>
@@ -36,9 +36,7 @@ class DropAndCrop extends React.Component {
             {this.props.children}
             <FlatButton onTouchTap={open} label='Try Another One'/>
           </div>
-          <Cropper ref='cropper' src={image} aspectRatio={3/1} crop={onCrop}
-            autoCrop={true} style={style}
-            />
+          <Cropper ref='cropper' {...{style,aspectRatio,src:image,crop:onCrop,autoCrop:true}}/>
         </div>
         ||
         <div style={{padding:'1em',display:'flex',justifyContent:'center', alignItems:'center',border: '3px dashed #666',borderRadius:'1em'}}>

@@ -3,9 +3,7 @@ import {reduxForm} from 'redux-form';
 
 import RaisedButton from 'material-ui/lib/raised-button'
 import TextField from 'material-ui/lib/text-field'
-import SelectField from 'components/SelectField';
-// import DropDownMenu from 'components/DropDownMenu';
-// import DropDownMenu from 'material-ui/lib/DropDownMenu';
+import SelectField from 'lib/reduxform-material/SelectField';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
 export const fields = ['email','authority'];
@@ -45,7 +43,7 @@ class InviteForm extends Component {
           <p>They can change everything about this project, including adding and removing other Owners.</p>
         }
         <div style={{display:'flex',width:'100%',justifyContent:'flex-end'}}>
-          <RaisedButton disabled={!!errors.email || submitting}
+          <RaisedButton disabled={!!errors.email || !!errors.authority || submitting}
             primary={true} onTouchTap={handleSubmit}
             label='All Aboard!' style={{marginRight:'1em'}}/>
           {this.props.children}
@@ -58,5 +56,8 @@ class InviteForm extends Component {
 export default reduxForm({
   form: 'synchronousValidation',
   fields,
-  validate
+  validate,
+  initialValues: {
+    authority: 'manager'
+  }
 })(InviteForm);

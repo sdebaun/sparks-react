@@ -8,7 +8,6 @@ import NavListItem from 'components/NavListItem'
 import { createSelector } from 'reselect'
 import { Projects } from 'remote'
 
-
 class Container extends React.Component {
   componentWillMount() {
     this.props.project || this.props.dispatch(Projects.actions.watch(this.props.projectKey))
