@@ -1,11 +1,9 @@
 import React from 'react';
 import Radium from 'radium'
 
-import IsMobile from 'components/IsMobile'
 import LeftNavButton from 'components/LeftNavButton'
-import TeamAvatar from 'containers/Team/TeamAvatar'
 
-import MenuItem from 'material-ui/lib/menus/menu-item';
+// import MenuItem from 'material-ui/lib/menus/menu-item';
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
 import HelpIcon from 'material-ui/lib/svg-icons/action/help';
@@ -14,60 +12,49 @@ import ProjectDropdownMenu from 'containers/Project/ProjectDropdownMenu'
 
 import Colors from 'material-ui/lib/styles/colors';
 
+import Header from 'components/Header'
+
 import { findMatch } from 'react-flexr'
 
-class TeamHeader extends React.Component {
-  render() {
-    const {props:{style,sideNav,team,teamImage,project,projectImage,previewUrl,secondaryText}} = this
-    const backgroundImageUrl = projectImage && projectImage.dataUrl
-    const defaultStyle = {
-      display:'flex', flexDirection:'column', justifyContent:'flex-end',
-      backgroundImage: backgroundImageUrl &&
-        'linear-gradient(rgba(0,0,0,0.60),rgba(0,0,0,0.90)), url('+backgroundImageUrl+')' ||
-        'linear-gradient(rgba(0,0,0,0.80),rgba(0,0,0,0.80))',
-      zIndex: 0,
-      backgroundSize: 'cover'
+// const tabStyle = {backgroundColor:'transparent'}
+
+// const headerStyle = (backgroundSrc)=>{ return {
+//   display:'flex', flexDirection:'column', justifyContent:'flex-end',
+//   backgroundImage: backgroundSrc &&
+//     'linear-gradient(rgba(0,0,0,0.60),rgba(0,0,0,0.90)), url('+backgroundSrc+')' ||
+//     'linear-gradient(rgba(0,0,0,0.80),rgba(0,0,0,0.80))',
+//   zIndex: 0,
+//   backgroundSize: 'cover'
+// } }
+
+// // Generic Header with background image
+// const Header = Radium( ({backgroundSrc,style,topNav,navIcon,primaryText,secondaryText,tabs})=>
+//   <div style={[headerStyle(backgroundSrc),style]}>
+//     {topNav}
+//     <Toolbar style={{backgroundColor:'transparent', display:'flex', alignItems:'center'}}>
+//       <ToolbarGroup firstChild={true}>{navIcon}</ToolbarGroup>
+//       <ToolbarGroup style={{color:'white'}}>
+//         <div>
+//           <div style={{fontSize:'1.5em'}}>{primaryText}</div>
+//           <div style={{fontSize:'0.9em',color:Colors.grey300}}>{secondaryText}</div>
+//         </div>
+//       </ToolbarGroup>
+//     </Toolbar>
+//     {tabs && React.cloneElement(tabs,{ tabItemContainerStyle:tabStyle })}
+//   </div>
+// )
+
+const TeamAvatar = ({image})=> image && <img src={image.dataUrl}/> || <HelpIcon/>
+
+// TeamHeader
+export default ({project,teamImage,name,secondaryText,tabs,isMobile})=>
+  <Header backgroundSrc={ project.projectImage && project.projectImage.dataUrl }
+    style={ !isMobile && {height:100} }
+    topNav={ <ProjectDropdownMenu projectKey={project.$key}/> }
+    navIcon={ isMobile &&
+      <LeftNavButton icon={<TeamAvatar image={teamImage}/>}/> ||
+      <TeamAvatar image={teamImage}/>
     }
-
-    return (
-      <div style={[defaultStyle,style]}>
-        <ProjectDropdownMenu projectKey={team.projectKey}/>
-        <Toolbar style={{backgroundColor:'transparent', display:'flex', alignItems:'center'}}>
-          <ToolbarGroup firstChild={true}>
-            { sideNav && findMatch('palm') &&
-              <LeftNavButton icon={teamImage.dataUrl && <TeamAvatar teamImage={teamImage}/>}/>
-            }
-            { !sideNav && findMatch('lap','desk') && teamImage.dataUrl &&
-              <TeamAvatar teamImage={teamImage}/>
-            }
-            { !sideNav && findMatch('lap','desk') && !teamImage.dataUrl &&
-              <HelpIcon/>
-            }
-          </ToolbarGroup>
-          <ToolbarGroup style={{color:'white'}}>
-            <div>
-              <div style={{fontSize:'1.5em'}}>{team.name}</div>
-              <div style={{fontSize:'0.9em',color:Colors.grey300}}>{secondaryText}</div>
-            </div>
-          </ToolbarGroup>
-        </Toolbar>
-        { this.props.children && React.cloneElement(this.props.children,{ tabItemContainerStyle:{backgroundColor:'transparent'} }) }
-      </div>
-    );
-  }
-}
-
-import { connect } from 'react-redux';
-import { createSelector } from 'reselect'
-import { Teams, TeamImages, Projects, ProjectImages } from 'remote'
-
-const mapStateToProps = createSelector(
-  Teams.select.matching('teamKey'),
-  TeamImages.select.matching('teamKey'),
-  Projects.select.matching('projectKey'),
-  ProjectImages.select.matching('projectKey'),
-  (team,teamImage,project,projectImage)=>{ return {team,teamImage,project,projectImage} }
-)
-
-export default connect(mapStateToProps)(Radium(TeamHeader))
+    { ...{primaryText:name, secondaryText, tabs} }
+    />
 

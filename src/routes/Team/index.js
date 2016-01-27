@@ -12,30 +12,25 @@ import { Grid, Cell } from 'react-flexr'
 
 import { findMatch } from 'react-flexr'
 
-const Page = ({Title, Tabs, Main, team, teamImage, teamKey, project, projectImage, location})=>{
-  const baseUrl = '/team/'+teamKey,
-    linkedTabs = React.cloneElement(Tabs,{baseUrl}),
+const Page = ({Title, Tabs, Main, team, location})=>{
+  if (!team.$key || !team.project.$key) return <div><MainBar/><PageLoadSpinner/></div>
+
+  const baseUrl = '/team/'+team.project.$key + '/' + team.$key,
+    tabs = React.cloneElement(Tabs,{baseUrl}),
     isLarge = findMatch('lap','desk')
-    // { (!team || !teamImage || !project || !projectImage) && <PageLoadSpinner/> ||
 
   return <div>
     <MainBar />
-    { (!team || !project) && <PageLoadSpinner/> ||
-      <Grid gutter='0em'>
-        <SideNav>
-          { isLarge && <TeamHeader {...{teamKey,projectKey:team.projectKey}} style={{height:100}} /> }
-          <TeamNavList {...{baseUrl, location}}/>
-        </SideNav>
-        <Cell>
-          { isLarge && linkedTabs ||
-            <TeamHeader {...{teamKey, projectKey:team.projectKey, sideNav:true, secondaryText:Title}}>
-              { linkedTabs }
-            </TeamHeader>
-          }
-          { React.cloneElement(Main, {teamKey}) }
-        </Cell>
-      </Grid>
-    }
+    <Grid gutter='0em'>
+      <SideNav>
+        { isLarge && <TeamHeader {...team}/> }
+        <TeamNavList {...{baseUrl, location}}/>
+      </SideNav>
+      <Cell>
+        { isLarge && tabs || <TeamHeader {...{secondaryText:Title, tabs, ...team}}/> }
+        { React.cloneElement(Main, {teamKey:team.$key}) }
+      </Cell>
+    </Grid>
   </div>
 }
 
@@ -61,10 +56,16 @@ const mapStateToProps = createSelector(
   (s,{params})=>{ return TeamImages.select.matching('teamKey')(s,params) },
   parentProject,
   parentProjectImage,
-  (teamKey,team,teamImage,project,projectImage)=>{ return {teamKey,team,teamImage,project,projectImage} }
+  (teamKey,team,teamImage,project,projectImage)=>{
+    return {
+      team: {...team, teamImage,
+        project: {...project, projectImage}
+      }
+    }
+  }
 )
 
-import { put, take } from 'redux-saga';
+import { put } from 'redux-saga';
 import { master } from 'sagas'
 
 import Glance from './Glance'
@@ -74,18 +75,19 @@ export default {
   path: 'team/:projectKey/:teamKey',
   component: connect(mapStateToProps)(Page),
   childRoutes: [ Glance, Manage ],
-  onEnter: ({params:{teamKey}})=>{
+  onEnter: ({params:{teamKey,projectKey}})=>{
     master.start( function*() {
-      const teamResult = yield take( Teams.taker(teamKey) )
-      yield put( Teams.actions.query({orderByChild:'projectKey',equalTo:teamResult.data.projectKey}) ) // need to get all of em for nav lists
-      yield put( Projects.actions.watch(teamResult.data.projectKey) )
-      yield put( ProjectImages.actions.watch(teamResult.data.projectKey) )
-    })
-    master.start( function*() {
-      yield put( Teams.actions.watch(teamKey) )
-      yield put( TeamImages.actions.watch(teamKey) )
-      const params = { orderByChild:'teamKey', equalTo:teamKey }
-      yield put( Invites.actions.query(params) )
+      // basically want to get all the stuff you need for project view
+      // BE AGGRESSIVE
+      yield put( Projects.actions.watch(projectKey) )
+      yield put( ProjectImages.actions.watch(projectKey) )
+      const byProject = { orderByChild:'projectKey', equalTo:projectKey }
+      yield put( Teams.actions.query(byProject) ) // need to get all of em for nav lists
+      yield put( TeamImages.actions.query(byProject) ) // need to get all of em for nav lists
+      const byTeam = { orderByChild:'teamKey', equalTo:teamKey }
+      yield put( Invites.actions.query(byTeam) )
+      // shifts
+      // vols
     })
   }
 }
