@@ -8,20 +8,18 @@ import OrganizerActionMenu from 'containers/Organizer/OrganizerActionMenu'
 import ListItemHeader from 'components/styled/ListItemHeader'
 
 const Container = ({ projectKey, invites, organizers })=>
-    <List>
-      <CreateInviteListItem projectKey={projectKey}/>
-      { (invites.length > 0) && <ListItemHeader primaryText='Open Invites'/> }
-      { invites.map( invite=><InviteListItem key={invite.$key} {...invite} /> ) }
-      { (organizers.length > 0) && <ListItemHeader primaryText='Organizers'/> }
-      { organizers.map( ({profile, ...o})=>
-        profile && <ProfileListItem key={profile.$key} {...profile}
-          secondaryText={o.authority}
-          rightIconButton={<OrganizerActionMenu organizer={o}/>}
-          />
-      )}
-    </List>
-
-          // <ProfileListItem key={o.$key} profileKey={o.profileKey} secondaryText={o.authority}
+  <List>
+    <CreateInviteListItem projectKey={projectKey}/>
+    { (invites.length > 0) && <ListItemHeader primaryText='Open Invites'/> }
+    { invites.map( invite=><InviteListItem key={invite.$key} {...invite} /> ) }
+    { (organizers.length > 0) && <ListItemHeader primaryText='Organizers'/> }
+    { organizers.map( ({profile, ...o})=>
+      profile && <ProfileListItem key={profile.$key} {...profile}
+        secondaryText={o.authority}
+        rightIconButton={<OrganizerActionMenu organizer={o}/>}
+        />
+    )}
+  </List>
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
