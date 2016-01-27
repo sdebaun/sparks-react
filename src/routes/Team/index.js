@@ -14,18 +14,20 @@ import { findMatch } from 'react-flexr'
 
 const Page = ({Title, Tabs, Main, team, teamImage, teamKey, project, projectImage, location})=>{
   const baseUrl = '/team/'+teamKey,
-    linkedTabs = React.cloneElement(Tabs,{baseUrl})
+    linkedTabs = React.cloneElement(Tabs,{baseUrl}),
+    isLarge = findMatch('lap','desk')
+    // { (!team || !teamImage || !project || !projectImage) && <PageLoadSpinner/> ||
 
   return <div>
     <MainBar />
-    { (!team || !teamImage || !project || !projectImage) && <PageLoadSpinner/> ||
+    { (!team || !project) && <PageLoadSpinner/> ||
       <Grid gutter='0em'>
         <SideNav>
-          { findMatch('lap','desk') && <TeamHeader {...{teamKey,projectKey:team.projectKey}} style={{height:100}} /> }
+          { isLarge && <TeamHeader {...{teamKey,projectKey:team.projectKey}} style={{height:100}} /> }
           <TeamNavList {...{baseUrl, location}}/>
         </SideNav>
         <Cell>
-          { findMatch('lap','desk') && linkedTabs ||
+          { isLarge && linkedTabs ||
             <TeamHeader {...{teamKey, projectKey:team.projectKey, sideNav:true, secondaryText:Title}}>
               { linkedTabs }
             </TeamHeader>

@@ -2,7 +2,7 @@ import { take, put } from 'redux-saga';
 import { AUTH_SUCCESS, AUTH_CLEAR } from 'lib/reduxfire/types';
 import { pushPath } from 'redux-simple-router'
 
-import remote, { Profiles, Users, Organizers } from 'remote'
+import remote, { Projects, Profiles, Users, Organizers } from 'remote'
 
 function* startListening() {
   yield put(remote.auth.listen())
@@ -63,11 +63,20 @@ function* logoutRedirect(getState) {
   }
 }
 
+function* loadOrganizerChildRecords(getState) {
+  while(true) {
+    const {data:{profileKey,projectKey}} = yield take( Organizers.takeAny )
+    yield put( Profiles.actions.watch(profileKey) )
+    yield put( Projects.actions.watch(projectKey) )
+  }
+}
+
 import SagaMaster from 'lib/SagaMaster'
 export const master = new SagaMaster()
 
 export const sagas = [
   startListening, loadAuthedUser,
   loadUserData, createUserProfileIfMissing,
-  loginRedirect, logoutRedirect
+  loginRedirect, logoutRedirect,
+  loadOrganizerChildRecords
   ]

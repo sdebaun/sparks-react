@@ -20,7 +20,8 @@ export default class rfModel {
   _collection = state => state.data[this.name] || {}
   _rows = createSelector(
     this._collection,
-    (col)=>col && Object.keys(col).map(k=>Object.assign({$key:k},col[k]))
+    (col)=>col && Object.keys(col).map(k=>col[k])
+    // (col)=>col && Object.keys(col).map(k=>Object.assign({$key:k,key:k},col[k])) // in transition from $key=>key
   )
   _by = childKey => createSelector(
     this.select.rows,

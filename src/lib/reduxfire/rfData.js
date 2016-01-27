@@ -14,8 +14,7 @@ export default class rfData {
   constructor(ref) {
     this.ref = ref
     this.models = {}
-    this.cache = {
-    }
+    this.cache = {}
   }
 
   addWatch = (collection,key,dispatch)=> {
@@ -47,15 +46,9 @@ export default class rfData {
     switch (action.type) {
       case REMOTE_WATCH:
         this.addWatch(collection,key,dispatch)
-        // this.ref.child(collection).child(key).on('value', (snap)=>dispatch(localUpdate(collection,key,snap.val())))
         break
       case REMOTE_QUERY:
         this.addQuery(collection,params,dispatch)
-        // let q = this.ref.child(collection)
-        // if (params.orderByChild) { q = q.orderByChild(params.orderByChild) }
-        // if (params.equalTo) { q = q.equalTo(params.equalTo) }
-        // q.on('child_added', (snap)=>dispatch(localUpdate(collection,snap.key(),snap.val())))
-        // q.on('child_changed', (snap)=>dispatch(localUpdate(collection,snap.key(),snap.val())))
         break
       case REMOTE_PUSH:
         return this.ref.child(collection).push(vals)
