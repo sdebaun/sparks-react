@@ -71,7 +71,7 @@ import Glance from './Glance'
 import Manage from './Manage'
 
 export default {
-  path: 'team/:teamKey',
+  path: 'team/:projectKey/:teamKey',
   component: connect(mapStateToProps)(Page),
   childRoutes: [ Glance, Manage ],
   onEnter: ({params:{teamKey}})=>{

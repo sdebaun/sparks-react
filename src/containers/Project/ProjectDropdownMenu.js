@@ -15,7 +15,7 @@ class Container extends React.Component {
         >
         <MenuItem value={'/project/'+projectKey} primaryText={project.name} style={{textTransform:'uppercase'}}/>
         {teams.map( t=>
-          <MenuItem key={t.$key + 'dd'} value={'/team/' + t.$key} primaryText={t.name}/>
+          <MenuItem key={t.$key + 'dd'} value={'/team/' + projectKey + '/' + t.$key} primaryText={t.name}/>
         )}
       </SelectField>        
     )
