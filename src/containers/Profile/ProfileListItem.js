@@ -12,14 +12,16 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
 import { Profiles } from 'remote'
 import { needfulListItem } from 'needers'
+import { wanting } from 'lib/react-needful'
 
-const needs = {
+const wants = {
   profile: ({dispatch,profileKey})=>dispatch(Profiles.actions.watch(profileKey))
 }
+const needs = ['profile']
 
 const mapState = createSelector(
   Profiles.select.matching('profileKey'),
   (profile)=>{ return { profile } }
 )
 
-export default connect(mapState)(needfulListItem(needs)(Component))
+export default connect(mapState)(wanting(wants)(needfulListItem(needs)(Component)))

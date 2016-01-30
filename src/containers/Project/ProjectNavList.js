@@ -48,12 +48,13 @@ export class ProjectNavList extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import needful from 'lib/react-needful'
+import { needful, wanting } from 'lib/react-needful'
 import { Teams } from 'remote'
 
-const needs = {
+const wants = {
   teams: ({projectKey,query})=>query({orderByChild:'projectKey',equalTo:projectKey})
 }
+const needs = [ 'teams' ]
 
 const mapState = createSelector(
   Teams.select.by('projectKey'),
@@ -66,4 +67,4 @@ const mapDispatch = {
   pushPath
 }
 
-export default connect(mapState,mapDispatch)(needful(needs)(ProjectNavList))
+export default connect(mapState,mapDispatch)(wanting(wants)(needful(needs)(ProjectNavList)))

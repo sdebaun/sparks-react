@@ -25,8 +25,9 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
 import { Organizers, Invites, Profiles } from 'remote'
 import {needfulPage} from 'needers'
+import { wanting } from 'lib/react-needful'
 
-const needs = {
+const wants = {
   invites: ({projectKey,dispatch})=>dispatch(Invites.actions.query({orderByChild:'projectKey',equalTo:projectKey})),
   organizers: ({projectKey,dispatch})=>dispatch(Organizers.actions.query({orderByChild:'projectKey',equalTo:projectKey}))
 }
@@ -51,5 +52,5 @@ const mapState = createSelector(
 
 export default {
   path: 'staff',
-  component: connect(mapState)(needfulPage(needs)(Container))
+  component: connect(mapState)(wanting(wants)(Container))
 }

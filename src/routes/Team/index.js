@@ -12,14 +12,16 @@ import { Grid, Cell } from 'react-flexr'
 
 import { findMatch } from 'react-flexr'
 
-const Page = ({Title, Tabs, Main, team, location, ...props})=>{
+const Page = ({Title, Tabs, Main, team, teamImage, projectImage, location, ...props})=>{
   if (!team.$key || !team.project.$key) return <div><MainBar/><PageLoadSpinner/></div>
 
   const baseUrl = '/team/'+team.project.$key + '/' + team.$key,
     tabs = React.cloneElement(Tabs,{baseUrl}),
-    isLarge = findMatch('lap','desk')
-
-  console.log('page',location)
+    isLarge = findMatch('lap','desk'),
+    headerAttrs = { name: team.name, projectKey: team.projectKey, dataUrl: projectImage && projectImage.dataUrl,
+       isMobile: findMatch('palm'),
+       leftIcon: teamImage && teamImage.dataUrl
+    }
 
   return <div>
     <MainBar />

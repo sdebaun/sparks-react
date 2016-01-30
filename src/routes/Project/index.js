@@ -15,48 +15,33 @@ import { findMatch } from 'react-flexr'
 const Page = ({Title, Tabs, Main, project, projectImage, projectKey, location})=>{
   const baseUrl = '/project/'+projectKey,
     tabs = React.cloneElement(Tabs,{baseUrl}),
-    headerAttrs = { name: project.name, dataUrl: projectImage.dataUrl, isMobile: findMatch('palm') }
+    isLarge = findMatch('lap','desk'),
+    headerAttrs = { name: project.name, dataUrl: projectImage && projectImage.dataUrl, isMobile: findMatch('palm') }
 
   return <div>
     <MainBar />
     { (!project || !projectImage) && <PageLoadSpinner/> ||
       <Grid gutter='0em'>
         <SideNav>
-          { findMatch('lap','desk') && <ProjectHeader {...headerAttrs} /> }
+          { isLarge && <ProjectHeader {...headerAttrs} /> }
           <ProjectNavList {...{baseUrl, location, projectKey}}/>
         </SideNav>
         <Cell>
-          { findMatch('lap','desk') && tabs || <ProjectHeader {...{tabs, secondaryText:Title, ...headerAttrs}}/> }
+          { isLarge && tabs || <ProjectHeader {...{tabs, secondaryText:Title, ...headerAttrs}}/> }
           { React.cloneElement(Main, {projectKey, project, projectImage}) }
         </Cell>
       </Grid>
     }
   </div>
-  // return <div>
-  //   <MainBar />
-  //   { (!project || !projectImage) && <PageLoadSpinner/> ||
-  //     <Grid gutter='0em'>
-  //       <SideNav>
-  //         { findMatch('lap','desk') && <ProjectHeader {...{projectKey}} style={{height:100}} /> }
-  //         <ProjectNavList {...{baseUrl, location, projectKey}}/>
-  //       </SideNav>
-  //       <Cell>
-  //         { findMatch('lap','desk') && linkedTabs ||
-  //           <ProjectHeader {...{projectKey, sideNav:true, secondaryText:Title}}>
-  //             { linkedTabs }
-  //           </ProjectHeader>
-  //         }
-  //         { React.cloneElement(Main, {projectKey}) }
-  //       </Cell>
-  //     </Grid>
-  //   }
-  // </div>
 }
 
 import { needfulPage } from 'needers'
+import { wanting } from 'lib/react-needful'
 import { Projects, ProjectImages, Organizers, Invites, Teams } from 'remote'
 
-const needs = {
+const needs = ['project']
+
+const wants = {
   project: ({dispatch, projectKey})=>dispatch(Projects.actions.watch(projectKey)),
   projectImage: ({dispatch, projectKey})=>dispatch(ProjectImages.actions.watch(projectKey)),
   teams: ({dispatch, projectKey})=>dispatch(ProjectImages.actions.query({orderByChild:'projectKey', equalTo:projectKey}))
@@ -78,7 +63,7 @@ import Manage from './Manage'
 
 export default {
   path: 'project/:projectKey',
-  component: connect(mapState)(needfulPage(needs)(Page)),
+  component: connect(mapState)(wanting(wants)(needfulPage(needs)(Page))),
   childRoutes: [ Glance, Manage ] //,
   // onEnter: ({params:{projectKey}})=>{
   //   master.start( function*() {
