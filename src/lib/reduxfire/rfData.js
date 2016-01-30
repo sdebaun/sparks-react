@@ -28,17 +28,18 @@ export default class rfData {
   }
 
   addQuery = (collection,params,dispatch)=> {
-    if (this.cache[ [collection,params] ]) {
-      console.log("hit query cache on",collection,params)
+    const cacheKey = collection + ':' + Object.keys(params).map(k=>params[k]).join('|')
+    if (this.cache[ cacheKey ]) {
+      console.log("hit query cache on",cacheKey)
       return
     }
-    console.log('new query on',collection,params)
+    console.log('new query on',cacheKey)
     let q = this.ref.child(collection)
     if (params.orderByChild) { q = q.orderByChild(params.orderByChild) }
     if (params.equalTo) { q = q.equalTo(params.equalTo) }
     q.on('child_added', (snap)=>dispatch(localUpdate(collection,snap.key(),snap.val())))
     q.on('child_changed', (snap)=>dispatch(localUpdate(collection,snap.key(),snap.val())))
-    this.cache[ [collection,params] ] = true
+    this.cache[ cacheKey ] = true
   }
 
   middleware = ({dispatch}) => next => action => {

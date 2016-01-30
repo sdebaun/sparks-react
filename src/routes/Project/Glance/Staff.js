@@ -13,8 +13,8 @@ const Container = ({ projectKey, invites, organizers })=>
     { (invites.length > 0) && <ListItemHeader primaryText='Open Invites'/> }
     { invites.map( invite=><InviteListItem key={invite.$key} {...invite} /> ) }
     { (organizers.length > 0) && <ListItemHeader primaryText='Organizers'/> }
-    { organizers.map( ({profile, ...o})=>
-      profile && <ProfileListItem key={profile.$key} {...profile}
+    { organizers.map( o=>
+      <ProfileListItem key={o.$key} profileKey={o.profileKey}
         secondaryText={o.authority}
         rightIconButton={<OrganizerActionMenu organizer={o}/>}
         />
@@ -24,26 +24,32 @@ const Container = ({ projectKey, invites, organizers })=>
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
 import { Organizers, Invites, Profiles } from 'remote'
+import {needfulPage} from 'needers'
+
+const needs = {
+  invites: ({projectKey,dispatch})=>dispatch(Invites.actions.query({orderByChild:'projectKey',equalTo:projectKey})),
+  organizers: ({projectKey,dispatch})=>dispatch(Organizers.actions.query({orderByChild:'projectKey',equalTo:projectKey}))
+}
 
 const filteredInvites = createSelector(
   Invites.select.by('projectKey'),
   (invites)=>invites && invites.filter(invite=>!invite.claimedProfileKey)
 )
 
-const organizerProfiles = createSelector(
-  Organizers.select.by('projectKey'),
-  Profiles.select.collection,
-  (organizers,profiles)=>organizers.map( o=>Object.assign({},o,{profile:profiles[o.profileKey]}) )
-)
+// const organizerProfiles = createSelector(
+//   Organizers.select.by('projectKey'),
+//   Profiles.select.collection,
+//   (organizers,profiles)=>organizers.map( o=>Object.assign({},o,{profile:profiles[o.profileKey]}) )
+// )
 
-const mapStateToProps = createSelector(
+const mapState = createSelector(
   filteredInvites,
-  organizerProfiles,
-  // Organizers.select.by('projectKey'),
-  (invites,organizers)=>{ return { invites, organizers } }
+  Organizers.select.by('projectKey'),
+  // organizerProfiles,
+  (invites, organizers)=>{ return { invites, organizers } }
 )
 
 export default {
   path: 'staff',
-  component: connect(mapStateToProps)(Container)
+  component: connect(mapState)(needfulPage(needs)(Container))
 }

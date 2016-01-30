@@ -1,23 +1,25 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
 import ListItem from 'material-ui/lib/lists/list-item'
 import Avatar from 'material-ui/lib/avatar'
 
-export default ( {fullName, profileImageURL, ...props} ) =>
+const Component = ( {profile:{profileImageURL,fullName}, ...props} ) =>
   <ListItem {...props}
     leftAvatar={<Avatar src={profileImageURL}/>}
     primaryText={fullName}
     />
 
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect'
+import { Profiles } from 'remote'
+import { needfulListItem } from 'needers'
 
+const needs = {
+  profile: ({dispatch,profileKey})=>dispatch(Profiles.actions.watch(profileKey))
+}
 
-// export default class ProfileListItem extends React.Component {
-//   render() {
-//     const {props: { fullName,profileImageURL,...props }} = this
-//     return <ListItem {...props}
-//       leftAvatar={<Avatar src={profileImageURL}/>}
-//       primaryText={fullName}
-//       />
-//   }
-// }
+const mapState = createSelector(
+  Profiles.select.matching('profileKey'),
+  (profile)=>{ return { profile } }
+)
+
+export default connect(mapState)(needfulListItem(needs)(Component))

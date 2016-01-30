@@ -9,10 +9,16 @@ export default (needs,needyComponent=defaultComponent) => WrappedComponent =>
     satisfied = ()=>Object.keys(needs).every( p=> this.props[p] )
 
     // run the satisfier for each of my unsatisfied needs
-    satisfy = ()=>Object.keys(needs).forEach( p=> this.props[p] || needs[p](this.props) )
+    // satisfy = ()=>Object.keys(needs).forEach( p=> this.props[p] || needs[p](this.props) )
+    satisfy = ()=>Object.keys(needs).forEach( p=> needs[p](this.props) )
+    // satisfy = ()=>{
+    //     console.log('satisfying',needs)
+    //     Object.keys(needs).forEach( p=> needs[p](this.props) )
+    // }
 
     // when i start up, satisfy myself if am unsatisfied
-    componentWillMount = ()=>this.satisfied() || this.satisfy()
+    // componentWillMount = ()=>this.satisfied() || this.satisfy()
+    componentWillMount = ()=>this.satisfy()
 
     // render if i am satisfied, or my needyComponent if i am not
     render = ()=> this.satisfied() && <WrappedComponent {...this.props}/> || needyComponent

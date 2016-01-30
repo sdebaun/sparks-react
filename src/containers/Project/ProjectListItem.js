@@ -21,7 +21,7 @@ const Container = ({project,projectKey,...other})=>
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import needful from 'lib/react-needful'
+import { needfulListItem } from 'needers'
 import { Projects, ProjectImages } from 'remote'
 
 const needs = {
@@ -34,4 +34,4 @@ const mapState = createSelector(
   (projectImage)=>{ return {projectImage} }
 )
 
-export default connect(mapState)(needful(needs)(Container));
+export default connect(mapState)(needfulListItem(needs)(Container));

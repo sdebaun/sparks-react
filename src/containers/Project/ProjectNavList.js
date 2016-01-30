@@ -2,12 +2,9 @@ import React from 'react';
 
 import List from 'components/styled/List';
 import NavListItem from 'components/NavListItem'
-// import CreateTeamListItem from 'containers/Team/CreateTeamListItem'
 import TeamListItem from 'containers/Team/TeamListItem'
-// import CreateTeamDialog from 'containers/Team/CreateTeamDialog'
 import AddIcon from 'material-ui/lib/svg-icons/content/add';
 import PopupListItemHeader from 'components/PopupListItemHeader'
-// import ListItemHeader from 'components/styled/ListItemHeader'
 import TeamForm from 'containers/Team/TeamForm'
 import FlatButton from 'material-ui/lib/flat-button'
 
@@ -51,16 +48,22 @@ export class ProjectNavList extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
+import needful from 'lib/react-needful'
 import { Teams } from 'remote'
 
-const mapStateToProps = createSelector(
+const needs = {
+  teams: ({projectKey,query})=>query({orderByChild:'projectKey',equalTo:projectKey})
+}
+
+const mapState = createSelector(
   Teams.select.by('projectKey'),
   (teams)=>{ return {teams} }
 )
 
-const mapDispatchToProps = {
+const mapDispatch = {
   push: Teams.actions.push,
+  query: Teams.actions.query,
   pushPath
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(ProjectNavList)
+export default connect(mapState,mapDispatch)(needful(needs)(ProjectNavList))
