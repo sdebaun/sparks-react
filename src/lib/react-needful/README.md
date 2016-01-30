@@ -14,22 +14,31 @@ npm install react-needful
 
 Here's an example of using ```needful``` with ```redux```.
 
+```Project.actions.query``` and ```Project.selectors.collection``` are part of reduxfire, a simple middleware for subscribing to firebase locations.  The former simply returns an action that, when it is handled by the reduxfire middleware, makes the async call and updates the store with the response.  The latter is a selector that watches that corresponding part of the store.
+
 ```javascript
 // a simple component that needs information
-const ProjectHeader = ({project:{title,description}})=>
+const ProjectPage = ({projects})=>
   <div>
-    <h1>{title}</h1>
-    <p>{description}</p>
+    { projects.map( p=> <ProjectRow project={p}/> ) }
   </div>
 
+// a component to show when we're waiting to have needs satisfied
+const Waiting = ()=><div>loading...</div>
+
+// need:satisfier() mapping.  The satisfier will be passed the component's props.
+// in this case, its using the dispatch prop provided by redux.
 const needs = {
-  project: ({projectKey})=>AsyncActionToLoadProject(projectKey)
+  project: ({dispatch})=>dispatch(Project.actions.query(projectKey))
 }
 
-const mapState = createReducer(
-  ASelectorForAProject,
-  (project)=>{ return {project,people} }
+// standard redux mapping, using a reduxfire model
+const mapState = createSelector(
+  Project.selectors.collection,
+  (projects)=>{ return {projects} }
 )
 
-export default connect(mapState)(needful(needs,MyComponent))
+// shazam!
+export default connect(mapState)(needful(needs,Waiting)(MyComponent))
 ```
+

@@ -9,7 +9,7 @@ Object.assign(Users.select,{
   authed: createSelector(
     remote.auth.select.uid,
     Users.select.collection,
-    (uid,users)=>users[uid]
+    (uid,users)=>users && users[uid]
   )
 })
 
@@ -23,7 +23,7 @@ Object.assign(Profiles.select,{
   authed: createSelector(
     Users.select.authed, // is uid=>profileKey
     Profiles.select.collection,
-    (profileKey,profiles)=>profiles[profileKey]
+    (profileKey,profiles)=>profiles && profiles[profileKey]
   )
 })
 

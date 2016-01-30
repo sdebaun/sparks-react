@@ -22,6 +22,7 @@ import {Projects} from 'remote'
 import needful from 'lib/react-needful'
 
 const needs = {
+  projects: ({dispatch})=> dispatch(Projects.actions.query())
 }
 
 const mapState = createSelector(
@@ -30,10 +31,7 @@ const mapState = createSelector(
 )
 
 export default {
-  component: connect(mapState)(needful(needs)(Page)),
-  onEnter: ()=>master.start( function*() {
-    yield put( Projects.actions.query() )
-  })
+  component: connect(mapState)(needful(needs)(Page))
 }
 
 // export default {
