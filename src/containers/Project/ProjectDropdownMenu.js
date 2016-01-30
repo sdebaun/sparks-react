@@ -22,16 +22,29 @@ class Container extends React.Component {
   }
 }
 
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { createSelector } from 'reselect'
 import { Projects, Teams } from 'remote'
+import { wanting, needful } from 'lib/react-needful'
 import { pushPath } from 'redux-simple-router'
 
-const mapStateToProps = createSelector(
+const wants = {
+  project: ({projectKey,wantsProject})=>wantsProject(projectKey),
+  teams: ({projectKey,wantsTeams})=>wantsTeams({orderByChild:'projectKey',equalTo:projectKey})
+}
+
+const needs = ['project']
+
+const mapState = createSelector(
   Projects.select.matching('projectKey'),
   Teams.select.by('projectKey'),
   (project,teams)=>{ return {project,teams} }
 )
-const mapDispatchToProps = { pushPath }
+const mapDispatch = {
+  pushPath,
+  wantsProject: Projects.actions.watch,
+  wantsTeams: Teams.actions.query
+}
 
-export default connect(mapStateToProps,mapDispatchToProps)(Container)
+export default compose(connect(mapState,mapDispatch),wanting(wants),needful(needs))(Container)

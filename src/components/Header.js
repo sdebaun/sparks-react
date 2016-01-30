@@ -1,17 +1,10 @@
 import React from 'react';
 import Radium from 'radium'
 
-// import LeftNavButton from 'components/LeftNavButton'
-
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
-// import HelpIcon from 'material-ui/lib/svg-icons/action/help';
-
-// import ProjectDropdownMenu from 'containers/Project/ProjectDropdownMenu'
 
 import Colors from 'material-ui/lib/styles/colors';
-
-// import { findMatch } from 'react-flexr'
 
 const tabStyle = {backgroundColor:'transparent'}
 
@@ -29,8 +22,8 @@ export default Radium( ({backgroundSrc,style,topNav,navIcon,primaryText,secondar
   <div style={[headerStyle(backgroundSrc),style]}>
     {topNav}
     <Toolbar style={{backgroundColor:'transparent', display:'flex', alignItems:'center'}}>
-      <ToolbarGroup firstChild={true}>{navIcon}</ToolbarGroup>
-      <ToolbarGroup style={{color:'white'}}>
+      <ToolbarGroup firstChild={!!navIcon}>{navIcon}</ToolbarGroup>
+      <ToolbarGroup firstChild={false} style={{color:'white'}}>
         <div>
           <div style={{fontSize:'1.5em'}}>{primaryText}</div>
           <div style={{fontSize:'0.9em',color:Colors.grey300}}>{secondaryText}</div>
