@@ -23,9 +23,6 @@ const ProjectPage = ({projects})=>
     { projects.map( p=> <ProjectRow project={p}/> ) }
   </div>
 
-// a component to show when we're waiting to have needs satisfied
-const Waiting = ()=><div>loading...</div>
-
 // need:satisfier() mapping.  The satisfier will be passed the component's props.
 // in this case, its using the dispatch prop provided by redux.
 const needs = {
@@ -39,6 +36,36 @@ const mapState = createSelector(
 )
 
 // shazam!
-export default connect(mapState)(needful(needs,Waiting)(MyComponent))
+export default connect(mapState)(needful(needs)(MyComponent))
 ```
 
+## Overriding the waiting component
+
+Needful has a simple ```<div>Loading...</div>``` component that it uses as its default Waiting component.  You can override that as a second argument to ```needful()```:
+
+```javascript
+// a component to show when we're waiting to have needs satisfied
+const Waiting = ()=><div>loading...</div>
+
+// ... just like above except
+
+export default connect(mapState)(needful(needs,<Waiting/>)(MyComponent))
+
+```
+
+You can dry this up for your own application by simply composing the function (here using Ramda):
+
+```javascript
+// needers.js in your application
+import needful from 'react-needful'
+import { partialRight } from 'ramda'
+import PageLoadSpinner from 'components/PageLoadSpinner'
+import RowLoadSpinner from 'components/RowLoadSpinner'
+
+export const needfulPage = partialRight(needful,<PageLoadSpinner/>)
+export const needfulRow = partialRight(needful,<RowLoadSpinner/>)
+
+// elsewhere in your app...
+
+export default connect(mapState)(needfulPage(needs)(MyComponent))
+```

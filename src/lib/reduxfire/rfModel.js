@@ -29,7 +29,7 @@ export default class rfModel {
   _by = childKey => createSelector(
     this.select.rows,
     (state,props)=>props[childKey],
-    (rows,keyVal)=>rows.filter(r=>r[childKey]==keyVal)
+    (rows,keyVal)=>rows && rows.filter(r=>r[childKey]==keyVal)
   )
   _matching = propKey => createSelector(
     this.select.collection,

@@ -82,6 +82,7 @@
     "moment": "^2.11.1",
     "normalize.css": "^3.0.3",
     "radium": "^0.16.2",
+    "ramda": "^0.19.1",
     "react": "^0.14.5",
     "react-cropper": "^0.6.0",
     "react-dom": "^0.14.0",

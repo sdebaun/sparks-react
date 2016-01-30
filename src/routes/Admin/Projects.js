@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import List from 'material-ui/lib/lists/list'
 import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
 import ProjectListItem from 'containers/Project/ProjectListItem'
+import PageLoadSpinner from 'components/PageLoadSpinner'
 
 class Page extends React.Component {
   render() {
@@ -30,14 +31,14 @@ const mapState = createSelector(
   (projects)=>{ return {projects} }
 )
 
+import { partialRight } from 'ramda'
+
+const needfulPage = partialRight(needful,[<PageLoadSpinner/>])
+
 export default {
-  component: connect(mapState)(needful(needs)(Page))
+  component: connect(mapState)(needfulPage(needs)(Page))
 }
 
 // export default {
-//   component: connect(mapState)(needful(needs)(Page)),
-//   onEnter: ()=>master.start( function*() {
-//     yield put( Projects.actions.query() )
-//   })
+//   component: connect(mapState)(needful(needs,<PageLoadSpinner/>)(Page))
 // }
-
