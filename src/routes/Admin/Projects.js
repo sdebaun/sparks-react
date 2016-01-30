@@ -3,15 +3,11 @@ import List from 'material-ui/lib/lists/list'
 import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
 import ProjectListItem from 'containers/Project/ProjectListItem'
 
-class Page extends React.Component {
-  render() {
-    const { props: { projects } } = this
-    return <List>
-      <CreateProjectListItem/>
-      { projects.map( p=> <ProjectListItem key={p.$key} projectKey={p.$key} /> )}
-    </List>
-  }
-}
+const Container = ({projects})=>
+  <List>
+    <CreateProjectListItem/>
+    { projects.map( p=> <ProjectListItem key={p.$key} projectKey={p.$key} /> )}
+  </List>
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
@@ -28,5 +24,5 @@ const mapState = createSelector(
 )
 
 export default {
-  component: connect(mapState)(needfulPage(needs)(Page))
+  component: connect(mapState)(needfulPage(needs)(Container))
 }
