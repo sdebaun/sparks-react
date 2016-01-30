@@ -30,8 +30,9 @@ const needs = {
 }
 
 const mapState = createSelector(
+  Projects.select.matching('projectKey'),
   ProjectImages.select.matching('projectKey'),
-  (projectImage)=>{ return {projectImage} }
+  (project,projectImage)=>{ return {project,projectImage} }
 )
 
 export default connect(mapState)(needfulListItem(needs)(Container));

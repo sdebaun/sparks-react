@@ -30,19 +30,19 @@ class ChooseTeamImageListItem extends React.Component {
   onImageChange = (dataUrl)=>this.setState({previewUrl: dataUrl})
 
   render() {
-    const {onImageChange, state:{previewUrl}, props:{teamKey,teamImage,team:{projectKey}}} = this
+    const {onImageChange, state:{previewUrl}, props:{teamKey,teamImage,team, project}} = this
 
-    if (!teamImage) return <div>...</div>
+    // if (!teamImage) return <div>...</div>
 
     const attrs = {
-        primaryText: teamImage.dataUrl &&
+        primaryText: teamImage &&
           'Replace your Project Background.' ||
           'Upload a cool picture to use as your Project Background.',
         leftIcon: <AddAPhotoIcon/>,
         // leftIcon: teamImage.dataUrl &&
         //   <ProjectAvatar teamImage={teamImage}/> ||
         //   <AddAPhotoIcon/>,
-        imageUrl: teamImage.dataUrl
+        imageUrl: teamImage && teamImage.dataUrl
       }
 
     return (
@@ -58,12 +58,12 @@ class ChooseTeamImageListItem extends React.Component {
               <div>
                 <IsDesktop>
                   <h4>Public Pages</h4>
-                  <TeamHeader {...{teamKey,projectKey,previewUrl}} style={{width:450,height:150}} secondaryText='Applications Open!'/>
+                  <TeamHeader {...{secondaryText:'Applications Open!', project, ...team}} style={{width:450,height:150}}/>
                 </IsDesktop>
                 <h4>Desktop Menu</h4>
-                <TeamHeader {...{teamKey,projectKey,previewUrl}} style={{width:240,height:80}}/>
+                <TeamHeader {...{secondaryText:'Applications Open!', project, ...team}} style={{width:240,height:80}}/>
                 <h4>Mobile Header</h4>
-                <TeamHeader {...{teamKey,projectKey,previewUrl}} style={{width:390,height:130}} secondaryText='Subtitle'>
+                <TeamHeader {...{secondaryText:'Applications Open!', project, ...team}} style={{width:90,height:130}}>
                   <Tabs {...this.props}>
                     <Tab label='Hot'/>
                     <Tab label='Apple'/>
@@ -79,14 +79,19 @@ class ChooseTeamImageListItem extends React.Component {
   }
 }
 
+                // <TeamHeader {...{teamKey,projectKey,previewUrl}} style={{width:390,height:130}} secondaryText='Subtitle'>
+                  // <TeamHeader {...{teamKey,projectKey,previewUrl}} style={{width:450,height:150}} secondaryText='Applications Open!'/>
+                // <TeamHeader {...{teamKey,projectKey,previewUrl}} style={{width:240,height:80}}/>
+
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Teams, TeamImages } from 'remote'
+import { Projects, Teams, TeamImages } from 'remote'
 
 const mapStateToProps = createSelector(
+  Projects.select.matching('projectKey'),
   Teams.select.matching('teamKey'),
   TeamImages.select.matching('teamKey'),
-  (team, teamImage)=>{ return {team, teamImage} }
+  (project, team, teamImage)=>{ return {project, team, teamImage} }
 )
 
 const mapDispatchToProps = {

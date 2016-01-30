@@ -30,7 +30,7 @@ const Page = ({Title, Tabs, Main, team, location, ...props})=>{
       </SideNav>
       <Cell>
         { isLarge && tabs || <TeamHeader {...{secondaryText:Title, tabs, ...team}}/> }
-        { React.cloneElement(Main, {teamKey:team.$key}) }
+        { React.cloneElement(Main, {teamKey:team.$key,projectKey:team.projectKey}) }
       </Cell>
     </Grid>
   </div>

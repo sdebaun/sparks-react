@@ -12,7 +12,7 @@ const todos = [
       <NavListItem key='describing'
         primaryText='Describe Your Team'
         secondaryText="What kind of work does this team do?"
-        targetRoute={'/team/' + props.teamKey + '/manage'}
+        targetRoute={'/team/' + props.projectKey + '/' + props.teamKey + '/manage'}
         leftIcon={<FAB mini={true}><PlaylistAddIcon/></FAB>}
         />
     )
@@ -22,7 +22,7 @@ const todos = [
       <NavListItem key='image'
         primaryText='Upload a Team Picture'
         secondaryText="Choose an emblem to rally people to your team."
-        targetRoute={'/team/' + props.teamKey + '/manage'}
+        targetRoute={'/team/' + props.projectKey + '/' + props.teamKey + '/manage'}
         leftIcon={<FAB mini={true}><AddAPhotoIcon/></FAB>}
         />
     )

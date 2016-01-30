@@ -8,7 +8,7 @@ class Page extends React.Component {
     const { props: { projects } } = this
     return <List>
       <CreateProjectListItem/>
-      { projects.map( p=> <ProjectListItem key={p.$key} projectKey={p.$key} project={p} /> )}
+      { projects.map( p=> <ProjectListItem key={p.$key} projectKey={p.$key} /> )}
     </List>
   }
 }
