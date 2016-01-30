@@ -12,7 +12,7 @@ import { wanting } from 'lib/react-needful'
 
 const wants = {
   projectImage: ({projectKey,dispatch})=> dispatch(ProjectImages.actions.watch(projectKey)),
-  project: ({projectKey,dispatch})=> dispatch(Projects.actions.watch(projectKey))  
+  project: ({projectKey,dispatch})=> dispatch(Projects.actions.watch(projectKey))
 }
 const needs = ['project']
 

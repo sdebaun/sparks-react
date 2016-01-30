@@ -1,8 +1,8 @@
 import React from 'react';
 import SelectField from 'material-ui/lib/select-field';
-import ArrowDropDownIcon from 'material-ui/lib/svg-icons/navigation/arrow-drop-down';
+// import ArrowDropDownIcon from 'material-ui/lib/svg-icons/navigation/arrow-drop-down';
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import TeamListItem from 'containers/Team/TeamListItem'
+// import TeamListItem from 'containers/Team/TeamListItem'
 
 class Container extends React.Component {
   navigate = (evt,idx,val)=> this.props.pushPath(val)
@@ -17,7 +17,7 @@ class Container extends React.Component {
         {teams.map( t=>
           <MenuItem key={t.$key + 'dd'} value={'/team/' + projectKey + '/' + t.$key} primaryText={t.name}/>
         )}
-      </SelectField>        
+      </SelectField>
     )
   }
 }

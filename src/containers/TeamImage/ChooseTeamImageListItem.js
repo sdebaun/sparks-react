@@ -14,7 +14,7 @@ import HalfColumn from 'components/HalfColumn'
 import IsDesktop from 'components/IsDesktop'
 
 import TeamHeader from 'containers/Team/TeamHeader'
-import ProjectAvatar from 'containers/Project/ProjectAvatar'
+// import ProjectAvatar from 'containers/Project/ProjectAvatar'
 
 class ChooseTeamImageListItem extends React.Component {
   state = {
@@ -30,7 +30,8 @@ class ChooseTeamImageListItem extends React.Component {
   onImageChange = (dataUrl)=>this.setState({previewUrl: dataUrl})
 
   render() {
-    const {onImageChange, state:{previewUrl}, props:{teamKey,teamImage,team, project}} = this
+    // const {onImageChange, state:{previewUrl}, props:{teamKey,teamImage,team, project}} = this
+    const {onImageChange, state:{previewUrl}, props:{teamImage,team, project}} = this
 
     // if (!teamImage) return <div>...</div>
 

@@ -5,7 +5,7 @@ import Reduxfire from './Reduxfire'
 // const desire = (Component,...subs) => class extends Component {
 //   componentDidMount() {
 //     subs.map( sub=>sub(this.props) )
-//   }  
+//   }
 // }
 
 export { Reduxfire }

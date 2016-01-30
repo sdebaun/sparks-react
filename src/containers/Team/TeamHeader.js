@@ -2,7 +2,7 @@ import React from 'react';
 
 import LeftNavButton from 'components/LeftNavButton'
 
-import HelpIcon from 'material-ui/lib/svg-icons/action/help';
+// import HelpIcon from 'material-ui/lib/svg-icons/action/help';
 
 import ProjectDropdownMenu from 'containers/Project/ProjectDropdownMenu'
 
@@ -10,14 +10,14 @@ import Header from 'components/Header'
 
 // import { findMatch } from 'react-flexr'
 
-const avatarStyle = {
-  height: '32px !important',
-  width: '32px !important'
-}
-const TeamAvatar = (props)=> {
-  const image = props.image
-  return image && <img style={avatarStyle} src={image.dataUrl}/> || <HelpIcon/>
-}
+// const avatarStyle = {
+//   height: '32px !important',
+//   width: '32px !important'
+// }
+// const TeamAvatar = (props)=> {
+//   const image = props.image
+//   return image && <img style={avatarStyle} src={image.dataUrl}/> || <HelpIcon/>
+// }
 
 // TeamHeader
 // export default ({project,teamImage,name,secondaryText,tabs,isMobile})=>

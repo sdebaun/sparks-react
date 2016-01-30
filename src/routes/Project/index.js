@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { createSelector } from 'reselect'
 
 import MainBar from 'components/MainBar'
 import SideNav from 'components/SideNav'
@@ -35,9 +33,12 @@ const Page = ({Title, Tabs, Main, project, projectImage, projectKey, location})=
   </div>
 }
 
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { createSelector } from 'reselect'
 import { needfulPage } from 'needers'
 import { wanting } from 'lib/react-needful'
-import { Projects, ProjectImages, Organizers, Invites, Teams } from 'remote'
+import { Projects, ProjectImages, Teams } from 'remote'
 
 const needs = ['project']
 
@@ -55,15 +56,19 @@ const mapState = createSelector(
   (projectKey,project,projectImage,teams)=>{ return {projectKey,project,projectImage,teams} }
 )
 
-// import { put } from 'redux-saga';
-// import { master } from 'sagas'
+  component: compose(
+      connect(mapState),
+      wanting(wants),
+      needfulPage(needs)
+    )(Page)
 
 import Glance from './Glance'
 import Manage from './Manage'
 
 export default {
   path: 'project/:projectKey',
-  component: connect(mapState)(wanting(wants)(needfulPage(needs)(Page))),
+  // component: connect(mapState)(wanting(wants)(needfulPage(needs)(Page))),
+  component: compose(connect(mapState),wanting(wants),needfulPage(needs))(Page),
   childRoutes: [ Glance, Manage ] //,
   // onEnter: ({params:{projectKey}})=>{
   //   master.start( function*() {

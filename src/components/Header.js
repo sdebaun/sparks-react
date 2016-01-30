@@ -1,17 +1,17 @@
 import React from 'react';
 import Radium from 'radium'
 
-import LeftNavButton from 'components/LeftNavButton'
+// import LeftNavButton from 'components/LeftNavButton'
 
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
-import HelpIcon from 'material-ui/lib/svg-icons/action/help';
+// import HelpIcon from 'material-ui/lib/svg-icons/action/help';
 
-import ProjectDropdownMenu from 'containers/Project/ProjectDropdownMenu'
+// import ProjectDropdownMenu from 'containers/Project/ProjectDropdownMenu'
 
 import Colors from 'material-ui/lib/styles/colors';
 
-import { findMatch } from 'react-flexr'
+// import { findMatch } from 'react-flexr'
 
 const tabStyle = {backgroundColor:'transparent'}
 

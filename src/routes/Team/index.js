@@ -79,20 +79,20 @@ import Manage from './Manage'
 export default {
   path: 'team/:projectKey/:teamKey',
   component: connect(mapStateToProps)(Page),
-  childRoutes: [ Glance, Manage ],
-  onEnter: ({params:{teamKey,projectKey}})=>{
-    master.start( function*() {
-      // basically want to get all the stuff you need for project view
-      // BE AGGRESSIVE
-      yield put( Projects.actions.watch(projectKey) )
-      yield put( ProjectImages.actions.watch(projectKey) )
-      const byProject = { orderByChild:'projectKey', equalTo:projectKey }
-      yield put( Teams.actions.query(byProject) ) // need to get all of em for nav lists
-      // yield put( TeamImages.actions.query(byProject) ) // need to get all of em for nav lists
-      const byTeam = { orderByChild:'teamKey', equalTo:teamKey }
-      yield put( Invites.actions.query(byTeam) )
-      // shifts
-      // vols
-    })
-  }
+  childRoutes: [ Glance, Manage ] //,
+  // onEnter: ({params:{teamKey,projectKey}})=>{
+  //   master.start( function*() {
+  //     // basically want to get all the stuff you need for project view
+  //     // BE AGGRESSIVE
+  //     yield put( Projects.actions.watch(projectKey) )
+  //     yield put( ProjectImages.actions.watch(projectKey) )
+  //     const byProject = { orderByChild:'projectKey', equalTo:projectKey }
+  //     yield put( Teams.actions.query(byProject) ) // need to get all of em for nav lists
+  //     // yield put( TeamImages.actions.query(byProject) ) // need to get all of em for nav lists
+  //     const byTeam = { orderByChild:'teamKey', equalTo:teamKey }
+  //     yield put( Invites.actions.query(byTeam) )
+  //     // shifts
+  //     // vols
+  //   })
+  // }
 }

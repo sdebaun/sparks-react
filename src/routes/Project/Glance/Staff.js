@@ -23,8 +23,7 @@ const Container = ({ projectKey, invites, organizers })=>
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Organizers, Invites, Profiles } from 'remote'
-import {needfulPage} from 'needers'
+import { Organizers, Invites } from 'remote'
 import { wanting } from 'lib/react-needful'
 
 const wants = {
@@ -37,16 +36,9 @@ const filteredInvites = createSelector(
   (invites)=>invites && invites.filter(invite=>!invite.claimedProfileKey)
 )
 
-// const organizerProfiles = createSelector(
-//   Organizers.select.by('projectKey'),
-//   Profiles.select.collection,
-//   (organizers,profiles)=>organizers.map( o=>Object.assign({},o,{profile:profiles[o.profileKey]}) )
-// )
-
 const mapState = createSelector(
   filteredInvites,
   Organizers.select.by('projectKey'),
-  // organizerProfiles,
   (invites, organizers)=>{ return { invites, organizers } }
 )
 

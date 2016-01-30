@@ -2,7 +2,8 @@ import { take, put } from 'redux-saga';
 import { AUTH_SUCCESS, AUTH_CLEAR } from 'lib/reduxfire/types';
 import { pushPath } from 'redux-simple-router'
 
-import remote, { Projects, Profiles, Users, Organizers, Teams, TeamImages } from 'remote'
+// import remote, { Projects, Profiles, Users, Organizers, Teams, TeamImages } from 'remote'
+import remote, { Profiles, Users, Organizers } from 'remote'
 
 function* startListening() {
   yield put(remote.auth.listen())

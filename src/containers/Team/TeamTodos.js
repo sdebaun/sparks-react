@@ -43,7 +43,7 @@ class TeamTodos extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Teams, TeamImages, Organizers } from 'remote'
+import { Teams, TeamImages } from 'remote'
 
 const needsDescribing = createSelector(
   Teams.select.matching('teamKey'),
@@ -53,10 +53,10 @@ const needsImage = createSelector(
   TeamImages.select.matching('teamKey'),
   (teamImage)=>!teamImage || !teamImage.dataUrl
 )
-const needsAdmins = createSelector(
-  Organizers.select.by('teamKey'),
-  (organizers)=>!(organizers && (organizers.length>1))
-)
+// const needsAdmins = createSelector(
+//   Organizers.select.by('teamKey'),
+//   (organizers)=>!(organizers && (organizers.length>1))
+// )
 
 const mapStateToProps = createSelector(
   needsDescribing,
