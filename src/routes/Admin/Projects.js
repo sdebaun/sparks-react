@@ -1,26 +1,22 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
 import List from 'material-ui/lib/lists/list'
 import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
 import ProjectListItem from 'containers/Project/ProjectListItem'
-import PageLoadSpinner from 'components/PageLoadSpinner'
 
 class Page extends React.Component {
   render() {
     const { props: { projects } } = this
     return <List>
       <CreateProjectListItem/>
-      { projects.map( p=> <ProjectListItem key={p.$key} projectKey={p.$key} /> )}
+      { projects.map( p=> <ProjectListItem key={p.$key} projectKey={p.$key} project={p} /> )}
     </List>
   }
 }
 
+import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { put } from 'redux-saga';
-import {master} from 'sagas'
 import {Projects} from 'remote'
-import needful from 'lib/react-needful'
+import {needfulPage} from 'needers'
 
 const needs = {
   projects: ({dispatch})=> dispatch(Projects.actions.query())
@@ -31,14 +27,6 @@ const mapState = createSelector(
   (projects)=>{ return {projects} }
 )
 
-import { partialRight } from 'ramda'
-
-const needfulPage = partialRight(needful,[<PageLoadSpinner/>])
-
 export default {
   component: connect(mapState)(needfulPage(needs)(Page))
 }
-
-// export default {
-//   component: connect(mapState)(needful(needs,<PageLoadSpinner/>)(Page))
-// }
