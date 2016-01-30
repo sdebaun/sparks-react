@@ -2,7 +2,7 @@ import { take, put } from 'redux-saga';
 import { AUTH_SUCCESS, AUTH_CLEAR } from 'lib/reduxfire/types';
 import { pushPath } from 'redux-simple-router'
 
-import remote, { Projects, Profiles, Users, Organizers } from 'remote'
+import remote, { Projects, Profiles, Users, Organizers, Teams, TeamImages } from 'remote'
 
 function* startListening() {
   yield put(remote.auth.listen())
@@ -65,9 +65,21 @@ function* logoutRedirect(getState) {
 
 function* loadOrganizerChildRecords(getState) {
   while(true) {
-    const {data:{profileKey,projectKey}} = yield take( Organizers.takeAny )
-    yield put( Profiles.actions.watch(profileKey) )
-    yield put( Projects.actions.watch(projectKey) )
+    const result = yield take( Organizers.takeAny )
+    yield put( Profiles.actions.watch(result.data.profileKey) )
+    yield put( Projects.actions.watch(result.data.projectKey) )
+    // const {data:{profileKey,projectKey}} = yield take( Organizers.takeAny )
+    // yield put( Profiles.actions.watch(profileKey) )
+    // yield put( Projects.actions.watch(projectKey) )
+  }
+}
+
+function* loadTeamImages(getState) {
+  while(true) {
+    console.log('waiting to take Team update')
+    const {key} = yield take( Teams.takeAny )
+    console.log('requesting watch for team image',key)
+    yield put( TeamImages.actions.watch(key) )
   }
 }
 
@@ -78,5 +90,6 @@ export const sagas = [
   startListening, loadAuthedUser,
   loadUserData, createUserProfileIfMissing,
   loginRedirect, logoutRedirect,
-  loadOrganizerChildRecords
+  loadOrganizerChildRecords,
+  loadTeamImages
   ]

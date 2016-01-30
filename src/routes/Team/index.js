@@ -12,12 +12,14 @@ import { Grid, Cell } from 'react-flexr'
 
 import { findMatch } from 'react-flexr'
 
-const Page = ({Title, Tabs, Main, team, location})=>{
+const Page = ({Title, Tabs, Main, team, location, ...props})=>{
   if (!team.$key || !team.project.$key) return <div><MainBar/><PageLoadSpinner/></div>
 
   const baseUrl = '/team/'+team.project.$key + '/' + team.$key,
     tabs = React.cloneElement(Tabs,{baseUrl}),
     isLarge = findMatch('lap','desk')
+
+  console.log('page',location)
 
   return <div>
     <MainBar />
@@ -53,6 +55,7 @@ const parentProjectImage = createSelector(
 const mapStateToProps = createSelector(
   (s,p)=>p.params.teamKey,
   selectedTeam,
+  // TeamImages.select.matching('teamKey'),
   (s,{params})=>{ return TeamImages.select.matching('teamKey')(s,params) },
   parentProject,
   parentProjectImage,
@@ -83,7 +86,7 @@ export default {
       yield put( ProjectImages.actions.watch(projectKey) )
       const byProject = { orderByChild:'projectKey', equalTo:projectKey }
       yield put( Teams.actions.query(byProject) ) // need to get all of em for nav lists
-      yield put( TeamImages.actions.query(byProject) ) // need to get all of em for nav lists
+      // yield put( TeamImages.actions.query(byProject) ) // need to get all of em for nav lists
       const byTeam = { orderByChild:'teamKey', equalTo:teamKey }
       yield put( Invites.actions.query(byTeam) )
       // shifts

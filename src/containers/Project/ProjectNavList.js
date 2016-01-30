@@ -2,12 +2,12 @@ import React from 'react';
 
 import List from 'components/styled/List';
 import NavListItem from 'components/NavListItem'
-import CreateTeamListItem from 'containers/Team/CreateTeamListItem'
+// import CreateTeamListItem from 'containers/Team/CreateTeamListItem'
 import TeamListItem from 'containers/Team/TeamListItem'
-import CreateTeamDialog from 'containers/Team/CreateTeamDialog'
+// import CreateTeamDialog from 'containers/Team/CreateTeamDialog'
 import AddIcon from 'material-ui/lib/svg-icons/content/add';
 import PopupListItemHeader from 'components/PopupListItemHeader'
-import ListItemHeader from 'components/styled/ListItemHeader'
+// import ListItemHeader from 'components/styled/ListItemHeader'
 import TeamForm from 'containers/Team/TeamForm'
 import FlatButton from 'material-ui/lib/flat-button'
 
@@ -27,7 +27,7 @@ export class ProjectNavList extends React.Component {
 
 
   render() {
-    const {props: {baseUrl, projectKey, teams, ...props}} = this
+    const {props: {baseUrl, teams, ...props}} = this
     return (
       <div>
         <List>

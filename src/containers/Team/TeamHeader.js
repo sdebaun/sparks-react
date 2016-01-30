@@ -44,7 +44,15 @@ import { findMatch } from 'react-flexr'
 //   </div>
 // )
 
-const TeamAvatar = ({image})=> image && <img src={image.dataUrl}/> || <HelpIcon/>
+const avatarStyle = {
+  height: '32px !important',
+  width: '32px !important'
+}
+const TeamAvatar = (props)=> {
+  // console.log("teamavatar",props)
+  const image = props.image
+  return image && <img style={avatarStyle} src={image.dataUrl}/> || <HelpIcon/>
+}
 
 // TeamHeader
 export default ({project,teamImage,name,secondaryText,tabs,isMobile})=>

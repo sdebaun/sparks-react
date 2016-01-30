@@ -19,16 +19,27 @@ import { createSelector } from 'reselect'
 import { put } from 'redux-saga';
 import {master} from 'sagas'
 import {Projects} from 'remote'
+import needful from 'lib/react-needful'
 
-const mapStateToProps = createSelector(
+const needs = {
+}
+
+const mapState = createSelector(
   Projects.select.rows,
   (projects)=>{ return {projects} }
 )
 
 export default {
-  component: connect(mapStateToProps)(Page),
+  component: connect(mapState)(needful(needs)(Page)),
   onEnter: ()=>master.start( function*() {
     yield put( Projects.actions.query() )
   })
 }
+
+// export default {
+//   component: connect(mapState)(needful(needs)(Page)),
+//   onEnter: ()=>master.start( function*() {
+//     yield put( Projects.actions.query() )
+//   })
+// }
 
