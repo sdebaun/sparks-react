@@ -2,7 +2,6 @@ import React from 'react';
 
 import MainBar from 'components/MainBar'
 import SideNav from 'components/SideNav'
-// import PageLoadSpinner from 'components/PageLoadSpinner'
 import TeamHeader from 'containers/Team/TeamHeader'
 import TeamNavList from 'containers/Team/TeamNavList'
 import TeamAvatar from 'containers/Team/TeamAvatar'
@@ -20,7 +19,7 @@ const TeamIndexPage = ({Title, Tabs, Main, team, teamImage, projectImage, locati
        isMobile: findMatch('palm'),
        leftIcon: <TeamAvatar src={teamImage && teamImage.dataUrl}/>
     }
-  // console.log('leftIcon.props.src',!!headerAttrs.leftIcon.props.src)
+
   return <div>
     <MainBar />
     <Grid gutter='0em'>
@@ -64,21 +63,5 @@ import Manage from './Manage'
 export default {
   path: 'team/:projectKey/:teamKey',
   component: compose(connect(mapState),wanting(wants),needfulPage(needs))(TeamIndexPage),
-  childRoutes: [ Glance, Manage ] //,
-  // onEnter: ({params})=>console.log('team/index params', params)
-  // onEnter: ({params:{teamKey,projectKey}})=>{
-  //   master.start( function*() {
-  //     // basically want to get all the stuff you need for project view
-  //     // BE AGGRESSIVE
-  //     yield put( Projects.actions.watch(projectKey) )
-  //     yield put( ProjectImages.actions.watch(projectKey) )
-  //     const byProject = { orderByChild:'projectKey', equalTo:projectKey }
-  //     yield put( Teams.actions.query(byProject) ) // need to get all of em for nav lists
-  //     // yield put( TeamImages.actions.query(byProject) ) // need to get all of em for nav lists
-  //     const byTeam = { orderByChild:'teamKey', equalTo:teamKey }
-  //     yield put( Invites.actions.query(byTeam) )
-  //     // shifts
-  //     // vols
-  //   })
-  // }
+  childRoutes: [ Glance, Manage ]
 }

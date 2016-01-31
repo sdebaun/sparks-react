@@ -22,6 +22,7 @@ const Container = ({ projectKey, invites, organizers })=>
   </List>
 
 import { connect } from 'react-redux';
+import { compose } from 'redux'
 import { createSelector } from 'reselect'
 import { Organizers, Invites } from 'remote'
 import { wanting } from 'lib/react-needful'
@@ -44,5 +45,5 @@ const mapState = createSelector(
 
 export default {
   path: 'staff',
-  component: connect(mapState)(wanting(wants)(Container))
+  component: compose(connect(mapState),wanting(wants))(Container)
 }

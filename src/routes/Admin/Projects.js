@@ -11,10 +11,9 @@ const Container = ({projects})=>
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import {Projects} from 'remote'
+import { Projects } from 'remote'
 import { wanting } from 'lib/react-needful'
-
-// import {needfulPage} from 'needers'
+import { compose } from 'redux'
 
 const wants = {
   projects: ({dispatch})=> dispatch(Projects.actions.query())
@@ -26,5 +25,5 @@ const mapState = createSelector(
 )
 
 export default {
-  component: connect(mapState)(wanting(wants)(Container))
+  component: compose(connect(mapState),wanting(wants))(Container)
 }

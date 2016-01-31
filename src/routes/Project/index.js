@@ -2,7 +2,6 @@ import React from 'react';
 
 import MainBar from 'components/MainBar'
 import SideNav from 'components/SideNav'
-import PageLoadSpinner from 'components/PageLoadSpinner'
 import ProjectHeader from 'containers/Project/ProjectHeader'
 import ProjectNavList from 'containers/Project/ProjectNavList'
 
@@ -18,18 +17,16 @@ const Page = ({Title, Tabs, Main, project, projectImage, projectKey, location})=
 
   return <div>
     <MainBar />
-    { (!project || !projectImage) && <PageLoadSpinner/> ||
-      <Grid gutter='0em'>
-        <SideNav>
-          { isLarge && <ProjectHeader {...headerAttrs} /> }
-          <ProjectNavList {...{baseUrl, location, projectKey}}/>
-        </SideNav>
-        <Cell>
-          { isLarge && tabs || <ProjectHeader {...{tabs, secondaryText:Title, ...headerAttrs}}/> }
-          { React.cloneElement(Main, {projectKey, project, projectImage}) }
-        </Cell>
-      </Grid>
-    }
+    <Grid gutter='0em'>
+      <SideNav>
+        { isLarge && <ProjectHeader {...headerAttrs} /> }
+        <ProjectNavList {...{baseUrl, location, projectKey}}/>
+      </SideNav>
+      <Cell>
+        { isLarge && tabs || <ProjectHeader {...{tabs, secondaryText:Title, ...headerAttrs}}/> }
+        { React.cloneElement(Main, {projectKey, project, projectImage}) }
+      </Cell>
+    </Grid>
   </div>
 }
 
@@ -56,28 +53,11 @@ const mapState = createSelector(
   (projectKey,project,projectImage,teams)=>{ return {projectKey,project,projectImage,teams} }
 )
 
-  component: compose(
-      connect(mapState),
-      wanting(wants),
-      needfulPage(needs)
-    )(Page)
-
 import Glance from './Glance'
 import Manage from './Manage'
 
 export default {
   path: 'project/:projectKey',
-  // component: connect(mapState)(wanting(wants)(needfulPage(needs)(Page))),
   component: compose(connect(mapState),wanting(wants),needfulPage(needs))(Page),
-  childRoutes: [ Glance, Manage ] //,
-  // onEnter: ({params:{projectKey}})=>{
-  //   master.start( function*() {
-  //     yield put( Projects.actions.watch(projectKey) )
-  //     yield put( ProjectImages.actions.watch(projectKey) )
-  //     const params = { orderByChild:'projectKey', equalTo:projectKey }
-  //     yield put( Organizers.actions.query(params) )
-  //     yield put( Invites.actions.query(params) )
-  //     yield put( Teams.actions.query(params) )
-  //   })
-  // }
+  childRoutes: [ Glance, Manage ]
 }
