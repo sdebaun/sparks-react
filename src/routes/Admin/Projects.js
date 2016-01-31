@@ -1,34 +1,29 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
 import List from 'material-ui/lib/lists/list'
 import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
 import ProjectListItem from 'containers/Project/ProjectListItem'
 
-class Page extends React.Component {
-  render() {
-    const { props: { projects } } = this
-    return <List>
-      <CreateProjectListItem/>
-      { projects.map( p=> <ProjectListItem key={p.$key} projectKey={p.$key} /> )}
-    </List>
-  }
+const Container = ({projects})=>
+  <List>
+    <CreateProjectListItem/>
+    { projects.map( p=> <ProjectListItem key={p.$key} projectKey={p.$key} /> )}
+  </List>
+
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect'
+import { Projects } from 'remote'
+import { wanting } from 'lib/react-needful'
+import { compose } from 'redux'
+
+const wants = {
+  projects: ({dispatch})=> dispatch(Projects.actions.query())
 }
 
-import { createSelector } from 'reselect'
-import { put } from 'redux-saga';
-import {master} from 'sagas'
-import {Projects} from 'remote'
-
-const mapStateToProps = createSelector(
+const mapState = createSelector(
   Projects.select.rows,
   (projects)=>{ return {projects} }
 )
 
 export default {
-  component: connect(mapStateToProps)(Page),
-  onEnter: ()=>master.start( function*() {
-    yield put( Projects.actions.query() )
-  })
+  component: compose(connect(mapState),wanting(wants))(Container)
 }
-

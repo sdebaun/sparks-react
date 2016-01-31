@@ -17,15 +17,19 @@ export default class rfModel {
     query: (params={})=>{ return {type:REMOTE_QUERY,collection:this.name,params} }
   }
 
+  // _collection = state => state.data[this.name]
+
   _collection = state => state.data[this.name] || {}
+
   _rows = createSelector(
     this._collection,
-    (col)=>col && Object.keys(col).map(k=>Object.assign({$key:k},col[k]))
+    (col)=>col && Object.keys(col).map(k=>col[k])
+    // (col)=>col && Object.keys(col).map(k=>Object.assign({$key:k,key:k},col[k])) // in transition from $key=>key
   )
   _by = childKey => createSelector(
     this.select.rows,
     (state,props)=>props[childKey],
-    (rows,keyVal)=>rows.filter(r=>r[childKey]==keyVal)
+    (rows,keyVal)=>rows && rows.filter(r=>r[childKey]==keyVal)
   )
   _matching = propKey => createSelector(
     this.select.collection,

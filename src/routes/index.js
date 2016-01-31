@@ -6,7 +6,6 @@ import {StyleRoot} from 'radium';
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import Theme from '../theme'
 
-// import Auth from 'containers/Auth'
 import DevTools from 'components/DevTools'
 
 class App extends React.Component {
@@ -27,14 +26,6 @@ class App extends React.Component {
     );
   }
 
-  // render() {
-  //   return (
-  //     <div style={{height:'100%'}}>
-  //       {this.props.children}
-  //       <DevTools/>
-  //     </div>
-  //   );
-  // }
 }
 
 import Landing from './Landing'

@@ -1,30 +1,25 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-import ListItem from 'material-ui/lib/lists/list-item'
-
 import NavListItem from 'components/NavListItem'
 
+const Container = ({project,projectKey,...other})=>
+  <NavListItem primaryText={project.name} targetRoute={'/project/' + projectKey} {...other}/>
+
+import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Projects } from 'remote'
+import { needfulListItem } from 'needers'
+import { Projects, ProjectImages } from 'remote'
+import { wanting } from 'lib/react-needful'
 
-class Container extends React.Component {
-  componentWillMount() {
-    this.props.project || this.props.dispatch(Projects.actions.watch(this.props.projectKey))
-  }
-
-  render() {
-    const { project, projectKey } = this.props
-    const targetRoute = '/project/' + projectKey
-    if (!project) return <ListItem>...</ListItem>
-    return <NavListItem primaryText={project.name} targetRoute={targetRoute} {...this.props}/>
-  }
-
+const wants = {
+  projectImage: ({projectKey,dispatch})=> dispatch(ProjectImages.actions.watch(projectKey)),
+  project: ({projectKey,dispatch})=> dispatch(Projects.actions.watch(projectKey))
 }
+const needs = ['project']
 
-const mapStateToProps = createSelector(
+const mapState = createSelector(
   Projects.select.matching('projectKey'),
-  (project)=>{ return {project} }
+  ProjectImages.select.matching('projectKey'),
+  (project,projectImage)=>{ return {project,projectImage} }
 )
 
-export default connect(mapStateToProps)(Container);
+export default connect(mapState)(wanting(wants)(needfulListItem(needs)(Container)))

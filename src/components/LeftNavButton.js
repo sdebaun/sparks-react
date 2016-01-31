@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import IconButton from 'material-ui/lib/icon-button'
+// import IconButton from 'material-ui/lib/icon-button'
 import Menu from 'material-ui/lib/svg-icons/navigation/menu';
 
 class LeftNavButton extends React.Component {
@@ -9,7 +9,8 @@ class LeftNavButton extends React.Component {
 
   render() {
     const { props: {icon} } = this
-    return <IconButton onTouchTap={this.toggle}>{icon || <Menu color='white'/>}</IconButton>
+    return <div onTouchTap={this.toggle}>{icon || <Menu color='white'/>}</div>
+    // return <IconButton onTouchTap={this.toggle}>{icon || <Menu color='white'/>}</IconButton>
   }
 }
 

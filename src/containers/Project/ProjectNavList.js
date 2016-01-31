@@ -2,12 +2,9 @@ import React from 'react';
 
 import List from 'components/styled/List';
 import NavListItem from 'components/NavListItem'
-import CreateTeamListItem from 'containers/Team/CreateTeamListItem'
 import TeamListItem from 'containers/Team/TeamListItem'
-import CreateTeamDialog from 'containers/Team/CreateTeamDialog'
 import AddIcon from 'material-ui/lib/svg-icons/content/add';
 import PopupListItemHeader from 'components/PopupListItemHeader'
-import ListItemHeader from 'components/styled/ListItemHeader'
 import TeamForm from 'containers/Team/TeamForm'
 import FlatButton from 'material-ui/lib/flat-button'
 
@@ -17,7 +14,7 @@ export class ProjectNavList extends React.Component {
   save = data => {
     if (data) {
       const teamRef = this.props.push({...data, ...{projectKey:this.props.projectKey}})
-      this.props.pushPath('/team/'+teamRef.key())
+      this.props.pushPath('/team/'+this.props.projectKey + '/' + teamRef.key())
     }
       
     this.refs.listItem.close()
@@ -27,7 +24,7 @@ export class ProjectNavList extends React.Component {
 
 
   render() {
-    const {props: {baseUrl, projectKey, teams, ...props}} = this
+    const {props: {baseUrl, teams, ...props}} = this
     return (
       <div>
         <List>
@@ -51,16 +48,23 @@ export class ProjectNavList extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
+import { needful, wanting } from 'lib/react-needful'
 import { Teams } from 'remote'
 
-const mapStateToProps = createSelector(
+const wants = {
+  teams: ({projectKey,query})=>query({orderByChild:'projectKey',equalTo:projectKey})
+}
+const needs = [ 'teams' ]
+
+const mapState = createSelector(
   Teams.select.by('projectKey'),
   (teams)=>{ return {teams} }
 )
 
-const mapDispatchToProps = {
+const mapDispatch = {
   push: Teams.actions.push,
+  query: Teams.actions.query,
   pushPath
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(ProjectNavList)
+export default connect(mapState,mapDispatch)(wanting(wants)(needful(needs)(ProjectNavList)))

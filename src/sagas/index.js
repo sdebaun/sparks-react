@@ -2,6 +2,7 @@ import { take, put } from 'redux-saga';
 import { AUTH_SUCCESS, AUTH_CLEAR } from 'lib/reduxfire/types';
 import { pushPath } from 'redux-simple-router'
 
+// import remote, { Projects, Profiles, Users, Organizers, Teams, TeamImages } from 'remote'
 import remote, { Profiles, Users, Organizers } from 'remote'
 
 function* startListening() {
@@ -63,6 +64,26 @@ function* logoutRedirect(getState) {
   }
 }
 
+// function* loadOrganizerChildRecords(getState) {
+//   while(true) {
+//     const result = yield take( Organizers.takeAny )
+//     yield put( Profiles.actions.watch(result.data.profileKey) )
+//     yield put( Projects.actions.watch(result.data.projectKey) )
+//     // const {data:{profileKey,projectKey}} = yield take( Organizers.takeAny )
+//     // yield put( Profiles.actions.watch(profileKey) )
+//     // yield put( Projects.actions.watch(projectKey) )
+//   }
+// }
+
+// function* loadTeamImages(getState) {
+//   while(true) {
+//     console.log('waiting to take Team update')
+//     const {key} = yield take( Teams.takeAny )
+//     console.log('requesting watch for team image',key)
+//     yield put( TeamImages.actions.watch(key) )
+//   }
+// }
+
 import SagaMaster from 'lib/SagaMaster'
 export const master = new SagaMaster()
 
@@ -70,4 +91,6 @@ export const sagas = [
   startListening, loadAuthedUser,
   loadUserData, createUserProfileIfMissing,
   loginRedirect, logoutRedirect
+  // loadOrganizerChildRecords,
+  // loadTeamImages
   ]

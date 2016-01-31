@@ -21,14 +21,14 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
 import { Users } from 'remote'
 
-const mapStateToProps = createSelector(
+const mapState = createSelector(
   Users.select.authed,
   (profileKey)=>{ return {profileKey} }
 )
 
 export default {
   path: 'dash',
-  component: connect(mapStateToProps)(Page),
+  component: connect(mapState)(Page),
   indexRoute: Doing,
   childRoutes: [ Finding ]
 }
