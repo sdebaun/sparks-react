@@ -14,7 +14,7 @@ import HalfColumn from 'components/HalfColumn'
 import IsDesktop from 'components/IsDesktop'
 
 import TeamHeader from 'containers/Team/TeamHeader'
-// import ProjectAvatar from 'containers/Project/ProjectAvatar'
+import TeamAvatar from 'containers/Team/TeamAvatar'
 
 class ChooseTeamImageListItem extends React.Component {
   state = {
@@ -31,20 +31,20 @@ class ChooseTeamImageListItem extends React.Component {
 
   render() {
     // const {onImageChange, state:{previewUrl}, props:{teamKey,teamImage,team, project}} = this
-    const {onImageChange, state:{previewUrl}, props:{teamImage,team, project}} = this
+    const {onImageChange, state:{previewUrl}, props:{teamImage,team, project, projectImage}} = this
 
     // if (!teamImage) return <div>...</div>
 
     const attrs = {
         primaryText: teamImage &&
-          'Replace your Project Background.' ||
-          'Upload a cool picture to use as your Project Background.',
+          'Replace your Team Avatar.' ||
+          'Upload a cool picture to use as your Team Avatar.',
         leftIcon: <AddAPhotoIcon/>,
-        // leftIcon: teamImage.dataUrl &&
-        //   <ProjectAvatar teamImage={teamImage}/> ||
-        //   <AddAPhotoIcon/>,
         imageUrl: teamImage && teamImage.dataUrl
       }
+    const headerAttrs = { name: team.name, projectKey: team.projectKey, dataUrl: projectImage && projectImage.dataUrl,
+       leftIcon: <TeamAvatar src={previewUrl || teamImage && teamImage.dataUrl}/>
+    }
 
     return (
       <OpeningListItem ref='listItem' {...attrs}>
@@ -57,20 +57,22 @@ class ChooseTeamImageListItem extends React.Component {
           <HalfColumn>
             { previewUrl &&
               <div>
-                <IsDesktop>
-                  <h4>Public Pages</h4>
-                  <TeamHeader {...{secondaryText:'Applications Open!', project, ...team}} style={{width:450,height:150}}/>
-                </IsDesktop>
                 <h4>Desktop Menu</h4>
-                <TeamHeader {...{secondaryText:'Applications Open!', project, ...team}} style={{width:240,height:80}}/>
+                <div style={{width:300}}>
+                  <TeamHeader {...headerAttrs}/>
+                </div>
                 <h4>Mobile Header</h4>
-                <TeamHeader {...{secondaryText:'Applications Open!', project, ...team}} style={{width:90,height:130}}>
-                  <Tabs {...this.props}>
-                    <Tab label='Hot'/>
-                    <Tab label='Apple'/>
-                    <Tab label='Pie'/>
-                  </Tabs>
-                </TeamHeader>
+                <div style={{width:300}}>
+                  <TeamHeader {...{isMobile:true, ...headerAttrs}} secondaryText='Subtitle'
+                    tabs={
+                    <Tabs {...this.props}>
+                      <Tab label='Hot'/>
+                      <Tab label='Apple'/>
+                      <Tab label='Pie'/>
+                    </Tabs>
+                    }
+                    />
+                </div>
               </div>
             }
           </HalfColumn>
@@ -86,13 +88,14 @@ class ChooseTeamImageListItem extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Projects, Teams, TeamImages } from 'remote'
+import { Projects, ProjectImages, Teams, TeamImages } from 'remote'
 
 const mapStateToProps = createSelector(
   Projects.select.matching('projectKey'),
+  ProjectImages.select.matching('projectKey'),
   Teams.select.matching('teamKey'),
   TeamImages.select.matching('teamKey'),
-  (project, team, teamImage)=>{ return {project, team, teamImage} }
+  (project, projectImage, team, teamImage)=>{ return {project, projectImage, team, teamImage} }
 )
 
 const mapDispatchToProps = {

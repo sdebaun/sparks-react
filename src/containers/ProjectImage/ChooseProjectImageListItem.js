@@ -30,7 +30,7 @@ class ChooseProjectImageListItem extends React.Component {
   onImageChange = (dataUrl)=>this.setState({previewUrl: dataUrl})
 
   render() {
-    const {onImageChange, state:{previewUrl}, props:{projectKey,projectImage}} = this
+    const {onImageChange, state:{previewUrl}, props:{project, projectKey, projectImage}} = this
 
     if (!projectImage) return <div>...</div>
 
@@ -43,6 +43,9 @@ class ChooseProjectImageListItem extends React.Component {
           <AddAPhotoIcon/>,
         imageUrl: projectImage.dataUrl
       }
+    const headerAttrs = {
+      name: project.name, dataUrl: previewUrl || projectImage && projectImage.dataUrl
+    }
 
     return (
       <OpeningListItem ref='listItem' {...attrs}>
@@ -57,18 +60,24 @@ class ChooseProjectImageListItem extends React.Component {
               <div>
                 <IsDesktop>
                   <h4>Public Pages</h4>
-                  <ProjectHeader {...{projectKey,previewUrl}} style={{width:450,height:150}} secondaryText='Applications Open!'/>
+                  <ProjectHeader {...headerAttrs} style={{width:450,height:150}} secondaryText='Applications Open!'/>
                 </IsDesktop>
                 <h4>Desktop Menu</h4>
-                <ProjectHeader {...{projectKey,previewUrl}} style={{width:240,height:80}}/>
+                <div style={{width:300}}>
+                  <ProjectHeader {...headerAttrs}/>
+                </div>
                 <h4>Mobile Header</h4>
-                <ProjectHeader {...{projectKey,previewUrl}} style={{width:330,height:110}}secondaryText='Subtitle'>
-                  <Tabs {...this.props}>
-                    <Tab label='Hot'/>
-                    <Tab label='Apple'/>
-                    <Tab label='Pie'/>
-                  </Tabs>
-                </ProjectHeader>
+                <div style={{width:300}}>
+                  <ProjectHeader {...{isMobile:true, ...headerAttrs}} secondaryText='Subtitle'
+                    tabs={
+                    <Tabs {...this.props}>
+                      <Tab label='Hot'/>
+                      <Tab label='Apple'/>
+                      <Tab label='Pie'/>
+                    </Tabs>
+                    }
+                    />
+                </div>
               </div>
             }
           </HalfColumn>
