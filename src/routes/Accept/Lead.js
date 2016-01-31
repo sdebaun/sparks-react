@@ -20,7 +20,7 @@ const wants = {
 const needs = ['lead']
 
 const mapState = createSelector(
-  (s,p)=>Leads.select.matching('leadKey')(s,p.params)
+  (s,p)=>Leads.select.matching('leadKey')(s,p.params),
   (lead)=>{ return {lead} }
 )
 
@@ -29,6 +29,6 @@ const mapDispatch = {
 }
 
 export default {
-  path: 'lead/:inviteKey'
+  path: 'lead/:leadKey',
   component: compose(connect(mapState,mapDispatch),wanting(wants),needfulPage(needs))(Container)
 }

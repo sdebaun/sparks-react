@@ -14,7 +14,9 @@ const Container = ({ teamKey, invited, active })=>
     <LeadInviteListItem teamKey={teamKey}/>
     { (invited.length > 0) && <ListItemHeader primaryText='Open Invites'/> }
     { invited.map( lead=>
-      <InviteListItem {...lead} key={lead.$key} actionMenu={ <InviteActionMenu acceptUrl={'/accept/lead/'+lead.$key}/> } />
+      <InviteListItem {...lead} key={lead.$key}
+        actionMenu={ <InviteActionMenu acceptUrl={'/accept/lead/'+lead.$key}/> }
+        />
     ) }
     { (active.length > 0) && <ListItemHeader primaryText='Organizers'/> }
     { active.map( lead=>

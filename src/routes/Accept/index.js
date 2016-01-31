@@ -13,7 +13,7 @@ const Page = ({children})=>
 import Lead from './Lead'
 
 export default {
-  path: 'acceptInvite',
+  path: 'accept',
   component: Page,
   childRoutes: [ Lead ]
 }
