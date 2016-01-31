@@ -11,7 +11,6 @@ import Tabs from 'material-ui/lib/tabs/tabs'
 
 import OpeningListItem from 'components/OpeningListItem'
 import HalfColumn from 'components/HalfColumn'
-import IsDesktop from 'components/IsDesktop'
 
 import TeamHeader from 'containers/Team/TeamHeader'
 import TeamAvatar from 'containers/Team/TeamAvatar'
@@ -31,7 +30,7 @@ class ChooseTeamImageListItem extends React.Component {
 
   render() {
     // const {onImageChange, state:{previewUrl}, props:{teamKey,teamImage,team, project}} = this
-    const {onImageChange, state:{previewUrl}, props:{teamImage,team, project, projectImage}} = this
+    const {onImageChange, state:{previewUrl}, props:{teamImage, team, projectImage}} = this
 
     // if (!teamImage) return <div>...</div>
 

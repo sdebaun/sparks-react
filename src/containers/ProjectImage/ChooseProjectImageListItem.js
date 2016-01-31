@@ -30,7 +30,7 @@ class ChooseProjectImageListItem extends React.Component {
   onImageChange = (dataUrl)=>this.setState({previewUrl: dataUrl})
 
   render() {
-    const {onImageChange, state:{previewUrl}, props:{project, projectKey, projectImage}} = this
+    const {onImageChange, state:{previewUrl}, props:{project, projectImage}} = this
 
     if (!projectImage) return <div>...</div>
 

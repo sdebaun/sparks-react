@@ -3,21 +3,16 @@ import React from 'react';
 import Narrow from 'components/Narrow'
 
 import RaisedButton from 'material-ui/lib/raised-button'
-import MainBar from 'components/MainBar'
 
 import Avatar from 'material-ui/lib/avatar'
 
 import Content from 'components/Content'
-import PageLoadSpinner from 'components/PageLoadSpinner'
 import ProjectHeader from 'containers/Project/ProjectHeader'
 
 import LoginButton from 'containers/LoginButton'
 
 class Container extends React.Component {
-  handle = ()=>{
-    console.log('props',this.props.$key,this.props.userProfile.$key)
-    this.props.accept(this.props.$key,this.props.userProfile.$key)
-  }
+  handle = ()=>this.props.accept(this.props.$key,this.props.userProfile.$key)
 
   render() {
     const {projectKey, authority, isClaimed, email,
@@ -53,42 +48,6 @@ class Container extends React.Component {
   }
 }
 
-// const selectedInvite = createSelector(
-//   Invites.select.collection,
-//   (state,props)=>props.params.inviteKey,
-//   (invites,inviteKey)=>invites && invites[inviteKey]
-//   )
-
-// const selectedProject = createSelector(
-//   selectedInvite,
-//   Projects.select.collection,
-//   (invite,projects)=>invite && projects[invite.projectKey]
-//   )
-
-// const selectedProjectImage = createSelector(
-//   selectedInvite,
-//   ProjectImages.select.collection,
-//   (invite,projectImages)=>invite && projectImages && projectImages[invite.projectKey]
-// )
-
-// const selectedAuthorProfile = createSelector(
-//   selectedInvite,
-//   Profiles.select.collection,
-//   (invite,profiles)=>invite && profiles[invite.authorProfileKey]
-//   )
-
-// const mapState = createSelector(
-//   selectedInvite,
-//   selectedProject,
-//   selectedProjectImage,
-//   selectedAuthorProfile,
-//   Profiles.select.authed,
-//   Organizers.select.authedProjectKeys,
-//   (invite,project,projectImage,authorProfile,userProfile,userProjectKeys)=>{
-//     return {invite,project,projectImage,authorProfile,userProfile,userProjectKeys}
-//   }
-// )
-
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { createSelector } from 'reselect'
@@ -101,7 +60,7 @@ const mapState = createSelector(
   ProjectImages.select.matching('projectKey'),
   Profiles.select.matching('authorProfileKey'),
   Profiles.select.authed,
-  Organizers.select.authedProjectKeys,  
+  Organizers.select.authedProjectKeys,
   (project, projectImage, authorProfile, userProfile, userProjectKeys)=>{
     return {project, projectImage, authorProfile, userProfile, userProjectKeys}
   }
@@ -111,13 +70,13 @@ const mapDispatch = {
   accept: Invites.actions.accept,
   wantsProject: Projects.actions.watch,
   wantsProjectImage: ProjectImages.actions.watch,
-  wantsProfile: Profiles.actions.watch,
+  wantsProfile: Profiles.actions.watch
 }
 
 const wants = {
   project: ({wantsProject,projectKey})=>wantsProject(projectKey),
   projectImage: ({wantsProjectImage,projectKey})=>wantsProjectImage(projectKey),
-  authorProfile: ({wantsProfile,authorProfileKey})=>wantsProfile(authorProfileKey),
+  authorProfile: ({wantsProfile,authorProfileKey})=>wantsProfile(authorProfileKey)
 }
 
 const needs = ['project','projectImage', 'authorProfile']
