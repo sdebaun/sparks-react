@@ -17,7 +17,7 @@ export default class InviteListItem extends React.Component {
   revoke = ()=>{}
 
   render() {
-    const { props: { $key,email,lastSent,authority } } = this
+    const { props: { $key,email,lastSent,authority,actionMenu } } = this
 
     return (
       <ListItem primaryText={email}
@@ -26,7 +26,7 @@ export default class InviteListItem extends React.Component {
           <div>{authority} invite sending soon...</div>
         }
         leftIcon={<EmailIcon/>}
-        rightIconButton={
+        rightIconButton={ actionMenu ||
           <ActionMenu>
             <MenuItem href={'/acceptInvite/'+$key} target='new'>Preview</MenuItem>
             <MenuItem disabled={true} onTouchTap={this.resend}>Resend</MenuItem>

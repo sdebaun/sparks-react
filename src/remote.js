@@ -63,7 +63,16 @@ export const Teams = remote.data.model('Teams')
 
 export const TeamImages = remote.data.model('TeamImages')
 
-export const Leads = remote.data.model('Leads')
+export const Leads = remote.data.model('Leads', {
+  actions: {
+    create: function(teamKey,authorProfileKey,fields) {
+      return Leads.actions.push({teamKey,authorProfileKey,...fields})
+    },
+    accept: function(leadKey,profileKey) {
+      return Leads.actions.update(leadKey,{profileKey})
+    }
+  }
+})
 Object.assign(Leads.select,{
   authed: createSelector(
     Users.select.authed,
