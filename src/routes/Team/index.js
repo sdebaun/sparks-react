@@ -20,7 +20,7 @@ const TeamIndexPage = ({Title, Tabs, Main, team, teamImage, projectImage, locati
        isMobile: findMatch('palm'),
        leftIcon: <TeamAvatar src={teamImage && teamImage.dataUrl}/>
     }
-  console.log('leftIcon.props.src',!!headerAttrs.leftIcon.props.src)
+  // console.log('leftIcon.props.src',!!headerAttrs.leftIcon.props.src)
   return <div>
     <MainBar />
     <Grid gutter='0em'>
@@ -64,8 +64,8 @@ import Manage from './Manage'
 export default {
   path: 'team/:projectKey/:teamKey',
   component: compose(connect(mapState),wanting(wants),needfulPage(needs))(TeamIndexPage),
-  childRoutes: [ Glance, Manage ] ,
-  onEnter: ({params})=>console.log('team/index params', params)
+  childRoutes: [ Glance, Manage ] //,
+  // onEnter: ({params})=>console.log('team/index params', params)
   // onEnter: ({params:{teamKey,projectKey}})=>{
   //   master.start( function*() {
   //     // basically want to get all the stuff you need for project view

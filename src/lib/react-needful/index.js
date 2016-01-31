@@ -5,15 +5,9 @@ const defaultComponent = <div>loading...</div>
 export const wanting = wants => WrappedComponent => {
   class Wrapper extends React.Component {
     seek = (props)=> Object.keys(wants).forEach( p=> wants[p](props) )
-    // when i mount i seek out my wants
-    componentWillMount = ()=>{
-      console.log('mount', this.__proto__.constructor.displayName, this.props)
-      this.seek(this.props)
-    }
-    componentWillUpdate = (newProps)=>{
-      console.log('update', this.__proto__.constructor.displayName, newProps)
-      this.seek(newProps)
-    }
+    // when i mount or change props, i seek out my wants
+    componentWillMount = ()=>this.seek(this.props)
+    componentWillUpdate = (newProps)=>this.seek(newProps)
     // passthrough rendering
     render = ()=> <WrappedComponent {...this.props}/>
   }

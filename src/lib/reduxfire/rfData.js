@@ -19,10 +19,10 @@ export default class rfData {
 
   addWatch = (collection,key,dispatch)=> {
     if (this.cache[collection + key]) {
-      console.log('hit watch cache on',collection,key)
+      // console.log('hit watch cache on',collection,key)
       return
     }
-    console.log('new watch on',collection,key)
+    // console.log('new watch on',collection,key)
     this.ref.child(collection).child(key).on('value', (snap)=>dispatch(localUpdate(collection,key,snap.val())))
     this.cache[collection + key] = true
   }
@@ -30,10 +30,10 @@ export default class rfData {
   addQuery = (collection,params,dispatch)=> {
     const cacheKey = collection + ':' + Object.keys(params).map(k=>params[k]).join('|')
     if (this.cache[ cacheKey ]) {
-      console.log('hit query cache on',cacheKey)
+      // console.log('hit query cache on',cacheKey)
       return
     }
-    console.log('new query on',cacheKey)
+    // console.log('new query on',cacheKey)
     let q = this.ref.child(collection)
     if (params.orderByChild) { q = q.orderByChild(params.orderByChild) }
     if (params.equalTo) { q = q.equalTo(params.equalTo) }
