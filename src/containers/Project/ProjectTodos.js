@@ -74,11 +74,11 @@ const needsImage = createSelector(
 )
 const needsAdmins = createSelector(
   Organizers.select.by('projectKey'),
-  (organizers)=>!(organizers && (organizers.length>1))
+  (organizers)=>organizers && (organizers.length<=1)
 )
 const needsTeams = createSelector(
   Teams.select.by('projectKey'),
-  (teams)=>!(teams && (teams.length>0))
+  (teams)=>teams && (teams.length==0)
 )
 
 const mapStateToProps = createSelector(

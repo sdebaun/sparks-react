@@ -14,7 +14,7 @@ export default class Component extends React.Component {
 
   render() {
     const {state:{isOpen}, props:{primaryText,secondaryText,rightIcon}} = this
-    const fabIcon = <FAB mini={true}>{rightIcon}</FAB>
+    const fabIcon = <FAB mini={true} style={{marginTop:6,marginLeft:0,marginRight:18}}>{rightIcon}</FAB>
     return (
       <ListItemHeader onTouchTap={this.open} {...{primaryText,secondaryText,rightIcon:fabIcon}} >
         <Dialog modal={false} open={isOpen} onRequestClose={this.close} {...{title:primaryText,leftIcon:rightIcon}}>

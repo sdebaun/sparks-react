@@ -35,14 +35,15 @@ import { compose } from 'redux'
 import { createSelector } from 'reselect'
 import { needfulPage } from 'needers'
 import { wanting } from 'lib/react-needful'
-import { Projects, ProjectImages, Teams } from 'remote'
+import { Projects, ProjectImages, Teams, Organizers } from 'remote'
 
 const needs = ['project']
 
 const wants = {
   project: ({dispatch, projectKey})=>dispatch(Projects.actions.watch(projectKey)),
   projectImage: ({dispatch, projectKey})=>dispatch(ProjectImages.actions.watch(projectKey)),
-  teams: ({dispatch, projectKey})=>dispatch(ProjectImages.actions.query({orderByChild:'projectKey', equalTo:projectKey}))
+  teams: ({dispatch, projectKey})=>dispatch(ProjectImages.actions.query({orderByChild:'projectKey', equalTo:projectKey})),
+  organizers: ({dispatch, projectKey})=>dispatch(Organizers.actions.query({orderByChild:'projectKey', equalTo:projectKey}))
 }
 
 const mapState = createSelector(
