@@ -1,5 +1,6 @@
 import React from 'react';
 import List from 'components/styled/List'
+import ListItem from 'material-ui/lib/lists/list-item'
 import NavListItem from 'components/NavListItem'
 import FAB from 'material-ui/lib/floating-action-button'
 
@@ -46,13 +47,11 @@ const todos = [
   }
 ]
 
- // leftIcon={<FAB mini={true}><Icon/></FAB>}
-
 class ProjectTodos extends React.Component {
   render() {
     const {props:{needs,...props}} = this
     return <List header='Getting Started'>
-      <p>Take care of these things before you turn on Recruiting!</p>
+      <p style={{padding:'0.5em'}}>Take care of these things before you turn on Recruiting!</p>
       { todos.filter( t=>needs[t.key] )
         .map( t=>t.listItem(props) )
       }
