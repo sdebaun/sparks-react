@@ -29,9 +29,9 @@ export default Radium( ({backgroundSrc,style,topNav,navIcon,primaryText,secondar
           <Cell size='1/1' style={{fontSize:'0.9em',color:Colors.grey300}}>{secondaryText}</Cell>
         </Grid></Cell>
       </Grid></Cell>
-      <Cell size='1/1' style={{padding:'0.5em 0em 0em 0em'}}>
-        {tabs && React.cloneElement(tabs,{ tabItemContainerStyle:tabStyle })}
-      </Cell>
+      { tabs && <Cell size='1/1' style={{padding:'0.5em 0em 0em 0em'}}>
+        {React.cloneElement(tabs,{ tabItemContainerStyle:tabStyle })}
+      </Cell> || <div/> }
     </Grid>
   </div>
 )
