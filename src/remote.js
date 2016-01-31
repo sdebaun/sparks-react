@@ -51,9 +51,9 @@ export const Invites = remote.data.model('Invites', {
     create: function(fields,projectKey,authorProfileKey) {
       return Invites.actions.push({...fields,projectKey,authorProfileKey})
     },
-    accept: function(invite,profile) {
-      return Invites.actions.update(invite.$key,{
-        claimedProfileKey: profile.$key
+    accept: function(inviteKey,profileKey) {
+      return Invites.actions.update(inviteKey,{
+        claimedProfileKey: profileKey
       })
     }
   }

@@ -15,7 +15,8 @@ import LoginButton from 'containers/LoginButton'
 
 class Container extends React.Component {
   handle = ()=>{
-    this.props.accept(this.props.invite,this.props.userProfile)
+    console.log('props',this.props.$key,this.props.userProfile.$key)
+    this.props.accept(this.props.$key,this.props.userProfile.$key)
   }
 
   render() {
