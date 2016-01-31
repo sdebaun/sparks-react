@@ -19,7 +19,7 @@ class CreateInviteListItem extends React.Component {
   render() {
     return (
       <PopupListItem ref='listItem' primaryText='Invite Organizer'
-        secondaryText='Invite another person to help you manage this project.'
+        secondaryText='Invite another person to manage your project.'
         leftIcon={<PersonAddIcon/>}
         >
         <InviteForm onSubmit={this.save}>

@@ -12,7 +12,7 @@ const todos = [
       <NavListItem key='describing'
         primaryText='Describe Your Team'
         secondaryText="What kind of work does this team do?"
-        targetRoute={'/team/' + props.teamKey + '/manage'}
+        targetRoute={'/team/' + props.projectKey + '/' + props.teamKey + '/manage'}
         leftIcon={<FAB mini={true}><PlaylistAddIcon/></FAB>}
         />
     )
@@ -22,7 +22,7 @@ const todos = [
       <NavListItem key='image'
         primaryText='Upload a Team Picture'
         secondaryText="Choose an emblem to rally people to your team."
-        targetRoute={'/team/' + props.teamKey + '/manage'}
+        targetRoute={'/team/' + props.projectKey + '/' + props.teamKey + '/manage'}
         leftIcon={<FAB mini={true}><AddAPhotoIcon/></FAB>}
         />
     )
@@ -43,7 +43,7 @@ class TeamTodos extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Teams, TeamImages, Organizers } from 'remote'
+import { Teams, TeamImages } from 'remote'
 
 const needsDescribing = createSelector(
   Teams.select.matching('teamKey'),
@@ -53,10 +53,10 @@ const needsImage = createSelector(
   TeamImages.select.matching('teamKey'),
   (teamImage)=>!teamImage || !teamImage.dataUrl
 )
-const needsAdmins = createSelector(
-  Organizers.select.by('teamKey'),
-  (organizers)=>!(organizers && (organizers.length>1))
-)
+// const needsAdmins = createSelector(
+//   Organizers.select.by('teamKey'),
+//   (organizers)=>!(organizers && (organizers.length>1))
+// )
 
 const mapStateToProps = createSelector(
   needsDescribing,

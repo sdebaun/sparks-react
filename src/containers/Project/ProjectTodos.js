@@ -46,13 +46,11 @@ const todos = [
   }
 ]
 
- // leftIcon={<FAB mini={true}><Icon/></FAB>}
-
 class ProjectTodos extends React.Component {
   render() {
     const {props:{needs,...props}} = this
     return <List header='Getting Started'>
-      <p>Take care of these things before you turn on Recruiting!</p>
+      <p style={{padding:'0.5em'}}>Take care of these things before you turn on Recruiting!</p>
       { todos.filter( t=>needs[t.key] )
         .map( t=>t.listItem(props) )
       }
@@ -74,11 +72,11 @@ const needsImage = createSelector(
 )
 const needsAdmins = createSelector(
   Organizers.select.by('projectKey'),
-  (organizers)=>!(organizers && (organizers.length>1))
+  (organizers)=>organizers && (organizers.length<=1)
 )
 const needsTeams = createSelector(
   Teams.select.by('projectKey'),
-  (teams)=>!(teams && (teams.length>0))
+  (teams)=>teams && (teams.length==0)
 )
 
 const mapStateToProps = createSelector(

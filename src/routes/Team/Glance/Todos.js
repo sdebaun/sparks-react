@@ -4,5 +4,5 @@ import TeamTodos from 'containers/Team/TeamTodos'
 
 export default {
   path: '',
-  component: ({teamKey})=><TeamTodos {...{teamKey}}/>
+  component: ({teamKey,projectKey})=><TeamTodos {...{teamKey,projectKey}}/>
 }

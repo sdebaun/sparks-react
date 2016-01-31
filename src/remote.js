@@ -9,7 +9,7 @@ Object.assign(Users.select,{
   authed: createSelector(
     remote.auth.select.uid,
     Users.select.collection,
-    (uid,users)=>users[uid]
+    (uid,users)=>users && users[uid]
   )
 })
 
@@ -23,7 +23,7 @@ Object.assign(Profiles.select,{
   authed: createSelector(
     Users.select.authed, // is uid=>profileKey
     Profiles.select.collection,
-    (profileKey,profiles)=>profiles[profileKey]
+    (profileKey,profiles)=>profiles && profiles[profileKey]
   )
 })
 
@@ -51,9 +51,9 @@ export const Invites = remote.data.model('Invites', {
     create: function(fields,projectKey,authorProfileKey) {
       return Invites.actions.push({...fields,projectKey,authorProfileKey})
     },
-    accept: function(invite,profile) {
-      return Invites.actions.update(invite.$key,{
-        claimedProfileKey: profile.$key
+    accept: function(inviteKey,profileKey) {
+      return Invites.actions.update(inviteKey,{
+        claimedProfileKey: profileKey
       })
     }
   }

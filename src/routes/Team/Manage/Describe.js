@@ -11,10 +11,10 @@ import ChooseTeamImageListItem from 'containers/TeamImage/ChooseTeamImageListIte
 import EditTeamDescriptionListItem from 'containers/Team/EditTeamDescriptionListItem'
 import RenameTeamListItem from 'containers/Team/RenameTeamListItem'
 
-const Container = ({ teamKey })=>
+const Container = ({ teamKey, projectKey })=>
   <Content>
     <List>
-      <ChooseTeamImageListItem teamKey={teamKey}/>
+      <ChooseTeamImageListItem {...{teamKey,projectKey}}/>
       <Divider/>
       <EditTeamDescriptionListItem teamKey={teamKey}/>
       <Divider/>

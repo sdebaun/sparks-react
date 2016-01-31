@@ -16,7 +16,7 @@ class Container extends React.Component {
     const { props: {team, teamKey}, ...props } = this
     return !team &&
       <ListItem/> ||
-      <NavListItem primaryText={team.name} targetRoute={'/team/' + teamKey} {...props}/>
+      <NavListItem primaryText={team.name} targetRoute={'/team/' + team.projectKey + '/' + teamKey} {...props}/>
   }
 
 }
