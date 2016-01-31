@@ -63,6 +63,21 @@ export const Teams = remote.data.model('Teams')
 
 export const TeamImages = remote.data.model('TeamImages')
 
+export const Leads = remote.data.model('Leads')
+Object.assign(Leads.select,{
+  authed: createSelector(
+    Users.select.authed,
+    Leads.select.rows,
+    (userProfileKey,leads)=> leads.filter( l=>l.profileKey==userProfileKey )
+  )
+})
+Object.assign(Leads.select,{
+  authedProjectKeys: createSelector(
+    Leads.select.authed,
+    (leads)=>leads.map(l=>l.projectKey)
+  )
+})
+
 function OAuthToProfile(authData) {
   const provider = authData.provider,
     d = authData[provider];
