@@ -1,10 +1,12 @@
 import React from 'react';
-import List from 'material-ui/lib/lists/list'
-import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
-import ProjectListItem from 'containers/Project/ProjectListItem'
 
-const Container = ({lead})=>
-  <div>Accept an invite for a lead here</div>
+import LeadAccept from 'containers/Lead/LeadAccept'
+
+// import List from 'material-ui/lib/lists/list'
+// import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
+// import ProjectListItem from 'containers/Project/ProjectListItem'
+
+const Container = ({lead})=> <LeadAccept {...lead}/>
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
