@@ -1,51 +1,59 @@
 import Firebase from 'firebase'
-import FirebaseQueue from 'firebase-queue'
+import { mutator, Collection, FirebaseRespondingQueue, createProfileFromOauth } from './util'
 
-const mutate = ({client,domain,...action},progress,resolve,reject)=>{
-  console.log('received',client,domain,action)
-  getHandlerFor(domain)(action)
-  .then( (result)=>respondTo(client,result) )
-  .then( resolve )
-}
+const fbRoot = new Firebase('http://sparks-development.firebaseio.com')
 
-const ref = new Firebase('http://sparks-development.firebaseio.com')
-const queue = new FirebaseQueue(ref, mutate)
+const getAuth = (client)=>
+  fbRoot.child('Users').child(client).once('value')
+  .then( (userSnap)=>
+    userSnap.val() && fbRoot.child('Profiles').child(userSnap.val()).once('value')
+    .then( (profileSnap)=>{ return {key:userSnap.val(),...profileSnap.val()} } )
+  )
 
-const handlerNotFound = (domain)=> (action)=> console.log("No handler for",domain," could not process ",action)
-const getHandlerFor = (domain)=> handlers[domain] || handlerNotFound(domain)
+const Users = new Collection(fbRoot.child('Users'))
+const Projects = new Collection(fbRoot.child('Projects'))
+const Profiles = new Collection(fbRoot.child('Profiles'))
+const ProjectImages = new Collection(fbRoot.child('ProjectImages'))
+const Teams = new Collection(fbRoot.child('Teams'))
 
 const handlers = {
-  project: ({type,payload})=>{
-    switch (type) {
-      case "create":
-        ref.child('project').push(payload).then( (snap)=>pushResult('project', snap) )
-    }    
+
+  Profiles: {
+    register: (payload,client)=>
+      getAuth(client).then( profile=> !profile &&
+        Profiles.push(createProfileFromOauth(payload))
+        .then( ref=>Users.set(client,ref.key()) && ref.key() )
+      ),
+    confirm: ({key,vals},client)=>
+      getAuth(client).then( profile=> (profile.key==key) &&
+        Profiles.update(key,{isConfirmed:true,...vals}) &&
+        null
+      )
+  },
+
+  Projects: {
+    create: (payload,client)=>
+      getAuth(client).then( profile=> profile.isAdmin &&
+        Projects.push(payload)
+        .then( ref=>ref.key() )
+      ),
+    update: ({key,vals},client)=>
+      Projects.update(key,vals) // auth check if project manager
+  },
+
+  ProjectImages: {
+    set: ({key,val},client)=>
+      ProjectImages.set(key,val) // auth check if project manager
+  },
+
+  Teams: {
+    create: (payload,client)=>
+      Teams.push(payload).then( ref=>ref.key() ), // auth check if project manager
+    update: ({key,vals},client)=>
+      Teams.update(key,vals) // auth check if project manager or team lead
   }
 }
 
-const pushResult = (domain, snap)=>{ return {domain:'project',key:snap.ref().key()} }
+const responder = (client,response)=>fbRoot.child('Responses').child(client).push(response)
 
-const getResponseRef = (client)=>ref.child('response').child(client)
-
-const respondTo = (client,result)=>getResponseRef(client).push(result)
-
-
-
-// const sendInvite = (invite)=>{
-//   return new Promise( (resolve,reject)=>{
-//     console.log("send invite email", invite)
-//     setTimeout(resolve,1000)
-//   })
-
-// }
-
-// const listen = ()=>{
-
-//   fb.child('Invites').on('child_added', (snap)=>{
-//     const invite = snap.val()
-//     if (!val.lastSent) sendInvite(invite).then(()=>snap.set('lastSent',1))
-//   })
-
-// }
-
-// export listen
+const queue = new FirebaseRespondingQueue(fbRoot, mutator(handlers), responder)

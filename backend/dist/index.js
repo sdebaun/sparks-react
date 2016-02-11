@@ -1,82 +1,89 @@
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _firebase = require('firebase');
 
 var _firebase2 = _interopRequireDefault(_firebase);
 
-var _firebaseQueue = require('firebase-queue');
-
-var _firebaseQueue2 = _interopRequireDefault(_firebaseQueue);
+var _util = require('./util');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+var fbRoot = new _firebase2.default('http://sparks-development.firebaseio.com');
 
-var mutate = function mutate(_ref, progress, resolve, reject) {
-  var client = _ref.client;
-  var domain = _ref.domain;
-
-  var action = _objectWithoutProperties(_ref, ['client', 'domain']);
-
-  console.log('received', client, domain, action);
-  getHandlerFor(domain)(action).then(function (result) {
-    return respondTo(client, result);
-  }).then(resolve);
+var getAuth = function getAuth(client) {
+  return fbRoot.child('Users').child(client).once('value').then(function (userSnap) {
+    return userSnap.val() && fbRoot.child('Profiles').child(userSnap.val()).once('value').then(function (profileSnap) {
+      return _extends({ key: userSnap.val() }, profileSnap.val());
+    });
+  });
 };
 
-var ref = new _firebase2.default('http://sparks-development.firebaseio.com');
-var queue = new _firebaseQueue2.default(ref, mutate);
-
-var handlerNotFound = function handlerNotFound(domain) {
-  return function (action) {
-    return console.log("No handler for", domain, " could not process ", action);
-  };
-};
-var getHandlerFor = function getHandlerFor(domain) {
-  return handlers[domain] || handlerNotFound(domain);
-};
+var Users = new _util.Collection(fbRoot.child('Users'));
+var Projects = new _util.Collection(fbRoot.child('Projects'));
+var Profiles = new _util.Collection(fbRoot.child('Profiles'));
+var ProjectImages = new _util.Collection(fbRoot.child('ProjectImages'));
+var Teams = new _util.Collection(fbRoot.child('Teams'));
 
 var handlers = {
-  project: function project(_ref2) {
-    var type = _ref2.type;
-    var payload = _ref2.payload;
 
-    switch (type) {
-      case "create":
-        ref.child('project').push(payload).then(function (snap) {
-          return pushResult('project', snap);
+  Profiles: {
+    register: function register(payload, client) {
+      return getAuth(client).then(function (profile) {
+        return !profile && Profiles.push((0, _util.createProfileFromOauth)(payload)).then(function (ref) {
+          return Users.set(client, ref.key()) && ref.key();
         });
+      });
+    },
+    confirm: function confirm(_ref, client) {
+      var key = _ref.key;
+      var vals = _ref.vals;
+      return getAuth(client).then(function (profile) {
+        return profile.key == key && Profiles.update(key, _extends({ isConfirmed: true }, vals)) && null;
+      });
     }
+  },
+
+  Projects: {
+    create: function create(payload, client) {
+      return getAuth(client).then(function (profile) {
+        return profile.isAdmin && Projects.push(payload).then(function (ref) {
+          return ref.key();
+        });
+      });
+    },
+    update: function update(_ref2, client) {
+      var key = _ref2.key;
+      var vals = _ref2.vals;
+      return Projects.update(key, vals);
+    } // auth check if project manager
+  },
+
+  ProjectImages: {
+    set: function set(_ref3, client) {
+      var key = _ref3.key;
+      var val = _ref3.val;
+      return ProjectImages.set(key, val);
+    } // auth check if project manager
+  },
+
+  Teams: {
+    create: function create(payload, client) {
+      return Teams.push(payload).then(function (ref) {
+        return ref.key();
+      });
+    }, // auth check if project manager
+    update: function update(_ref4, client) {
+      var key = _ref4.key;
+      var vals = _ref4.vals;
+      return Teams.update(key, vals);
+    } // auth check if project manager or team lead
   }
 };
 
-var pushResult = function pushResult(domain, snap) {
-  return { domain: 'project', key: snap.ref().key() };
+var responder = function responder(client, response) {
+  return fbRoot.child('Responses').child(client).push(response);
 };
 
-var getResponseRef = function getResponseRef(client) {
-  return ref.child('response').child(client);
-};
-
-var respondTo = function respondTo(client, result) {
-  return getResponseRef(client).push(result);
-};
-
-// const sendInvite = (invite)=>{
-//   return new Promise( (resolve,reject)=>{
-//     console.log("send invite email", invite)
-//     setTimeout(resolve,1000)
-//   })
-
-// }
-
-// const listen = ()=>{
-
-//   fb.child('Invites').on('child_added', (snap)=>{
-//     const invite = snap.val()
-//     if (!val.lastSent) sendInvite(invite).then(()=>snap.set('lastSent',1))
-//   })
-
-// }
-
-// export listen
+var queue = new _util.FirebaseRespondingQueue(fbRoot, (0, _util.mutator)(handlers), responder);
