@@ -30,6 +30,7 @@ var ProjectImages = new _util.Collection(fbRoot.child('ProjectImages'));
 var Organizers = new _util.Collection(fbRoot.child('Organizers'));
 
 var Teams = new _util.Collection(fbRoot.child('Teams'));
+var TeamImages = new _util.Collection(fbRoot.child('TeamImages'));
 var Leads = new _util.Collection(fbRoot.child('Leads'));
 
 var handlers = {
@@ -105,6 +106,14 @@ var handlers = {
     } // auth check if project manager or team lead
   },
 
+  TeamImages: {
+    set: function set(_ref6, client) {
+      var key = _ref6.key;
+      var val = _ref6.val;
+      return TeamImages.set(key, val);
+    } // auth check if project manager or team lead
+  },
+
   Leads: {
     create: function create(payload, client) {
       return Teams.get(payload.teamKey).then(function (teamSnap) {
@@ -114,8 +123,8 @@ var handlers = {
         }); // auth check if project manager      
       });
     },
-    accept: function accept(_ref6, client) {
-      var leadKey = _ref6.leadKey;
+    accept: function accept(_ref7, client) {
+      var leadKey = _ref7.leadKey;
       return getAuth(client).then(function (profile) {
         return Leads.update(leadKey, { profileKey: profile.key });
       } // get profileKey from auth object

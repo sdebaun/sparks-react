@@ -19,6 +19,7 @@ const ProjectImages = new Collection(fbRoot.child('ProjectImages'))
 const Organizers = new Collection(fbRoot.child('Organizers'))
 
 const Teams = new Collection(fbRoot.child('Teams'))
+const TeamImages = new Collection(fbRoot.child('TeamImages'))
 const Leads = new Collection(fbRoot.child('Leads'))
 
 const handlers = {
@@ -69,6 +70,11 @@ const handlers = {
       Teams.push(payload).then( ref=>ref.key() ), // auth check if project manager
     update: ({key,vals},client)=>
       Teams.update(key,vals) // auth check if project manager or team lead
+  },
+
+  TeamImages: {
+    set: ({key,val},client)=>
+      TeamImages.set(key,val) // auth check if project manager or team lead
   },
 
   Leads: {

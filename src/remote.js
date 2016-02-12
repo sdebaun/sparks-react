@@ -83,7 +83,11 @@ export const Teams = remote.data.model('Teams', {
   }
 })
 
-export const TeamImages = remote.data.model('TeamImages')
+export const TeamImages = remote.data.model('TeamImages', {
+  actions: {
+    set: (key,val)=>TeamImages.actions.remote('set',{key,val})
+  }
+})
 
 export const Leads = remote.data.model('Leads', {
   actions: {
