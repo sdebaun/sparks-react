@@ -40,12 +40,21 @@ export const ProjectImages = remote.data.model('ProjectImages', {
   }
 })
 
-export const Organizers = remote.data.model('Organizers')
+export const Organizers = remote.data.model('Organizers', {
+  actions: {
+    create: function(projectKey,authorProfileKey,fields) {
+      return Organizers.actions.remote('create', {projectKey,authorProfileKey,...fields})
+    },
+    accept: function(organizerKey) {
+      return Organizers.actions.remote('accept', {organizerKey})
+    }
+  }
+})
 Object.assign(Organizers.select,{
   authed: createSelector(
     Users.select.authed,
     Organizers.select.rows,
-    (userProfileKey,organizers)=> organizers.filter( o=>o.profileKey==userProfileKey )
+    (userProfileKey,organizers)=> organizers.filter( o=>userProfileKey && (o.profileKey==userProfileKey) )
   )
 })
 Object.assign(Organizers.select,{
@@ -92,7 +101,7 @@ Object.assign(Leads.select,{
   authed: createSelector(
     Users.select.authed,
     Leads.select.rows,
-    (userProfileKey,leads)=> leads.filter( l=>l.profileKey==userProfileKey )
+    (userProfileKey,leads)=> leads.filter( l=>userProfileKey && (l.profileKey==userProfileKey) )
   )
 })
 Object.assign(Leads.select,{

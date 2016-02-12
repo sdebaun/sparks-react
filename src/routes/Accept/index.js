@@ -20,9 +20,10 @@ class Page extends React.Component {
 // </div>
 
 import Lead from './Lead'
+import Organizer from './Organizer'
 
 export default {
   path: 'accept',
   component: Page,
-  childRoutes: [ Lead ]
+  childRoutes: [ Lead, Organizer ]
 }

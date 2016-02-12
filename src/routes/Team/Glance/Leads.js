@@ -18,7 +18,7 @@ const Container = ({ teamKey, invited, active })=>
         actionMenu={ <InviteActionMenu acceptUrl={'/accept/lead/'+lead.$key}/> }
         />
     ) }
-    { (active.length > 0) && <ListItemHeader primaryText='Organizers'/> }
+    { (active.length > 0) && <ListItemHeader primaryText='Leads'/> }
     { active.map( lead=>
       <ProfileListItem key={lead.$key} profileKey={lead.profileKey}
         secondaryText={lead.authority}
