@@ -1,9 +1,9 @@
 import React from 'react';
 
-// import TeamTodos from 'containers/Team/TeamTodos'
+import OppTodos from 'containers/Opp/OppTodos'
 
 export default {
   path: '',
-  // component: ({teamKey,projectKey})=><TeamTodos {...{teamKey,projectKey}}/>
-  component: ({oppKey,projectKey})=><div>opp:{oppKey}, project:{projectKey}</div>
+  component: ({oppKey,projectKey})=><OppTodos {...{oppKey,projectKey}}/>
+  // component: ({oppKey,projectKey})=><div>opp:{oppKey}, project:{projectKey}</div>
 }

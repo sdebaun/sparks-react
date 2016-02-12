@@ -54,11 +54,10 @@ const wants = {
 const needs = ['opp']
 
 import Glance from './Glance'
-// import Manage from './Manage'
+import Manage from './Manage'
 
 export default {
   path: 'opp/:projectKey/:oppKey',
   component: compose(connect(mapState),wanting(wants),needfulPage(needs))(OppIndexPage),
-  childRoutes: [ Glance, ]
-  // childRoutes: [ Glance, Manage ]
+  childRoutes: [ Glance, Manage ]
 }

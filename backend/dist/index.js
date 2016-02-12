@@ -34,6 +34,7 @@ var TeamImages = new _util.Collection(fbRoot.child('TeamImages'));
 var Leads = new _util.Collection(fbRoot.child('Leads'));
 
 var Opps = new _util.Collection(fbRoot.child('Opps'));
+var Exchanges = new _util.Collection(fbRoot.child('Exchanges'));
 
 var handlers = {
 
@@ -145,9 +146,18 @@ var handlers = {
       var vals = _ref8.vals;
       return Opps.update(key, vals);
     } // auth check if project manager or team lead
-  }
+  },
+
+  Exchanges: {
+    create: function create(payload, client) {
+      return Exchanges.push(payload).then(function (ref) {
+        return ref.key();
+      });
+    } }
+
 };
 
+// auth check if project manager
 var responder = function responder(client, response) {
   return fbRoot.child('Responses').child(client).push(response);
 };
