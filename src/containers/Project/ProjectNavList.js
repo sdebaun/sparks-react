@@ -36,16 +36,6 @@ export class ProjectNavList extends React.Component {
           <NavListItem primaryText="At a Glance" activeFor={['/staff','/history']} targetRoute={baseUrl} {...props}/>
           <NavListItem primaryText="Manage" activeFor={['/exchange','/applying']} targetRoute={baseUrl+'/manage'} {...props}/>
         </List>
-        { (teams.length > 0) &&
-          <List>
-            <PopupListItemHeader ref='teamPopup' primaryText='Teams' rightIcon={<AddIcon/>} onTouchTap={this.open}>
-              <TeamForm onSubmit={this.saveTeam}>
-                <FlatButton onTouchTap={this.cancel} label='CANCEL' secondary={true}/>
-              </TeamForm>
-            </PopupListItemHeader>
-            {teams.map( t=><TeamListItem key={t.$key + 'nl'} teamKey={t.$key}/> )}
-          </List>
-        }
         { (opps.length > 0) &&
           <List>
             <PopupListItemHeader ref='oppPopup' primaryText='Opportunities' rightIcon={<AddIcon/>}>
@@ -54,6 +44,16 @@ export class ProjectNavList extends React.Component {
               </TeamForm>
             </PopupListItemHeader>
             {opps.map( ({$key})=><OppListItem key={$key + 'nl'} oppKey={$key}/> )}
+          </List>
+        }
+        { (teams.length > 0) &&
+          <List>
+            <PopupListItemHeader ref='teamPopup' primaryText='Teams' rightIcon={<AddIcon/>} onTouchTap={this.open}>
+              <TeamForm onSubmit={this.saveTeam}>
+                <FlatButton onTouchTap={this.cancel} label='CANCEL' secondary={true}/>
+              </TeamForm>
+            </PopupListItemHeader>
+            {teams.map( t=><TeamListItem key={t.$key + 'nl'} teamKey={t.$key}/> )}
           </List>
         }
 
