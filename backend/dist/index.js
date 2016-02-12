@@ -33,6 +33,8 @@ var Teams = new _util.Collection(fbRoot.child('Teams'));
 var TeamImages = new _util.Collection(fbRoot.child('TeamImages'));
 var Leads = new _util.Collection(fbRoot.child('Leads'));
 
+var Opps = new _util.Collection(fbRoot.child('Opps'));
+
 var handlers = {
 
   Profiles: {
@@ -130,6 +132,19 @@ var handlers = {
       } // get profileKey from auth object
       );
     }
+  },
+
+  Opps: {
+    create: function create(payload, client) {
+      return Opps.push(payload).then(function (ref) {
+        return ref.key();
+      });
+    }, // auth check if project manager
+    update: function update(_ref8, client) {
+      var key = _ref8.key;
+      var vals = _ref8.vals;
+      return Opps.update(key, vals);
+    } // auth check if project manager or team lead
   }
 };
 

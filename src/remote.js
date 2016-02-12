@@ -99,7 +99,6 @@ export const Leads = remote.data.model('Leads', {
     }
   }
 })
-
 Object.assign(Leads.select,{
   authed: createSelector(
     Users.select.authed,
@@ -113,6 +112,15 @@ Object.assign(Leads.select,{
     (leads)=>leads.map(l=>l.teamKey)
   )
 })
+
+export const Opps = remote.data.model('Opps', {
+  actions: {
+    create: (data)=>Opps.actions.remote('create',data),
+    update: (key,vals)=>Opps.actions.remote('update',{key,vals})
+  }
+})
+
+
 
 // function OAuthToProfile(authData) {
 //   const provider = authData.provider,

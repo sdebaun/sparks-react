@@ -15,6 +15,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var handlerNotFound = function handlerNotFound(collection) {
+  return function (payload, client) {
+    return Promise(function (resolve, reject) {
+      console.log('Could not find handler for collection', collection);
+      resolve();
+    });
+  };
+};
+
 var mutator = exports.mutator = function mutator(handlers) {
   return function (_ref) {
     var client = _ref.client;
