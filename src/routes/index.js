@@ -32,6 +32,7 @@ import Landing from './Landing'
 import Dash from './Dash'
 import Admin from './Admin'
 import Project from './Project'
+import Opp from './Opp'
 import Team from './Team'
 import ConfirmProfile from './ConfirmProfile'
 import Accept from './Accept'
@@ -40,5 +41,5 @@ export default {
   path: '/',
   component: App,
   indexRoute: Landing,
-  childRoutes: [ Admin, Dash, Project, Team, ConfirmProfile, Accept ]
+  childRoutes: [ Admin, Dash, Project, Team, ConfirmProfile, Accept, Opp ]
 }
