@@ -52,6 +52,11 @@ var Collection = exports.Collection = (function () {
     value: function update(key, vals) {
       return this.ref.child(key).update(vals);
     }
+  }, {
+    key: 'get',
+    value: function get(key) {
+      return this.ref.child(key).once('value');
+    }
   }]);
 
   return Collection;

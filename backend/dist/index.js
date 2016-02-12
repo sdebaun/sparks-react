@@ -13,18 +13,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var fbRoot = new _firebase2.default('http://sparks-development.firebaseio.com');
 
 var getAuth = function getAuth(client) {
-  return fbRoot.child('Users').child(client).once('value').then(function (userSnap) {
-    return userSnap.val() && fbRoot.child('Profiles').child(userSnap.val()).once('value').then(function (profileSnap) {
+  return Users.get(client).then(function (userSnap) {
+    return userSnap.val() && Profiles.get(userSnap.val())
+    // should also add organizers, leads, etc. (relationships)
+    .then(function (profileSnap) {
       return _extends({ key: userSnap.val() }, profileSnap.val());
     });
   });
 };
 
 var Users = new _util.Collection(fbRoot.child('Users'));
-var Projects = new _util.Collection(fbRoot.child('Projects'));
 var Profiles = new _util.Collection(fbRoot.child('Profiles'));
+
+var Projects = new _util.Collection(fbRoot.child('Projects'));
 var ProjectImages = new _util.Collection(fbRoot.child('ProjectImages'));
+var Organizers = new _util.Collection(fbRoot.child('Organizers'));
+
 var Teams = new _util.Collection(fbRoot.child('Teams'));
+var Leads = new _util.Collection(fbRoot.child('Leads'));
 
 var handlers = {
 
@@ -60,10 +66,24 @@ var handlers = {
     } // auth check if project manager
   },
 
+  Organizers: {
+    create: function create(payload, client) {
+      return Organizers.push(payload).then(function (ref) {
+        return ref.key();
+      });
+    }, // auth check if project manager
+    accept: function accept(_ref3, client) {
+      var organizerKey = _ref3.organizerKey;
+      return getAuth(client).then(function (profile) {
+        return Organizers.update(organizerKey, { profileKey: profile.key });
+      });
+    }
+  },
+
   ProjectImages: {
-    set: function set(_ref3, client) {
-      var key = _ref3.key;
-      var val = _ref3.val;
+    set: function set(_ref4, client) {
+      var key = _ref4.key;
+      var val = _ref4.val;
       return ProjectImages.set(key, val);
     } // auth check if project manager
   },
@@ -74,11 +94,29 @@ var handlers = {
         return ref.key();
       });
     }, // auth check if project manager
-    update: function update(_ref4, client) {
-      var key = _ref4.key;
-      var vals = _ref4.vals;
+    update: function update(_ref5, client) {
+      var key = _ref5.key;
+      var vals = _ref5.vals;
       return Teams.update(key, vals);
     } // auth check if project manager or team lead
+  },
+
+  Leads: {
+    create: function create(payload, client) {
+      return Teams.get(payload.teamKey).then(function (teamSnap) {
+        payload.projectKey = teamSnap.val().projectKey;
+        Leads.push(payload).then(function (ref) {
+          return ref.key();
+        }); // auth check if project manager      
+      });
+    },
+    accept: function accept(_ref6, client) {
+      var leadKey = _ref6.leadKey;
+      return getAuth(client).then(function (profile) {
+        return Leads.update(leadKey, { profileKey: profile.key });
+      } // get profileKey from auth object
+      );
+    }
   }
 };
 

@@ -1,4 +1,4 @@
-import {REMOTE_WATCH,REMOTE_QUERY,REMOTE_PUSH,REMOTE_SET,REMOTE_UPDATE,LOCAL_UPDATE} from './types'
+import {REMOTE_ACTION,REMOTE_WATCH,REMOTE_QUERY,REMOTE_PUSH,REMOTE_SET,REMOTE_UPDATE,LOCAL_UPDATE} from './types'
 import { createSelector } from 'reselect'
 
 export default class rfModel {
@@ -10,10 +10,8 @@ export default class rfModel {
   }
 
   actions = {
+    remote: (op,payload)=>{ return {type:REMOTE_ACTION,collection:this.name,op,payload} },
     watch: (key)=>{ return {type:REMOTE_WATCH,collection:this.name,key} },
-    push: (vals)=>{ return {type:REMOTE_PUSH,collection:this.name,vals} },
-    set: (key,val)=>{ return {type:REMOTE_SET,collection:this.name,key,val} },
-    update: (key,vals)=>{ return {type:REMOTE_UPDATE,collection:this.name,key,vals} },
     query: (params={})=>{ return {type:REMOTE_QUERY,collection:this.name,params} }
   }
 

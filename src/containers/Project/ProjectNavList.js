@@ -13,8 +13,8 @@ import { pushPath } from 'redux-simple-router'
 export class ProjectNavList extends React.Component {
   save = data => {
     if (data) {
-      const teamRef = this.props.push({...data, ...{projectKey:this.props.projectKey}})
-      this.props.pushPath('/team/'+this.props.projectKey + '/' + teamRef.key())
+      const teamRef = this.props.create({...data, ...{projectKey:this.props.projectKey}})
+      // this.props.pushPath('/team/'+this.props.projectKey + '/' + teamRef.key())
     }
       
     this.refs.listItem.close()
@@ -62,7 +62,7 @@ const mapState = createSelector(
 )
 
 const mapDispatch = {
-  push: Teams.actions.push,
+  create: Teams.actions.create,
   query: Teams.actions.query,
   pushPath
 }

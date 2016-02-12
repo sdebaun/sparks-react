@@ -8,10 +8,10 @@ import PopupListItem from 'components/PopupListItem'
 
 import ProjectForm from 'containers/Project/ProjectForm'
 
-class CreateInviteListItem extends React.Component {
+class CreateProjectListItem extends React.Component {
 
   save = data => {
-    if (data) this.props.push(data)
+    if (data) this.props.create(data)
     this.refs.listItem.close()
   }
 
@@ -36,7 +36,7 @@ import { Projects } from 'remote'
 const mapStateToProps = ()=>{ return {} }
 
 const mapDispatchToProps = {
-  push: Projects.actions.push
+  create: Projects.actions.create
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateInviteListItem);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProjectListItem);

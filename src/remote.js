@@ -15,8 +15,8 @@ Object.assign(Users.select,{
 
 export const Profiles = remote.data.model('Profiles', {
   actions: {
-    create: (authData)=>Profiles.actions.push(OAuthToProfile(authData)),
-    confirm: (key,data)=>Profiles.actions.update(key,Object.assign({isConfirmed:true},data))
+    register: (authData)=>Profiles.actions.remote('register',authData),
+    confirm: (key,vals)=>Profiles.actions.remote('confirm',{key,vals})
   }
 })
 Object.assign(Profiles.select,{
@@ -27,9 +27,18 @@ Object.assign(Profiles.select,{
   )
 })
 
-export const Projects = remote.data.model('Projects')
+export const Projects = remote.data.model('Projects', {
+  actions: {
+    create: (data)=>Projects.actions.remote('create',data),
+    update: (key,vals)=>Projects.actions.remote('update',{key,vals})
+  }
+})
 
-export const ProjectImages = remote.data.model('ProjectImages')
+export const ProjectImages = remote.data.model('ProjectImages', {
+  actions: {
+    set: (key,val)=>ProjectImages.actions.remote('set',{key,val})
+  }
+})
 
 export const Organizers = remote.data.model('Organizers')
 Object.assign(Organizers.select,{
@@ -59,20 +68,26 @@ export const Invites = remote.data.model('Invites', {
   }
 })
 
-export const Teams = remote.data.model('Teams')
+export const Teams = remote.data.model('Teams', {
+  actions: {
+    create: (data)=>Teams.actions.remote('create',data),
+  }
+})
 
 export const TeamImages = remote.data.model('TeamImages')
 
 export const Leads = remote.data.model('Leads', {
   actions: {
     create: function(teamKey,authorProfileKey,fields) {
-      return Leads.actions.push({teamKey,authorProfileKey,...fields})
+      return Leads.actions.remote('create', {teamKey,authorProfileKey,...fields})
     },
-    accept: function(leadKey,profileKey) {
-      return Leads.actions.update(leadKey,{profileKey})
+    accept: function(leadKey) {
+      console.log('calling accept action')
+      return Leads.actions.remote('accept', {leadKey})
     }
   }
 })
+
 Object.assign(Leads.select,{
   authed: createSelector(
     Users.select.authed,
@@ -81,9 +96,9 @@ Object.assign(Leads.select,{
   )
 })
 Object.assign(Leads.select,{
-  authedProjectKeys: createSelector(
+  authedTeamKeys: createSelector(
     Leads.select.authed,
-    (leads)=>leads.map(l=>l.projectKey)
+    (leads)=>leads.map(l=>l.teamKey)
   )
 })
 

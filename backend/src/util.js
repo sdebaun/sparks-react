@@ -13,6 +13,7 @@ export class Collection {
   push(payload) { return this.ref.push(payload) }
   set(key,val) { return this.ref.child(key).set(val) }
   update(key,vals) { return this.ref.child(key).update(vals) }
+  get(key) { return this.ref.child(key).once('value') }
 }
 
 export class FirebaseRespondingQueue {

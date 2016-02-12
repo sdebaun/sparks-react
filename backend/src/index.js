@@ -4,17 +4,22 @@ import { mutator, Collection, FirebaseRespondingQueue, createProfileFromOauth } 
 const fbRoot = new Firebase('http://sparks-development.firebaseio.com')
 
 const getAuth = (client)=>
-  fbRoot.child('Users').child(client).once('value')
+  Users.get(client)
   .then( (userSnap)=>
-    userSnap.val() && fbRoot.child('Profiles').child(userSnap.val()).once('value')
+    userSnap.val() && Profiles.get(userSnap.val())
+    // should also add organizers, leads, etc. (relationships)
     .then( (profileSnap)=>{ return {key:userSnap.val(),...profileSnap.val()} } )
   )
 
 const Users = new Collection(fbRoot.child('Users'))
-const Projects = new Collection(fbRoot.child('Projects'))
 const Profiles = new Collection(fbRoot.child('Profiles'))
+
+const Projects = new Collection(fbRoot.child('Projects'))
 const ProjectImages = new Collection(fbRoot.child('ProjectImages'))
+const Organizers = new Collection(fbRoot.child('Organizers'))
+
 const Teams = new Collection(fbRoot.child('Teams'))
+const Leads = new Collection(fbRoot.child('Leads'))
 
 const handlers = {
 
@@ -41,6 +46,15 @@ const handlers = {
       Projects.update(key,vals) // auth check if project manager
   },
 
+  Organizers: {
+    create: (payload,client)=>
+      Organizers.push(payload).then( ref=>ref.key() ), // auth check if project manager
+    accept: ({organizerKey},client)=>
+      getAuth(client).then( profile=>
+        Organizers.update(organizerKey,{profileKey:profile.key})
+      )    
+  },
+
   ProjectImages: {
     set: ({key,val},client)=>
       ProjectImages.set(key,val) // auth check if project manager
@@ -51,6 +65,19 @@ const handlers = {
       Teams.push(payload).then( ref=>ref.key() ), // auth check if project manager
     update: ({key,vals},client)=>
       Teams.update(key,vals) // auth check if project manager or team lead
+  },
+
+  Leads: {
+    create: (payload,client)=>
+      Teams.get(payload.teamKey)
+      .then( teamSnap=> {
+        payload.projectKey = teamSnap.val().projectKey
+        Leads.push(payload).then( ref=>ref.key() ) // auth check if project manager        
+      } ),
+    accept: ({leadKey},client)=>
+      getAuth(client).then( profile=>
+        Leads.update(leadKey,{profileKey:profile.key}) // get profileKey from auth object
+      )
   }
 }
 

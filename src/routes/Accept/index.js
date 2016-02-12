@@ -4,11 +4,20 @@ import MainBar from 'components/MainBar'
 import NavTabs from 'components/NavTabs'
 import Tab from 'material-ui/lib/tabs/tab'
 
-const Page = ({children})=>
-  <div className="index">
-    <MainBar/>
-    {children}
-  </div>
+class Page extends React.Component {
+  render() {
+    return <div className="index">
+      <MainBar/>
+      {this.props.children}
+    </div>
+  }
+}
+
+// const Page = ({children})=>
+// <div className="index">
+//   <MainBar/>
+//   {this.children}
+// </div>
 
 import Lead from './Lead'
 

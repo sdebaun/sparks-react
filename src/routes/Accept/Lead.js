@@ -6,7 +6,7 @@ import LeadAccept from 'containers/Lead/LeadAccept'
 // import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
 // import ProjectListItem from 'containers/Project/ProjectListItem'
 
-const Container = ({lead})=> <LeadAccept {...lead}/>
+const RouteAcceptLead = ({lead,params:{leadKey}})=> <LeadAccept {...{leadKey,...lead}}/>
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
@@ -32,5 +32,5 @@ const mapDispatch = {
 
 export default {
   path: 'lead/:leadKey',
-  component: compose(connect(mapState,mapDispatch),wanting(wants),needfulPage(needs))(Container)
+  component: compose(connect(mapState,mapDispatch),wanting(wants),needfulPage(needs))(RouteAcceptLead)
 }
