@@ -1,19 +1,24 @@
 import React from 'react'
 
 import List from 'components/styled/List'
-import CreateInviteListItem from 'containers/Invite/CreateInviteListItem'
 import InviteListItem from 'containers/Invite/InviteListItem'
+import InviteActionMenu from 'containers/Lead/InviteActionMenu'
 import ProfileListItem from 'containers/Profile/ProfileListItem'
 import OrganizerActionMenu from 'containers/Organizer/OrganizerActionMenu'
 import ListItemHeader from 'components/styled/ListItemHeader'
+import OrganizerInviteListItem from 'containers/Organizer/OrganizerInviteListItem'
 
-const Container = ({ projectKey, invites, organizers })=>
+const Container = ({ projectKey, invited, active })=>
   <List>
-    <CreateInviteListItem projectKey={projectKey}/>
-    { (invites.length > 0) && <ListItemHeader primaryText='Open Invites'/> }
-    { invites.map( invite=><InviteListItem key={invite.$key} {...invite} /> ) }
-    { (organizers.length > 0) && <ListItemHeader primaryText='Organizers'/> }
-    { organizers.map( o=>
+    <OrganizerInviteListItem {...{projectKey}}/>
+    { (invited.length > 0) && <ListItemHeader primaryText='Open Invites'/> }
+    { invited.map( invite=>
+      <InviteListItem {...invite} key={invite.$key}
+        actionMenu={ <InviteActionMenu acceptUrl={'/accept/organizer/'+invite.$key}/> }
+        />
+    ) }
+    { (active.length > 0) && <ListItemHeader primaryText='Organizers'/> }
+    { active.map( o=>
       <ProfileListItem key={o.$key} profileKey={o.profileKey}
         secondaryText={o.authority}
         rightIconButton={<OrganizerActionMenu organizer={o}/>}
@@ -24,26 +29,33 @@ const Container = ({ projectKey, invites, organizers })=>
 import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { createSelector } from 'reselect'
-import { Organizers, Invites } from 'remote'
+import { Organizers } from 'remote'
 import { wanting } from 'lib/react-needful'
 
 const wants = {
-  invites: ({projectKey,dispatch})=>dispatch(Invites.actions.query({orderByChild:'projectKey',equalTo:projectKey})),
-  organizers: ({projectKey,dispatch})=>dispatch(Organizers.actions.query({orderByChild:'projectKey',equalTo:projectKey}))
+  organizers: ({projectKey,wantsOrganizers})=>wantsOrganizers({orderByChild:'projectKey',equalTo:projectKey})
 }
 
-const filteredInvites = createSelector(
-  Invites.select.by('projectKey'),
-  (invites)=>invites && invites.filter(invite=>!invite.claimedProfileKey)
+const invitedOrganizers = createSelector(
+  Organizers.select.by('projectKey'),
+  (organizers)=>organizers.filter(organizer=>!organizer.profileKey)
+)
+const activeOrganizers = createSelector(
+  Organizers.select.by('projectKey'),
+  (organizers)=>organizers.filter(organizer=>!!organizer.profileKey)
 )
 
 const mapState = createSelector(
-  filteredInvites,
-  Organizers.select.by('projectKey'),
-  (invites, organizers)=>{ return { invites, organizers } }
+  invitedOrganizers,
+  activeOrganizers,
+  (invited, active)=>{ return { invited, active } }
 )
+
+const mapDispatch = {
+  wantsOrganizers: Organizers.actions.query
+}
 
 export default {
   path: 'staff',
-  component: compose(connect(mapState),wanting(wants))(Container)
+  component: compose(connect(mapState,mapDispatch),wanting(wants))(Container)
 }

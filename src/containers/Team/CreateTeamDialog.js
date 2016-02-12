@@ -17,8 +17,8 @@ class Container extends React.Component {
 
   save = data => {
     if (data) {
-      this.props.push({...data, ...{projectKey:this.props.projectKey}})
-      .then( ()=> console.log("completed push") )
+      this.props.create({...data, ...{projectKey:this.props.projectKey}})
+      // .then( ()=> console.log("completed push") )
     }      
     this.close()
   }
@@ -40,7 +40,7 @@ import { Teams } from 'remote'
 const mapStateToProps = ()=>{ return {} }
 
 const mapDispatchToProps = {
-  push: Teams.actions.push
+  create: Teams.actions.create
 }
 
 // export default connect(mapStateToProps, mapDispatchToProps)(Container);

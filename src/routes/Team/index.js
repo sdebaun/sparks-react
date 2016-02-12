@@ -29,7 +29,7 @@ const TeamIndexPage = ({Title, Tabs, Main, team, teamImage, projectImage, locati
       </SideNav>
       <Cell>
         { isLarge ? tabs : <TeamHeader {...{secondaryText:Title, tabs, ...headerAttrs}}/> }
-        { React.cloneElement(Main, {teamKey:team.$key,projectKey:team.projectKey}) }
+        { React.cloneElement(Main, {team,teamKey:team.$key,projectKey:team.projectKey}) }
       </Cell>
     </Grid>
   </div>

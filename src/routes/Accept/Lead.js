@@ -1,0 +1,36 @@
+import React from 'react';
+
+import LeadAccept from 'containers/Lead/LeadAccept'
+
+// import List from 'material-ui/lib/lists/list'
+// import CreateProjectListItem from 'containers/Project/CreateProjectListItem'
+// import ProjectListItem from 'containers/Project/ProjectListItem'
+
+const RouteAcceptLead = ({lead,params:{leadKey}})=> <LeadAccept {...{leadKey,...lead}}/>
+
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect'
+import { Leads } from 'remote'
+import { wanting } from 'lib/react-needful'
+import { needfulPage } from 'needers'
+import { compose } from 'redux'
+
+const wants = {
+  lead: ({params:{leadKey},wantsLead})=> wantsLead(leadKey)
+}
+
+const needs = ['lead']
+
+const mapState = createSelector(
+  (s,p)=>Leads.select.matching('leadKey')(s,p.params),
+  (lead)=>{ return {lead} }
+)
+
+const mapDispatch = {
+  wantsLead: Leads.actions.watch
+}
+
+export default {
+  path: 'lead/:leadKey',
+  component: compose(connect(mapState,mapDispatch),wanting(wants),needfulPage(needs))(RouteAcceptLead)
+}

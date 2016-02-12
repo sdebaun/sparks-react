@@ -15,8 +15,8 @@ Object.assign(Users.select,{
 
 export const Profiles = remote.data.model('Profiles', {
   actions: {
-    create: (authData)=>Profiles.actions.push(OAuthToProfile(authData)),
-    confirm: (key,data)=>Profiles.actions.update(key,Object.assign({isConfirmed:true},data))
+    register: (authData)=>Profiles.actions.remote('register',authData),
+    confirm: (key,vals)=>Profiles.actions.remote('confirm',{key,vals})
   }
 })
 Object.assign(Profiles.select,{
@@ -27,16 +27,34 @@ Object.assign(Profiles.select,{
   )
 })
 
-export const Projects = remote.data.model('Projects')
+export const Projects = remote.data.model('Projects', {
+  actions: {
+    create: (data)=>Projects.actions.remote('create',data),
+    update: (key,vals)=>Projects.actions.remote('update',{key,vals})
+  }
+})
 
-export const ProjectImages = remote.data.model('ProjectImages')
+export const ProjectImages = remote.data.model('ProjectImages', {
+  actions: {
+    set: (key,val)=>ProjectImages.actions.remote('set',{key,val})
+  }
+})
 
-export const Organizers = remote.data.model('Organizers')
+export const Organizers = remote.data.model('Organizers', {
+  actions: {
+    create: function(projectKey,authorProfileKey,fields) {
+      return Organizers.actions.remote('create', {projectKey,authorProfileKey,...fields})
+    },
+    accept: function(organizerKey) {
+      return Organizers.actions.remote('accept', {organizerKey})
+    }
+  }
+})
 Object.assign(Organizers.select,{
   authed: createSelector(
     Users.select.authed,
     Organizers.select.rows,
-    (userProfileKey,organizers)=> organizers.filter( o=>o.profileKey==userProfileKey )
+    (userProfileKey,organizers)=> organizers.filter( o=>userProfileKey && (o.profileKey==userProfileKey) )
   )
 })
 Object.assign(Organizers.select,{
@@ -46,42 +64,75 @@ Object.assign(Organizers.select,{
   )
 })
 
-export const Invites = remote.data.model('Invites', {
+// export const Invites = remote.data.model('Invites', {
+//   actions: {
+//     create: function(fields,projectKey,authorProfileKey) {
+//       return Invites.actions.push({...fields,projectKey,authorProfileKey})
+//     },
+//     accept: function(inviteKey,profileKey) {
+//       return Invites.actions.update(inviteKey,{
+//         claimedProfileKey: profileKey
+//       })
+//     }
+//   }
+// })
+
+export const Teams = remote.data.model('Teams', {
   actions: {
-    create: function(fields,projectKey,authorProfileKey) {
-      return Invites.actions.push({...fields,projectKey,authorProfileKey})
+    create: (data)=>Teams.actions.remote('create',data)
+  }
+})
+
+export const TeamImages = remote.data.model('TeamImages', {
+  actions: {
+    set: (key,val)=>TeamImages.actions.remote('set',{key,val})
+  }
+})
+
+export const Leads = remote.data.model('Leads', {
+  actions: {
+    create: function(teamKey,authorProfileKey,fields) {
+      return Leads.actions.remote('create', {teamKey,authorProfileKey,...fields})
     },
-    accept: function(inviteKey,profileKey) {
-      return Invites.actions.update(inviteKey,{
-        claimedProfileKey: profileKey
-      })
+    accept: function(leadKey) {
+      return Leads.actions.remote('accept', {leadKey})
     }
   }
 })
 
-export const Teams = remote.data.model('Teams')
+Object.assign(Leads.select,{
+  authed: createSelector(
+    Users.select.authed,
+    Leads.select.rows,
+    (userProfileKey,leads)=> leads.filter( l=>userProfileKey && (l.profileKey==userProfileKey) )
+  )
+})
+Object.assign(Leads.select,{
+  authedTeamKeys: createSelector(
+    Leads.select.authed,
+    (leads)=>leads.map(l=>l.teamKey)
+  )
+})
 
-export const TeamImages = remote.data.model('TeamImages')
-
-function OAuthToProfile(authData) {
-  const provider = authData.provider,
-    d = authData[provider];
-  switch (provider) {
-    case 'google':
-      return {
-        uid: authData.uid,
-        fullName: d.displayName,
-        email: d.email,
-        profileImageURL: d.profileImageURL
-      }
-    case 'facebook':
-      return {
-        uid: authData.uid,
-        fullName: 'FB Full name',
-        email: 'FB email',
-        profileImageURL: 'FB image url'
-      }
-    default:
-      throw 'Can only handle google or facebook oauth.'
-  }
-}
+// function OAuthToProfile(authData) {
+//   const provider = authData.provider,
+//     d = authData[provider];
+//   switch (provider) {
+//     case 'google':
+//       return {
+//         uid: authData.uid,
+//         fullName: d.displayName,
+//         email: d.email,
+//         profileImageURL: d.profileImageURL
+//       }
+//     case 'facebook':
+//       return {
+//         uid: authData.uid,
+//         fullName: 'FB Full name',
+//         email: 'FB email',
+//         profileImageURL: 'FB image url'
+//       }
+//     default:
+//       throw 'Can only handle google or facebook oauth.'
+//   }
+// }

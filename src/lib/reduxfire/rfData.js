@@ -1,6 +1,6 @@
 import Immutable from 'seamless-immutable'
 
-import {LOCAL_UPDATE,REMOTE_WATCH,REMOTE_QUERY,REMOTE_PUSH,REMOTE_SET,REMOTE_UPDATE} from './types'
+import {LOCAL_UPDATE,REMOTE_ACTION,REMOTE_WATCH,REMOTE_QUERY} from './types'
 
 import rfModel from './rfModel'
 
@@ -8,6 +8,13 @@ const initialState = Immutable({})
 
 const localUpdate = (collection,key,data)=>{
   return {type:LOCAL_UPDATE,collection,key,data}
+}
+
+function removeNulls(obj){
+  for (var k in obj){
+    if (!obj[k]) delete obj[k];
+    else if (typeof obj[k]=='object') removeNulls(obj[k]);
+  }
 }
 
 export default class rfData {
@@ -42,8 +49,8 @@ export default class rfData {
     this.cache[ cacheKey ] = true
   }
 
-  middleware = ({dispatch}) => next => action => {
-    const {collection,key,params,val,vals} = action
+  middleware = ({dispatch, getState}) => next => action => {
+    const {collection,op,key,params,payload} = action
     switch (action.type) {
       case REMOTE_WATCH:
         this.addWatch(collection,key,dispatch)
@@ -51,15 +58,20 @@ export default class rfData {
       case REMOTE_QUERY:
         this.addQuery(collection,params,dispatch)
         break
-      case REMOTE_PUSH:
-        return this.ref.child(collection).push(vals)
-      case REMOTE_SET:
-        this.ref.child(collection).child(key).set(val)
+      case REMOTE_ACTION:
+        const client = getState().auth.uid
+        removeNulls(payload)
+        this.ref.child('tasks').push({client, collection, op, payload})
         break
-      case REMOTE_UPDATE:
-        Object.keys(vals).forEach( k=> !vals[k] && delete vals[k] )
-        this.ref.child(collection).child(key).update(vals)
-        break
+      // case REMOTE_PUSH:
+      //   return this.ref.child(collection).push(vals)
+      // case REMOTE_SET:
+      //   this.ref.child(collection).child(key).set(val)
+      //   break
+      // case REMOTE_UPDATE:
+      //   Object.keys(vals).forEach( k=> !vals[k] && delete vals[k] )
+      //   this.ref.child(collection).child(key).update(vals)
+      //   break
     }
     return next(action)
   }

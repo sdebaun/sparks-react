@@ -3,7 +3,7 @@ import { AUTH_SUCCESS, AUTH_CLEAR } from 'lib/reduxfire/types';
 import { pushPath } from 'redux-simple-router'
 
 // import remote, { Projects, Profiles, Users, Organizers, Teams, TeamImages } from 'remote'
-import remote, { Profiles, Users, Organizers } from 'remote'
+import remote, { Profiles, Users, Organizers, Leads } from 'remote'
 
 function* startListening() {
   yield put(remote.auth.listen())
@@ -22,6 +22,7 @@ function* loadUserData(getState) {
     if (profileKey && (uid == getState().auth.uid)) {
       yield put(Profiles.actions.watch(profileKey))
       yield put(Organizers.actions.query({orderByChild:'profileKey', equalTo:profileKey}))
+      yield put(Leads.actions.query({orderByChild:'profileKey', equalTo:profileKey}))
     }
   }
 }
@@ -31,8 +32,9 @@ function* createUserProfileIfMissing(getState) {
     const {key,data:profileKey} = yield take( Users.takeAny )
     const {auth} = getState()
     if (!profileKey && (key == auth.uid)) {
-      const newProfileRef = yield put(Profiles.actions.create(auth))
-      yield put( Users.actions.set(auth.uid, newProfileRef.key()) )
+      yield put(Profiles.actions.register(auth))
+      // const newProfileRef = yield put(Profiles.actions.create(auth))
+      // yield put( Users.actions.set(auth.uid, newProfileRef.key()) )
     }
   }
 }
