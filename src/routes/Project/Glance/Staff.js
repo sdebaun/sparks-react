@@ -1,7 +1,6 @@
 import React from 'react'
 
 import List from 'components/styled/List'
-import CreateInviteListItem from 'containers/Invite/CreateInviteListItem'
 import InviteListItem from 'containers/Invite/InviteListItem'
 import InviteActionMenu from 'containers/Lead/InviteActionMenu'
 import ProfileListItem from 'containers/Profile/ProfileListItem'
@@ -30,7 +29,7 @@ const Container = ({ projectKey, invited, active })=>
 import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { createSelector } from 'reselect'
-import { Organizers, Invites } from 'remote'
+import { Organizers } from 'remote'
 import { wanting } from 'lib/react-needful'
 
 const wants = {

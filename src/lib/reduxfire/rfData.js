@@ -1,6 +1,6 @@
 import Immutable from 'seamless-immutable'
 
-import {LOCAL_UPDATE,REMOTE_ACTION,REMOTE_WATCH,REMOTE_QUERY,REMOTE_PUSH,REMOTE_SET,REMOTE_UPDATE} from './types'
+import {LOCAL_UPDATE,REMOTE_ACTION,REMOTE_WATCH,REMOTE_QUERY} from './types'
 
 import rfModel from './rfModel'
 
@@ -13,7 +13,7 @@ const localUpdate = (collection,key,data)=>{
 function removeNulls(obj){
   for (var k in obj){
     if (!obj[k]) delete obj[k];
-    else if (typeof obj[k]=="object") removeNulls(obj[k]);
+    else if (typeof obj[k]=='object') removeNulls(obj[k]);
   }
 }
 
@@ -50,7 +50,7 @@ export default class rfData {
   }
 
   middleware = ({dispatch, getState}) => next => action => {
-    const {collection,op,key,params,val,vals,payload} = action
+    const {collection,op,key,params,payload} = action
     switch (action.type) {
       case REMOTE_WATCH:
         this.addWatch(collection,key,dispatch)

@@ -75,7 +75,11 @@ var handlers = {
     accept: function accept(_ref3, client) {
       var organizerKey = _ref3.organizerKey;
       return getAuth(client).then(function (profile) {
-        return Organizers.update(organizerKey, { profileKey: profile.key });
+        return Organizers.update(organizerKey, { profileKey: profile.key }).then(function () {
+          return Organizers.get(organizerKey).then(function (organizerSnap) {
+            return organizerSnap.val().projectKey;
+          });
+        });
       });
     }
   },

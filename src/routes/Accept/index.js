@@ -1,8 +1,6 @@
 import React from 'react';
 
 import MainBar from 'components/MainBar'
-import NavTabs from 'components/NavTabs'
-import Tab from 'material-ui/lib/tabs/tab'
 
 class Page extends React.Component {
   render() {
@@ -12,12 +10,6 @@ class Page extends React.Component {
     </div>
   }
 }
-
-// const Page = ({children})=>
-// <div className="index">
-//   <MainBar/>
-//   {this.children}
-// </div>
 
 import Lead from './Lead'
 import Organizer from './Organizer'

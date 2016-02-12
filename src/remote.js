@@ -64,22 +64,22 @@ Object.assign(Organizers.select,{
   )
 })
 
-export const Invites = remote.data.model('Invites', {
-  actions: {
-    create: function(fields,projectKey,authorProfileKey) {
-      return Invites.actions.push({...fields,projectKey,authorProfileKey})
-    },
-    accept: function(inviteKey,profileKey) {
-      return Invites.actions.update(inviteKey,{
-        claimedProfileKey: profileKey
-      })
-    }
-  }
-})
+// export const Invites = remote.data.model('Invites', {
+//   actions: {
+//     create: function(fields,projectKey,authorProfileKey) {
+//       return Invites.actions.push({...fields,projectKey,authorProfileKey})
+//     },
+//     accept: function(inviteKey,profileKey) {
+//       return Invites.actions.update(inviteKey,{
+//         claimedProfileKey: profileKey
+//       })
+//     }
+//   }
+// })
 
 export const Teams = remote.data.model('Teams', {
   actions: {
-    create: (data)=>Teams.actions.remote('create',data),
+    create: (data)=>Teams.actions.remote('create',data)
   }
 })
 
@@ -91,7 +91,6 @@ export const Leads = remote.data.model('Leads', {
       return Leads.actions.remote('create', {teamKey,authorProfileKey,...fields})
     },
     accept: function(leadKey) {
-      console.log('calling accept action')
       return Leads.actions.remote('accept', {leadKey})
     }
   }
@@ -111,25 +110,25 @@ Object.assign(Leads.select,{
   )
 })
 
-function OAuthToProfile(authData) {
-  const provider = authData.provider,
-    d = authData[provider];
-  switch (provider) {
-    case 'google':
-      return {
-        uid: authData.uid,
-        fullName: d.displayName,
-        email: d.email,
-        profileImageURL: d.profileImageURL
-      }
-    case 'facebook':
-      return {
-        uid: authData.uid,
-        fullName: 'FB Full name',
-        email: 'FB email',
-        profileImageURL: 'FB image url'
-      }
-    default:
-      throw 'Can only handle google or facebook oauth.'
-  }
-}
+// function OAuthToProfile(authData) {
+//   const provider = authData.provider,
+//     d = authData[provider];
+//   switch (provider) {
+//     case 'google':
+//       return {
+//         uid: authData.uid,
+//         fullName: d.displayName,
+//         email: d.email,
+//         profileImageURL: d.profileImageURL
+//       }
+//     case 'facebook':
+//       return {
+//         uid: authData.uid,
+//         fullName: 'FB Full name',
+//         email: 'FB email',
+//         profileImageURL: 'FB image url'
+//       }
+//     default:
+//       throw 'Can only handle google or facebook oauth.'
+//   }
+// }

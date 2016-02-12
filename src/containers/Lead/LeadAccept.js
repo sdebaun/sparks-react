@@ -4,36 +4,35 @@ import Narrow from 'components/Narrow'
 
 import RaisedButton from 'material-ui/lib/raised-button'
 
-import Avatar from 'material-ui/lib/avatar'
-
-import Content from 'components/Content'
+import ProfileAvatar from 'containers/Profile/ProfileAvatar'
 import TeamHeader from 'containers/Team/TeamHeader'
-
 import LoginButton from 'containers/LoginButton'
 
-const LeadAccept = ({accept,authedTeamKeys,hasAccess,leadKey,team,email,authority,userProfile,authorProfile,profileKey,projectImage:{dataUrl}})=>
+const LeadAccept = ({accept,hasAccess,leadKey,team,email,authority,userProfile,authorProfile,profileKey,projectImage:{dataUrl}})=>
   <Narrow>
     <TeamHeader {...{dataUrl, ...team}} hideNav={true} />
-    { profileKey && <Claimed/> ||
-      (hasAccess && 
+    <Claim {...{accept,leadKey,userProfile,email,authority,authorProfile,team}}/>
+    { profileKey &&
+      <h1>This Invite has been Claimed.</h1> ||
+      ( hasAccess &&
         <div>If you didn't already have access to this team, you'd be able to claim this invitation.</div> ||
-        <Claim {...{accept,leadKey,userProfile,email,authority,authorProfile,team}}/>
+        ( userProfile &&
+          <RaisedButton primary={true} onTouchTap={()=>accept(leadKey)} label='With Great Power Etc.'/> ||
+          <LoginButton provider='google'/>
+        )
       )
     }
-  </Narrow>  
+  </Narrow>
 
-const Claim = ({accept,leadKey,userProfile, email, authority, authorProfile, team})=>
+const Claim = ({userProfile, email, authority, authorProfile, team})=>
   <div>
     <Greet name={userProfile && userProfile.fullName || email}/>
     <Invitation {...{authorProfile,authority,team}}/>
-    { userProfile &&
-      <RaisedButton primary={true} onTouchTap={()=>accept(leadKey)} label='With Great Power Etc.'/> ||
-      <LoginButton provider='google'/>
-    }
   </div>
 
 const Invitation = ({authorProfile,authority,team}) =>
   <div>
+    <ProfileAvatar profileKey={authorProfile.$key} size={200} style={{margin:'auto'}}/>
     <p>
        <b>{authorProfile.fullName}</b> has invited you to join <b>{team.name}</b> with <b>{authority}</b> authority.
     </p>
@@ -45,8 +44,6 @@ const Invitation = ({authorProfile,authority,team}) =>
     }
   </div>
   
-const Claimed = ()=> <h1>This Invite has been Claimed.</h1>
-
 const Greet = ({name}) => <h1 style={{textAlign:'center'}}>Hello {name}!</h1>
 
 
@@ -114,7 +111,7 @@ const mapDispatch = {
   accept: Leads.actions.accept,
   wantsTeam: Teams.actions.watch,
   wantsProjectImage: ProjectImages.actions.watch,
-  wantsProfile: Profiles.actions.watch,
+  wantsProfile: Profiles.actions.watch
 }
 
 export default compose(connect(mapState,mapDispatch),wanting(wants),needfulPage(needs))(LeadAccept)

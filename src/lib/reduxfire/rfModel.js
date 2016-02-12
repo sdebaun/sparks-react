@@ -1,4 +1,4 @@
-import {REMOTE_ACTION,REMOTE_WATCH,REMOTE_QUERY,REMOTE_PUSH,REMOTE_SET,REMOTE_UPDATE,LOCAL_UPDATE} from './types'
+import {REMOTE_ACTION,REMOTE_WATCH,REMOTE_QUERY,LOCAL_UPDATE} from './types'
 import { createSelector } from 'reselect'
 
 export default class rfModel {

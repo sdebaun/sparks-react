@@ -52,6 +52,10 @@ const handlers = {
     accept: ({organizerKey},client)=>
       getAuth(client).then( profile=>
         Organizers.update(organizerKey,{profileKey:profile.key})
+        .then( ()=>
+          Organizers.get(organizerKey)
+          .then( organizerSnap=>organizerSnap.val().projectKey )
+        )
       )    
   },
 

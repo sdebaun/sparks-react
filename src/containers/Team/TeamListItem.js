@@ -1,6 +1,5 @@
 import React from 'react';
 
-import ListItem from 'material-ui/lib/lists/list-item'
 import NavListItem from 'components/NavListItem'
 
 const TeamListItem = ({team:{name,projectKey},teamKey,...props})=>

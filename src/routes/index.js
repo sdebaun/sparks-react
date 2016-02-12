@@ -34,14 +34,11 @@ import Admin from './Admin'
 import Project from './Project'
 import Team from './Team'
 import ConfirmProfile from './ConfirmProfile'
-import AcceptInvite from './AcceptInvite'
 import Accept from './Accept'
 
 export default {
   path: '/',
   component: App,
   indexRoute: Landing,
-  childRoutes: [ Admin, Dash, Project, Team, ConfirmProfile, AcceptInvite, Accept ]
+  childRoutes: [ Admin, Dash, Project, Team, ConfirmProfile, Accept ]
 }
-
-  // childRoutes: [ DashRoutes, AdminRoutes, ProjectRoutes, ProjectInviteRoutes, ConfirmProfileRoutes ]

@@ -13,7 +13,7 @@ import { pushPath } from 'redux-simple-router'
 export class ProjectNavList extends React.Component {
   save = data => {
     if (data) {
-      const teamRef = this.props.create({...data, ...{projectKey:this.props.projectKey}})
+      this.props.create({...data, ...{projectKey:this.props.projectKey}})
       // this.props.pushPath('/team/'+this.props.projectKey + '/' + teamRef.key())
     }
       

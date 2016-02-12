@@ -8,7 +8,7 @@ export default class LeadActionMenu extends React.Component {
   remove() {}
 
   render() {
-    const {props: {acceptUrl, $key, ...props}} = this
+    const {props: {acceptUrl, ...props}} = this
     return (
       <ActionMenu {...props}>
         <MenuItem href={acceptUrl} target='new'>Preview</MenuItem>
