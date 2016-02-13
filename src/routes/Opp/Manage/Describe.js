@@ -12,29 +12,26 @@ import Radium from 'radium'
 const TitledBlock = ({title,body})=>
   <div><b>{title}.</b><br/>{body}</div>
 
-const SwitchLabel = ({isPublic})=> isPublic &&
+const IsPublicLabel = ({isPublic})=> isPublic &&
   <TitledBlock title='Public' body='When you turn on recruiting, anyone will be able to apply.'/> ||
   <TitledBlock title='Private' body='Only people that you invite will be able to apply.'/>
 
-const SwitchPublic = ({opp:{$key, isPublic},setPublic})=>
-  <Toggle label={<SwitchLabel {...{isPublic}}/>}
-    toggled={isPublic}
-    labelPosition='right'
-    onToggle={(ev,val)=>setPublic(val)}
-    />
-
-import { connect } from 'react-redux'
-import { Opps } from 'remote'
-
-// const SwitchPublic = connect(()=>{return{}},mapDispatch)(BaseSwitchPublic)
+const UpdatingSwitch = ({value,setValue,label})=>
+  <Toggle {...{label}} toggled={value} labelPosition='right' onToggle={(ev,val)=>setValue(val)}/>
 
 const Container = ({ opp,update,setPublic })=>
   <Content>
     <List>
-    <SwitchPublic {...{opp,setPublic:(v)=>setPublic(opp.$key,v)}}/>
+    <UpdatingSwitch value={opp.isPublic} setValue={(v)=>setPublic(opp.$key,v)}
+      label={<IsPublicLabel isPublic={opp.isPublic}/>}
+      />
+    <Divider/>
     <EditOppDescriptionListItem {...{opp,update:(v)=>update(opp.$key,v)}}/>
     </List>
   </Content>
+
+import { connect } from 'react-redux'
+import { Opps } from 'remote'
 
 const mapDispatch = {
   update: Opps.actions.update,

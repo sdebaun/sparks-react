@@ -16,7 +16,7 @@ export class ProjectNavList extends React.Component {
     if (data) {
       this.props.createTeam({...data, ...{projectKey:this.props.projectKey}})
       // this.props.pushPath('/team/'+this.props.projectKey + '/' + teamRef.key())
-    }    
+    }
     this.refs.teamPopup.close()
   }
 
@@ -70,7 +70,7 @@ import { Teams, Opps } from 'remote'
 
 const wants = {
   teams: ({projectKey,wantsTeams})=>wantsTeams({orderByChild:'projectKey',equalTo:projectKey}),
-  opps: ({projectKey,wantsOpps})=>wantsOpps({orderByChild:'projectKey',equalTo:projectKey}),
+  opps: ({projectKey,wantsOpps})=>wantsOpps({orderByChild:'projectKey',equalTo:projectKey})
 }
 const needs = [ 'teams' ]
 

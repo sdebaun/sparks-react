@@ -5,9 +5,9 @@ import FAB from 'material-ui/lib/floating-action-button'
 
 import AddAPhotoIcon from 'material-ui/lib/svg-icons/image/add-a-photo';
 import PlaylistAddIcon from 'material-ui/lib/svg-icons/av/playlist-add';
-import PersonAddIcon from 'material-ui/lib/svg-icons/social/person-add';
-import CreateTeamListItem from 'containers/Team/CreateTeamListItem'
-import CreateOppListItem from 'containers/Opp/CreateOppListItem'
+// import PersonAddIcon from 'material-ui/lib/svg-icons/social/person-add';
+// import CreateTeamListItem from 'containers/Team/CreateTeamListItem'
+// import CreateOppListItem from 'containers/Opp/CreateOppListItem'
 
 const todos = [
   { key:'describing',

@@ -20,7 +20,7 @@ export const baseTheme = {
     borderColor: Colors.grey300,
     disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
     pickerHeaderColor: Colors.pinkA200
-  },
+  }
 };
 
 export const muiTheme = {
