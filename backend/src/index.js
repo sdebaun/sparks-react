@@ -97,7 +97,9 @@ const handlers = {
     create: (payload,client)=>
       Opps.push(payload).then( ref=>ref.key() ), // auth check if project manager
     update: ({key,vals},client)=>
-      Opps.update(key,vals) // auth check if project manager or team lead
+      Opps.update(key,vals), // auth check if project manager or team lead
+    setPublic: ({key,val})=>
+      Opps.update(key,{isPublic:!!val}) // auth check if project manager or team lead
   },
 
   Exchanges: {

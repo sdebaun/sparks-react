@@ -60,6 +60,7 @@ export default class rfData {
         break
       case REMOTE_ACTION:
         const client = getState().auth.uid
+        console.log('payload for remote action',payload)
         removeNulls(payload)
         this.ref.child('tasks').push({client, collection, op, payload})
         break

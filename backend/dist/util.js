@@ -17,7 +17,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var handlerNotFound = function handlerNotFound(collection) {
   return function (payload, client) {
-    return Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       console.log('Could not find handler for collection', collection);
       resolve();
     });

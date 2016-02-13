@@ -1,7 +1,7 @@
 import FirebaseQueue from 'firebase-queue'
 
 const handlerNotFound = collection => (payload,client) =>
-  Promise( (resolve,reject)=>{
+  new Promise( (resolve,reject)=>{
     console.log('Could not find handler for collection', collection)
     resolve()
   })

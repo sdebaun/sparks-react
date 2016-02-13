@@ -4,7 +4,7 @@ import React from 'react';
 import {StyleRoot} from 'radium';
 
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
-import Theme from '../theme'
+import { baseTheme, muiTheme } from '../theme'
 
 import DevTools from 'components/DevTools'
 
@@ -14,7 +14,7 @@ class App extends React.Component {
   }
 
   getChildContext() {
-    return { muiTheme: ThemeManager.getMuiTheme(Theme) }
+    return { muiTheme: ThemeManager.getMuiTheme(baseTheme,muiTheme) }
   }
 
   render() {

@@ -145,6 +145,11 @@ var handlers = {
       var key = _ref8.key;
       var vals = _ref8.vals;
       return Opps.update(key, vals);
+    }, // auth check if project manager or team lead
+    setPublic: function setPublic(_ref9) {
+      var key = _ref9.key;
+      var val = _ref9.val;
+      return Opps.update(key, { isPublic: !!val });
     } // auth check if project manager or team lead
   },
 

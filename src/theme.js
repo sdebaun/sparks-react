@@ -3,7 +3,7 @@ import ColorManipulator from 'material-ui/lib/utils/color-manipulator';
 import Spacing from 'material-ui/lib/styles/spacing';
 import zIndex from 'material-ui/lib/styles/zIndex';
 
-export default {
+export const baseTheme = {
   spacing: Spacing,
   zIndex: zIndex,
   fontFamily: 'Roboto, sans-serif',
@@ -20,5 +20,14 @@ export default {
     borderColor: Colors.grey300,
     disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
     pickerHeaderColor: Colors.pinkA200
-  }
+  },
 };
+
+export const muiTheme = {
+  toggle: {
+    trackOffColor: Colors.grey700,
+    trackOnColor: Colors.amber700,
+    thumbOffColor: Colors.grey900,
+    thumbOnColor: Colors.amber900
+  }
+}

@@ -109,7 +109,8 @@ Object.assign(Leads.select,{
 export const Opps = remote.data.model('Opps', {
   actions: {
     create: (data)=>Opps.actions.remote('create',data),
-    update: (key,vals)=>Opps.actions.remote('update',{key,vals})
+    update: (key,vals)=>Opps.actions.remote('update',{key,vals}),
+    setPublic: (key,val)=>Opps.actions.remote('setPublic',{key,val})
   }
 })
 
