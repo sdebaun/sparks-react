@@ -1,5 +1,6 @@
 import React from 'react';
 import SelectField from 'material-ui/lib/select-field';
+import Divider from 'material-ui/lib/divider'
 // import ArrowDropDownIcon from 'material-ui/lib/svg-icons/navigation/arrow-drop-down';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 // import TeamListItem from 'containers/Team/TeamListItem'
@@ -14,11 +15,13 @@ class Container extends React.Component {
         style={{margin:'0em 1em 0em 1em',textTransform:'uppercase'}} labelStyle={{color:'white'}}
         >
         <MenuItem value={'/project/'+projectKey} primaryText={project.name} style={{textTransform:'uppercase'}}/>
-        {teams.map( t=>
-          <MenuItem key={t.$key + 'dd'} value={'/team/' + projectKey + '/' + t.$key} primaryText={t.name}/>
-        )}
+        <Divider/>
         {opps.map( ({$key,name})=>
           <MenuItem key={$key + 'dd'} value={'/opp/' + projectKey + '/' + $key} primaryText={name}/>
+        )}
+        <Divider/>
+        {teams.map( t=>
+          <MenuItem key={t.$key + 'dd'} value={'/team/' + projectKey + '/' + t.$key} primaryText={t.name}/>
         )}
       </SelectField>
     )
