@@ -7,6 +7,7 @@ import AddAPhotoIcon from 'material-ui/lib/svg-icons/image/add-a-photo';
 import PlaylistAddIcon from 'material-ui/lib/svg-icons/av/playlist-add';
 import PersonAddIcon from 'material-ui/lib/svg-icons/social/person-add';
 import CreateTeamListItem from 'containers/Team/CreateTeamListItem'
+import CreateOppListItem from 'containers/Opp/CreateOppListItem'
 
 const todos = [
   { key:'describing',
@@ -43,8 +44,15 @@ const todos = [
     listItem: props => (
       <CreateTeamListItem key='teams' projectKey={props.projectKey}/>
     )
+  },
+  { key:'opps',
+    listItem: props => (
+      <CreateOppListItem key='opps' projectKey={props.projectKey}/>
+    )
   }
 ]
+
+      // <CreateTeamListItem key='teams' projectKey={props.projectKey}/>
 
 class ProjectTodos extends React.Component {
   render() {
@@ -60,7 +68,7 @@ class ProjectTodos extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Projects, ProjectImages, Organizers, Teams } from 'remote'
+import { Projects, ProjectImages, Organizers, Teams, Opps } from 'remote'
 
 const needsDescribing = createSelector(
   Projects.select.matching('projectKey'),
@@ -78,13 +86,18 @@ const needsTeams = createSelector(
   Teams.select.by('projectKey'),
   (teams)=>teams && (teams.length==0)
 )
+const needsOpps = createSelector(
+  Opps.select.by('projectKey'),
+  (opps)=>opps && (opps.length==0)
+)
 
 const mapStateToProps = createSelector(
   needsDescribing,
   needsImage,
   needsAdmins,
   needsTeams,
-  (describing,image,admins,teams)=>{ return { needs:{describing,image,admins,teams} } }
+  needsOpps,
+  (describing,image,admins,teams,opps)=>{ return { needs:{describing,image,admins,teams,opps} } }
 )
 
 export default connect(mapStateToProps)(ProjectTodos)

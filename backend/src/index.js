@@ -22,6 +22,9 @@ const Teams = new Collection(fbRoot.child('Teams'))
 const TeamImages = new Collection(fbRoot.child('TeamImages'))
 const Leads = new Collection(fbRoot.child('Leads'))
 
+const Opps = new Collection(fbRoot.child('Opps'))
+const Exchanges = new Collection(fbRoot.child('Exchanges'))
+
 const handlers = {
 
   Profiles: {
@@ -88,7 +91,22 @@ const handlers = {
       getAuth(client).then( profile=>
         Leads.update(leadKey,{profileKey:profile.key}) // get profileKey from auth object
       )
+  },
+
+  Opps: {
+    create: (payload,client)=>
+      Opps.push(payload).then( ref=>ref.key() ), // auth check if project manager
+    update: ({key,vals},client)=>
+      Opps.update(key,vals), // auth check if project manager or team lead
+    setPublic: ({key,val})=>
+      Opps.update(key,{isPublic:!!val}) // auth check if project manager or team lead
+  },
+
+  Exchanges: {
+    create: (payload,client)=>
+      Exchanges.push(payload).then( ref=>ref.key() ), // auth check if project manager
   }
+
 }
 
 const responder = (client,response)=>fbRoot.child('Responses').child(client).push(response)

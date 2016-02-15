@@ -64,19 +64,6 @@ Object.assign(Organizers.select,{
   )
 })
 
-// export const Invites = remote.data.model('Invites', {
-//   actions: {
-//     create: function(fields,projectKey,authorProfileKey) {
-//       return Invites.actions.push({...fields,projectKey,authorProfileKey})
-//     },
-//     accept: function(inviteKey,profileKey) {
-//       return Invites.actions.update(inviteKey,{
-//         claimedProfileKey: profileKey
-//       })
-//     }
-//   }
-// })
-
 export const Teams = remote.data.model('Teams', {
   actions: {
     create: (data)=>Teams.actions.remote('create',data)
@@ -86,6 +73,12 @@ export const Teams = remote.data.model('Teams', {
 export const TeamImages = remote.data.model('TeamImages', {
   actions: {
     set: (key,val)=>TeamImages.actions.remote('set',{key,val})
+  }
+})
+
+export const Exchanges = remote.data.model('Exchanges', {
+  actions: {
+    create: (data)=>Exchanges.actions.remote('create',data)
   }
 })
 
@@ -99,7 +92,6 @@ export const Leads = remote.data.model('Leads', {
     }
   }
 })
-
 Object.assign(Leads.select,{
   authed: createSelector(
     Users.select.authed,
@@ -113,6 +105,16 @@ Object.assign(Leads.select,{
     (leads)=>leads.map(l=>l.teamKey)
   )
 })
+
+export const Opps = remote.data.model('Opps', {
+  actions: {
+    create: (data)=>Opps.actions.remote('create',data),
+    update: (key,vals)=>Opps.actions.remote('update',{key,vals}),
+    setPublic: (key,val)=>Opps.actions.remote('setPublic',{key,val})
+  }
+})
+
+
 
 // function OAuthToProfile(authData) {
 //   const provider = authData.provider,

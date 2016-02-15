@@ -4,7 +4,7 @@ import React from 'react';
 import {StyleRoot} from 'radium';
 
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
-import Theme from '../theme'
+import { baseTheme, muiTheme } from '../theme'
 
 import DevTools from 'components/DevTools'
 
@@ -14,7 +14,7 @@ class App extends React.Component {
   }
 
   getChildContext() {
-    return { muiTheme: ThemeManager.getMuiTheme(Theme) }
+    return { muiTheme: ThemeManager.getMuiTheme(baseTheme,muiTheme) }
   }
 
   render() {
@@ -32,6 +32,7 @@ import Landing from './Landing'
 import Dash from './Dash'
 import Admin from './Admin'
 import Project from './Project'
+import Opp from './Opp'
 import Team from './Team'
 import ConfirmProfile from './ConfirmProfile'
 import Accept from './Accept'
@@ -40,5 +41,5 @@ export default {
   path: '/',
   component: App,
   indexRoute: Landing,
-  childRoutes: [ Admin, Dash, Project, Team, ConfirmProfile, Accept ]
+  childRoutes: [ Admin, Dash, Project, Team, ConfirmProfile, Accept, Opp ]
 }
