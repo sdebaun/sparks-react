@@ -1,18 +1,13 @@
 import React from 'react';
-import SelectField from 'material-ui/lib/select-field';
-import Divider from 'material-ui/lib/divider'
-import DropDownMenu from 'material-ui/lib/DropDownMenu';
 import Popover from 'material-ui/lib/popover/popover';
 import List from 'components/styled/List'
-
-import MenuItem from 'material-ui/lib/menus/menu-item';
 
 export default class OppExchangeItemDropdown extends React.Component {
   state = { open: false }
 
   handleTouchTap = (evt)=>this.setState({open:true, anchorEl: evt.currentTarget})
-  handleItemTouchTap = (key)=> (evt)=>{
-    // open dialog
+  handleItemTouchTap = (key)=> ()=>{
+    console.log('opening',key)
     this.handleRequestClose()
   }
 
