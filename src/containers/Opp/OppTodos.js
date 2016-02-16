@@ -47,15 +47,17 @@ class OppTodos extends React.Component {
 
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect'
-import { Opps, Exchanges } from 'remote'
+import { Opps } from 'remote'
+
+console.log('Opps',Opps)
 
 const needsDescribing = createSelector(
   Opps.select.matching('oppKey'),
   (opp)=>!opp || !opp.description
 )
 const needsExchange = createSelector(
-  Exchanges.select.by('oppKey'),
-  (exchanges)=>exchanges && (exchanges.length<=1)
+  Opps.select.matching('oppKey'),
+  (opp)=>!opp || !opp.volGives || !opp.volGets
 )
 
 const mapState = createSelector(
