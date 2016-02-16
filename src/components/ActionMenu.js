@@ -7,10 +7,5 @@ import Colors from 'material-ui/lib/styles/colors';
 
 const iconButton = <IconButton touch={true}><MoreVertIcon color={Colors.grey400} /></IconButton>
 
-class Component extends React.Component {
-  render() {
-    return <IconMenu iconButtonElement={iconButton} {...this.props}>{this.props.children}</IconMenu>
-  }
-}
-
-export default Component
+export default ({children, ...props})=>
+  <IconMenu iconButtonElement={iconButton} {...props}>{children}</IconMenu>

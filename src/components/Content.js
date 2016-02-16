@@ -1,11 +1,8 @@
 import React from 'react';
 
-class Content extends React.Component {
-  render() { return (
-    <div style={Object.assign({display:'flex', flexDirection:'column',margin:'0em 1em'},this.props.style)}>
-      { this.props.children }
-    </div>
-  ) }
+const contentStyle = {
+  display:'flex', flexDirection:'column',margin:'0em 1em'
 }
 
-export default Content
+export default ({style,children})=>
+  <div style={Object.assign(contentStyle,style)}>{ children }</div>

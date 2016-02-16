@@ -5,23 +5,20 @@ import ListItem from 'material-ui/lib/lists/list-item'
 import { pushPath } from 'redux-simple-router'
 import Colors from 'material-ui/lib/styles/colors';
 
-class NavListItem extends React.Component {
-  navigate = ()=>this.props.pushPath
-  
-  render() {
-    const {targetRoute, location, activeFor} = this.props
-    const isActive = location &&
-      (location.pathname==targetRoute) ||
-      activeFor &&
-      activeFor.reduce( (acc,val)=>(acc||(location.pathname==targetRoute+val)),false)
-    const selectedStyle =  isActive && {borderLeft:'0.5em solid',borderColor:Colors.amber700} || {}
-    return targetRoute &&
-      <ListItem {...this.props} style={selectedStyle} onTouchTap={()=>this.props.pushPath(this.props.targetRoute)}/> ||
-      <ListItem {...this.props} style={selectedStyle}/>
-  }
-}
+const isActive = (location,targetRoute,activeFor)=>
+  location && (location.pathname==targetRoute) || (
+    activeFor && activeFor.reduce( (acc,val)=>(acc||(location.pathname==targetRoute+val)),false)
+    )
 
-const mapStateToProps = ()=>{return {}}
+const activeStyle = {borderLeft:'0.5em solid',borderColor:Colors.amber700}
 
-const mapDispatchToProps = { pushPath }
-export default connect(mapStateToProps,mapDispatchToProps)(NavListItem);
+const NavListItem = ({targetRoute, location, activeFor, pushPath, ...props})=> targetRoute &&
+  <ListItem {...props} style={isActive(location,targetRoute,activeFor) && activeStyle || {}}
+    onTouchTap={()=>pushPath(targetRoute)}/> ||
+  <ListItem {...props}/>
+
+const mapState = ()=>{return {}}
+
+const mapDispatch = { pushPath }
+
+export default connect(mapState,mapDispatch)(NavListItem);

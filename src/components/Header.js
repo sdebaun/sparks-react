@@ -8,7 +8,6 @@ import Colors from 'material-ui/lib/styles/colors';
 const tabStyle = {backgroundColor:'transparent'}
 
 const headerStyle = (backgroundSrc)=>{ return {
-  // display:'flex', flexDirection:'column', justifyContent:'flex-end',
   backgroundImage: backgroundSrc &&
     'linear-gradient(rgba(0,0,0,0.60),rgba(0,0,0,0.90)), url('+backgroundSrc+')' ||
     'linear-gradient(rgba(0,0,0,0.80),rgba(0,0,0,0.80))',
@@ -36,26 +35,3 @@ export default Radium( ({backgroundSrc,style,topNav,navIcon,primaryText,secondar
   </div>
 )
 
-
-
-  // <div style={[headerStyle(backgroundSrc),style]}>
-    // {topNav}
-  //   <Toolbar style={{backgroundColor:'transparent', display:'flex', alignItems:'center'}}>
-  //     { navIcon && <ToolbarGroup firstChild={true}>{navIcon}</ToolbarGroup> }
-  //     <ToolbarGroup firstChild={!navIcon} style={{color:'white'}}>
-  //       <div>
-  //         <div style={{fontSize:'1.5em'}}>{primaryText}</div>
-  //         <div style={{fontSize:'0.9em',color:Colors.grey300}}>{secondaryText}</div>
-  //       </div>
-  //     </ToolbarGroup>
-  //   </Toolbar>
-  //   {tabs && React.cloneElement(tabs,{ tabItemContainerStyle:tabStyle })}
-  // </div>
-
-      // <Grid size='1/1'>
-      //   {navIcon && <Cell size='1/12'>{navIcon}</Cell>}
-      //   <Grid size='11/12' style={{border:'1px solid red'}}>
-      //     <Cell style={{fontSize:'1.5em'}}>{primaryText}</Cell>
-      //     <Cell style={{fontSize:'0.9em',color:Colors.grey300}}>{secondaryText}</Cell>
-      //   </Grid>
-      // </Grid>
