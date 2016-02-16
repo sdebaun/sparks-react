@@ -66,20 +66,25 @@ var handlers = {
     update: function update(_ref2, client) {
       var key = _ref2.key;
       var vals = _ref2.vals;
-      return Projects.update(key, vals);
-    } // auth check if project manager
+      return Projects.update(key, vals).then( // auth check if project manager
+      Organizers.updateBy('projectKey', key, { project: vals }));
+    }
   },
 
   Organizers: {
     create: function create(payload, client) {
-      return Organizers.push(payload).then(function (ref) {
-        return ref.key();
-      });
-    }, // auth check if project manager
+      return (// auth check if project manager
+        Projects.get(payload.projectKey).then(function (snap) {
+          return Organizers.push(Object.assign(payload, { project: snap.val() })).then(function (ref) {
+            return ref.key();
+          });
+        })
+      );
+    },
     accept: function accept(_ref3, client) {
       var organizerKey = _ref3.organizerKey;
       return getAuth(client).then(function (profile) {
-        return Organizers.update(organizerKey, { profileKey: profile.key }).then(function () {
+        return Organizers.update(organizerKey, { profileKey: profile.key, profile: profile }).then(function () {
           return Organizers.get(organizerKey).then(function (organizerSnap) {
             return organizerSnap.val().projectKey;
           });

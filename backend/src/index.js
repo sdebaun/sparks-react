@@ -47,15 +47,20 @@ const handlers = {
         .then( ref=>ref.key() )
       ),
     update: ({key,vals},client)=>
-      Projects.update(key,vals) // auth check if project manager
+      Projects.update(key,vals).then( // auth check if project manager
+        Organizers.updateBy('projectKey',key,{project:vals})
+      )
   },
 
   Organizers: {
-    create: (payload,client)=>
-      Organizers.push(payload).then( ref=>ref.key() ), // auth check if project manager
+    create: (payload,client)=> // auth check if project manager
+      Projects.get(payload.projectKey).then( (snap)=>
+        Organizers.push(Object.assign(payload,{project:snap.val()}))
+        .then( ref=>ref.key() )
+      ),
     accept: ({organizerKey},client)=>
       getAuth(client).then( profile=>
-        Organizers.update(organizerKey,{profileKey:profile.key})
+        Organizers.update(organizerKey,{profileKey:profile.key,profile})
         .then( ()=>
           Organizers.get(organizerKey)
           .then( organizerSnap=>organizerSnap.val().projectKey )

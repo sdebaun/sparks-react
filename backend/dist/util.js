@@ -66,6 +66,21 @@ var Collection = exports.Collection = (function () {
     value: function get(key) {
       return this.ref.child(key).once('value');
     }
+  }, {
+    key: 'updateBy',
+    value: function updateBy(field, key, vals) {
+      var _this = this;
+
+      return this.ref.orderByChild(field).equalTo(key).once('value').then(function (snap) {
+        console.log('updating from', key, 'with', vals);
+        var childs = snap.val();
+        console.log('childs', childs);
+        Object.keys(snap.val()).map(function (childKey) {
+          return _this.update(childKey, vals);
+        });
+        return true;
+      });
+    }
   }]);
 
   return Collection;
