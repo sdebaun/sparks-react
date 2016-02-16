@@ -12,8 +12,4 @@ const style = {
   textTransform: 'uppercase'
 }
 
-class ListItemHeader extends React.Component {
-  render() { return <ListItem style={style} {...this.props}/> }
-}
-
-export default ListItemHeader
+export default (props)=> <ListItem style={style} {...props}/>
