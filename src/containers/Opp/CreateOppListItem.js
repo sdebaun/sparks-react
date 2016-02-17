@@ -26,7 +26,7 @@ class CreateOppListItem extends React.Component {
 
   render() {
     return (
-      <PopupListItem ref='listItem' primaryText='Describe an Opportunity'
+      <PopupListItem ref='listItem' primaryText='Create an Opportunity'
         secondaryText='A Opportunity lets you add Leads to create Shifts and manage Volunteers.'
         leftIcon={<AddIcon/>}>
         <OppForm onSubmit={this.save}>

@@ -17,7 +17,7 @@ const Container = ({ teamKey, invited, active })=>
         />
       }/>
     <TitledListItems primaryText='Leads' items={active} mapper={(item)=>
-      <ProfileListItem key={item.$key} profileKey={item.profileKey}
+      <ProfileListItem key={item.$key} {...item.profile}
         secondaryText={item.authority}
         rightIconButton={<LeadActionMenu lead={item}/>}
         />

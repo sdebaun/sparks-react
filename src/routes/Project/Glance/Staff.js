@@ -17,7 +17,7 @@ const Container = ({ projectKey, invited, active })=>
         />
       }/>
     <TitledListItems primaryText='Organizers' items={active} mapper={(item)=>
-      <ProfileListItem key={item.$key} profileKey={item.profileKey}
+      <ProfileListItem key={item.$key} {...item.profile}
         secondaryText={item.authority}
         rightIconButton={<OrganizerActionMenu organizer={item}/>}
         />

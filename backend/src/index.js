@@ -47,9 +47,12 @@ const handlers = {
         .then( ref=>ref.key() )
       ),
     update: ({key,vals},client)=>
-      Projects.update(key,vals).then( // auth check if project manager
+      Projects.update(key,vals).then( ()=>{ // auth check if project manager
         Organizers.updateBy('projectKey',key,{project:vals})
-      )
+        Teams.updateBy('projectKey',key,{project:vals})
+        Leads.updateBy('projectKey',key,{project:vals})
+        return true
+      })
   },
 
   Organizers: {
@@ -74,10 +77,17 @@ const handlers = {
   },
 
   Teams: {
-    create: (payload,client)=>
-      Teams.push(payload).then( ref=>ref.key() ), // auth check if project manager
+    create: (payload,client)=> // auth check if project manager
+      Projects.get(payload.projectKey)
+      .then( projectSnap=>
+        Teams.push({...payload,project:projectSnap.val()})
+        .then( ref=>ref.key() )
+      ), 
     update: ({key,vals},client)=>
-      Teams.update(key,vals) // auth check if project manager or team lead
+      Teams.update(key,vals).then( ()=>{ // auth check if project manager
+        Leads.updateBy('teamKey',key,{team:vals})
+        return true
+      })
   },
 
   TeamImages: {
@@ -89,12 +99,14 @@ const handlers = {
     create: (payload,client)=>
       Teams.get(payload.teamKey)
       .then( teamSnap=> {
-        payload.projectKey = teamSnap.val().projectKey
-        Leads.push(payload).then( ref=>ref.key() ) // auth check if project manager        
-      } ),
+        const {project,...team} = teamSnap.val(),
+          projectKey = team.projectKey
+        Leads.push({...payload,team,projectKey,project})
+        .then( ref=>ref.key() ) // auth check if project manager        
+      }),
     accept: ({leadKey},client)=>
       getAuth(client).then( profile=>
-        Leads.update(leadKey,{profileKey:profile.key}) // get profileKey from auth object
+        Leads.update(leadKey,{profileKey:profile.key,profile}) // get profileKey from auth object
       )
   },
 

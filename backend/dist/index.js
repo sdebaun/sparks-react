@@ -10,6 +10,8 @@ var _util = require('./util');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 var fbRoot = new _firebase2.default('http://sparks-development.firebaseio.com');
 
 var getAuth = function getAuth(client) {
@@ -66,8 +68,13 @@ var handlers = {
     update: function update(_ref2, client) {
       var key = _ref2.key;
       var vals = _ref2.vals;
-      return Projects.update(key, vals).then( // auth check if project manager
-      Organizers.updateBy('projectKey', key, { project: vals }));
+      return Projects.update(key, vals).then(function () {
+        // auth check if project manager
+        Organizers.updateBy('projectKey', key, { project: vals });
+        Teams.updateBy('projectKey', key, { project: vals });
+        Leads.updateBy('projectKey', key, { project: vals });
+        return true;
+      });
     }
   },
 
@@ -103,15 +110,23 @@ var handlers = {
 
   Teams: {
     create: function create(payload, client) {
-      return Teams.push(payload).then(function (ref) {
-        return ref.key();
-      });
-    }, // auth check if project manager
+      return (// auth check if project manager
+        Projects.get(payload.projectKey).then(function (projectSnap) {
+          return Teams.push(_extends({}, payload, { project: projectSnap.val() })).then(function (ref) {
+            return ref.key();
+          });
+        })
+      );
+    },
     update: function update(_ref5, client) {
       var key = _ref5.key;
       var vals = _ref5.vals;
-      return Teams.update(key, vals);
-    } // auth check if project manager or team lead
+      return Teams.update(key, vals).then(function () {
+        // auth check if project manager
+        Leads.updateBy('teamKey', key, { team: vals });
+        return true;
+      });
+    }
   },
 
   TeamImages: {
@@ -125,8 +140,12 @@ var handlers = {
   Leads: {
     create: function create(payload, client) {
       return Teams.get(payload.teamKey).then(function (teamSnap) {
-        payload.projectKey = teamSnap.val().projectKey;
-        Leads.push(payload).then(function (ref) {
+        var _teamSnap$val = teamSnap.val();
+
+        var project = _teamSnap$val.project;
+        var team = _objectWithoutProperties(_teamSnap$val, ['project']);
+        var projectKey = team.projectKey;
+        Leads.push(_extends({}, payload, { team: team, projectKey: projectKey, project: project })).then(function (ref) {
           return ref.key();
         }); // auth check if project manager      
       });
@@ -134,7 +153,7 @@ var handlers = {
     accept: function accept(_ref7, client) {
       var leadKey = _ref7.leadKey;
       return getAuth(client).then(function (profile) {
-        return Leads.update(leadKey, { profileKey: profile.key });
+        return Leads.update(leadKey, { profileKey: profile.key, profile: profile });
       } // get profileKey from auth object
       );
     }
