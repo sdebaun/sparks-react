@@ -1,5 +1,6 @@
 import React, {Children, cloneElement} from 'react';
 import DropDownHeader from 'components/DropDownHeader'
+import Dialog from 'components/styled/Dialog'
 
 export default class DropDownDialogPicker extends React.Component {
   state = { showDialog: false }
@@ -20,9 +21,9 @@ export default class DropDownDialogPicker extends React.Component {
         )}
       </DropDownHeader>
       { Children.map(dialogs, (child)=>
-        child.props.value &&
-        cloneElement(child,{open:showDialog==child.props.value,onRequestClose:this.closeDialog}) ||
-        child
+        <Dialog open={showDialog==child.props.value} onRequestClose={this.closeDialog}>
+        {child}
+        </Dialog>
       ) }
     </div>
   }

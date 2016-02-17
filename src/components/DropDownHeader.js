@@ -16,7 +16,7 @@ export default class DropDownHeader extends React.Component {
   render() {
     const {props: {primaryText, children}, state: {open, anchorEl} } = this
     // onTouchTap fails on mobile?? or just mobile emulator in chrome?
-    return <ListItem onClick={this.open}>
+    return <div onClick={this.open}>
       <h3>{primaryText}</h3>
       <Popover {...{open,anchorEl}} onRequestClose={this.close}>
         <List>
@@ -25,7 +25,7 @@ export default class DropDownHeader extends React.Component {
         )}
         </List>
       </Popover>
-    </ListItem>
+    </div>
   }
 }
 
