@@ -72,6 +72,7 @@ var handlers = {
         // auth check if project manager
         Organizers.updateBy('projectKey', key, { project: vals });
         Teams.updateBy('projectKey', key, { project: vals });
+        Opps.updateBy('projectKey', key, { project: vals });
         Leads.updateBy('projectKey', key, { project: vals });
         return true;
       });
@@ -161,10 +162,14 @@ var handlers = {
 
   Opps: {
     create: function create(payload, client) {
-      return Opps.push(payload).then(function (ref) {
-        return ref.key();
-      });
-    }, // auth check if project manager
+      return (// auth check if project manager
+        Projects.get(payload.projectKey).then(function (projectSnap) {
+          return Opps.push(_extends({}, payload, { project: projectSnap.val() })).then(function (ref) {
+            return ref.key();
+          });
+        })
+      );
+    },
     update: function update(_ref8, client) {
       var key = _ref8.key;
       var vals = _ref8.vals;

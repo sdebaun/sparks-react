@@ -50,6 +50,7 @@ const handlers = {
       Projects.update(key,vals).then( ()=>{ // auth check if project manager
         Organizers.updateBy('projectKey',key,{project:vals})
         Teams.updateBy('projectKey',key,{project:vals})
+        Opps.updateBy('projectKey',key,{project:vals})
         Leads.updateBy('projectKey',key,{project:vals})
         return true
       })
@@ -111,8 +112,12 @@ const handlers = {
   },
 
   Opps: {
-    create: (payload,client)=>
-      Opps.push(payload).then( ref=>ref.key() ), // auth check if project manager
+    create: (payload,client)=> // auth check if project manager
+      Projects.get(payload.projectKey)
+      .then( projectSnap=>
+        Opps.push({...payload,project:projectSnap.val()})
+        .then( ref=>ref.key() )
+      ), 
     update: ({key,vals},client)=>
       Opps.update(key,vals), // auth check if project manager or team lead
     setPublic: ({key,val})=>

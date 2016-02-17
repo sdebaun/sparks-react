@@ -8,7 +8,7 @@ const style = {
   fontSize: '1.1em'
 }
 
-const NavTabs = ({baseUrl,path,children,pushPath,...props})=>
+const NavTabs = ({baseUrl='',path,children,pushPath,...props})=>
   <Tabs {...props} value={path} onChange={(value)=>pushPath(value)}>
     { Children.map( children, (c)=>cloneElement(c,{style, value:baseUrl+c.props.route}) ) }
   </Tabs>
