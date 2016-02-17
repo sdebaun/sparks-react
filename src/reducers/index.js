@@ -15,5 +15,11 @@ export default combineReducers({
       case 'POPOUT_TOGGLE': return !state
       default: return state
     }
+  },
+  dialogToggle: (state={},action)=>{
+    switch (action.type) {
+      case 'DIALOG_TOGGLE': return {...state, [key]:!state[key] }
+      default: return state
+    }
   }
 })

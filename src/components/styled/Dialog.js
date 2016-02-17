@@ -7,10 +7,12 @@ import Colors from 'material-ui/lib/styles/colors';
 
 const DialogBar = ({title, leftIcon})=>
   <AppBar title={title} style={{backgroundColor:Colors.amber700}}
-  iconElementLeft={<IconButton disabled={true}>{React.cloneElement(leftIcon,{color:'white'})}</IconButton>}
+  iconElementLeft={<IconButton disabled={true}>{leftIcon && React.cloneElement(leftIcon,{color:'white'})}</IconButton>}
   />
 
 export default ({title,leftIcon,open,onRequestClose,children})=>
   <Dialog title={<DialogBar {...{title,leftIcon}}/>} {...{open,onRequestClose}}>
-    { children }
+    { React.Children.map(children,(child)=>
+        React.cloneElement(child,{onSubmit:onRequestClose})
+    )}
   </Dialog>
