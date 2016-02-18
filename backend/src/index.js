@@ -134,6 +134,8 @@ const handlers = {
         Offers.push({...payload,opp:oppSnap.val()})
         .then( ref=>ref.key() )
         ),
+    remove: (payload,client)=>
+      Offers.remove(payload.key).then( ()=>true ),
     update: ({key,vals},client)=>
       Offers.update(key,vals)
   }

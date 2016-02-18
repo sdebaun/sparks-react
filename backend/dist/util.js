@@ -72,6 +72,11 @@ var Collection = exports.Collection = (function () {
       return this.ref.child(key).once('value');
     }
   }, {
+    key: 'remove',
+    value: function remove(key) {
+      return this.ref.child(key).remove();
+    }
+  }, {
     key: 'updateBy',
     value: function updateBy(field, key, vals) {
       var _this = this;

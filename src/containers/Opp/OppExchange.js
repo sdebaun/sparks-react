@@ -63,7 +63,7 @@ const projectOfferOptions = [
     menuText: 'Perks While Working',
     icon: <FreeBreakfastIcon/>,
     allowed: (offers)=>!offers.find( o=>o.code=='perks' ),
-    listText: ({name})=>'Helping ' + name,
+    listText: ({name})=>name + ' while they work',
     FormClass: VolWaiverForm
   },
   {
@@ -125,10 +125,18 @@ const volOfferOptions = [
   }
 ]
 
+import ActionMenu from 'components/ActionMenu'
+import MenuItem from 'material-ui/lib/menus/menu-item';
+
+const OfferActionMenu = ({remove, offerKey}) =>
+  <ActionMenu>
+    <MenuItem onTouchTap={()=>remove(offerKey)}>Remove</MenuItem>
+  </ActionMenu>
+
 const OfferPicker = ({offers,offerOptions,create})=>
   <DropDownDialogPicker primaryText='they GET' {...{create}}
     items={ offerOptions.filter( o=>o.allowed(offers) ).map( ({menuText,code,icon})=>
-      <ListItem primaryText={menuText} value={code} leftIcon={icon} />      
+      <ListItem primaryText={menuText} value={code} leftIcon={icon}/>      
     ) }
     dialogs={ offerOptions.map( ({FormClass,party,code,icon,menuText})=>
       <FormClass {...{value:code, party, leftIcon:icon, title:menuText}}/>
@@ -151,6 +159,7 @@ const mapState = createSelector(
 
 const mapDispatch = {
   create: Offers.actions.create,
+  remove: Offers.actions.remove,
   wantsOffers: Offers.actions.query
 }
 
@@ -158,7 +167,7 @@ const wants = {
   offers: ({wantsOffers,oppKey})=>wantsOffers({orderByChild:'oppKey',equalTo:oppKey})
 }
 
-const OppExchange = ({opp,oppKey,volOffers,projectOffers,create})=>
+const OppExchange = ({opp,oppKey,volOffers,projectOffers,create,remove})=>
   <Grid>
     <HalfColumn>
       <OfferPicker primaryText='they GET'
@@ -168,7 +177,9 @@ const OppExchange = ({opp,oppKey,volOffers,projectOffers,create})=>
       <List>
       { volOffers.map( o=>{
          const {listText,icon} = volOfferOptions.find( (opt)=>opt.code==o.code )
-         return <ListItem key={o.$key} primaryText={listText(o)} leftIcon={icon}/>
+         return <ListItem key={o.$key} primaryText={listText(o)} leftIcon={icon}
+          rightIconButton={<OfferActionMenu offerKey={o.$key} remove={remove}/>}
+          />
       } ) }
       </List>
     </HalfColumn>

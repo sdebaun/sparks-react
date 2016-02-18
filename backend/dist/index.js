@@ -197,6 +197,11 @@ var handlers = {
         });
       });
     },
+    remove: function remove(payload, client) {
+      return Offers.remove(payload.key).then(function () {
+        return true;
+      });
+    },
     update: function update(_ref10, client) {
       var key = _ref10.key;
       var vals = _ref10.vals;
