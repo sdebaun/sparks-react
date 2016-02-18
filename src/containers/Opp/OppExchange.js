@@ -133,8 +133,8 @@ const OfferActionMenu = ({remove, offerKey}) =>
     <MenuItem onTouchTap={()=>remove(offerKey)}>Remove</MenuItem>
   </ActionMenu>
 
-const OfferPicker = ({offers,offerOptions,create})=>
-  <DropDownDialogPicker primaryText='they GET' {...{create}}
+const OfferPicker = ({offers,offerOptions,create,primaryText})=>
+  <DropDownDialogPicker {...{primaryText,create}}
     items={ offerOptions.filter( o=>o.allowed(offers) ).map( ({menuText,code,icon})=>
       <ListItem primaryText={menuText} value={code} leftIcon={icon}/>      
     ) }
@@ -170,7 +170,7 @@ const wants = {
 const OppExchange = ({opp,oppKey,volOffers,projectOffers,create,remove})=>
   <Grid>
     <HalfColumn>
-      <OfferPicker primaryText='they GET'
+      <OfferPicker primaryText='they GIVE'
         offers={volOffers} offerOptions={volOfferOptions}
         create={(data)=>create({oppKey,...data})}
         />
@@ -184,7 +184,7 @@ const OppExchange = ({opp,oppKey,volOffers,projectOffers,create,remove})=>
       </List>
     </HalfColumn>
     <HalfColumn>
-      <OfferPicker primaryText='they GIVE'
+      <OfferPicker primaryText='they GET'
         offers={projectOffers} offerOptions={projectOfferOptions}
         create={(data)=>create({oppKey,...data})}
         />
