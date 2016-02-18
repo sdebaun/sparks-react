@@ -23,14 +23,6 @@ import { VolWaiverForm, VolShiftsForm, VolPaymentForm, VolDepositForm } from 'co
 
 import DropDownDialogPicker from 'components/DropDownDialogPicker'
 
-// const volOfferOptions = {
-//   waiver: <ListItem primaryText='Liability Waiver' value='waiver' leftIcon={<AssignmentTurnedInIcon/>} />,
-//   shifts: <ListItem primaryText='Shifts of Work' value='shifts' leftIcon={<EventAvailableIcon/>} />,
-//   payment: <ListItem primaryText='A Payment' value='payment' leftIcon={<AttachMoneyIcon/>} />,
-//   deposit: <ListItem primaryText='A Deposit' value='deposit' leftIcon={<CreditCardIcon/>} />
-// }
-
-
 // const volObligItems = {
 //   waiver: <ListItem primaryText='Liability Waiver' value='waiver' leftIcon={<AssignmentTurnedInIcon/>} />,
 //   shifts: <ListItem primaryText='Shifts of Work' value='shifts' leftIcon={<EventAvailableIcon/>} />,
@@ -46,67 +38,101 @@ import DropDownDialogPicker from 'components/DropDownDialogPicker'
 //   schwag: <ListItem primaryText='Schwag' value='schwag' leftIcon={<ToysIcon/>} />
 // }
 
-// const nonExistentItems = (items,exists)=>
-//   Object.keys(items).filter( key=>!exists[key] ).map( key=>items[key] )
-
-// const VolObligPicker = ({obligs,save})=>
-//   <DropDownDialogPicker primaryText='they GIVE' {...{save}}
-//     items={ nonExistentItems(volObligItems,obligs) }
-//     dialogs={[
-//       <VolWaiverForm value='waiver' initialValues={obligs['waiver']}/>,
-//       <VolShiftsForm value='shifts' initialValues={obligs['shifts']}/>,
-//       <VolPaymentForm value='payment' initialValues={obligs['payment']}/>,
-//       <VolDepositForm value='deposit' initialValues={obligs['deposit']}/>
-//     ]}
-//     />
-
-// const ProjectObligPicker = ({obligs,save})=>
-//   <DropDownDialogPicker primaryText='they GET' {...{save}}
-//     items={ nonExistentItems(projectObligItems,obligs) }
-//     dialogs={[
-//       <VolWaiverForm value='waiver' initialValues={obligs['waiver']}/>,
-//       <VolShiftsForm value='shifts' initialValues={obligs['shifts']}/>,
-//       <VolPaymentForm value='payment' initialValues={obligs['payment']}/>,
-//       <VolDepositForm value='deposit' initialValues={obligs['deposit']}/>
-//     ]}
-//     />
+const projectOfferOptions = [
+  {
+    party: 'project',
+    code: 'community',
+    menuText: 'Help Community',
+    icon: <MoodIcon/>,
+    allowed: (offers)=>!offers.find( o=>o.code=='community' ),
+    listText: ({name})=>'Helping ' + name,
+    FormClass: VolWaiverForm
+  },
+  {
+    party: 'project',
+    code: 'ticket',
+    menuText: 'Ticket to Event',
+    icon: <EventSeatIcon/>,
+    allowed: (offers)=>true,
+    listText: ({name})=>'Helping ' + name,
+    FormClass: VolWaiverForm
+  },
+  {
+    party: 'project',
+    code: 'perks',
+    menuText: 'Perks While Working',
+    icon: <FreeBreakfastIcon/>,
+    allowed: (offers)=>!offers.find( o=>o.code=='perks' ),
+    listText: ({name})=>'Helping ' + name,
+    FormClass: VolWaiverForm
+  },
+  {
+    party: 'project',
+    code: 'consumable',
+    menuText: 'Tracked Meals',
+    icon: <RestaurantMenuIcon/>,
+    allowed: (offers)=>true,
+    listText: ({name})=>'Helping ' + name,
+    FormClass: VolWaiverForm
+  },
+  {
+    party: 'project',
+    code: 'schwag',
+    menuText: 'Schwag',
+    icon: <ToysIcon/>,
+    allowed: (offers)=>true,
+    listText: ({name})=>'Helping ' + name,
+    FormClass: VolWaiverForm
+  }
+]
 
 const volOfferOptions = [
   {
     party: 'vol',
     code: 'waiver',
+    icon: <AssignmentTurnedInIcon/>,
     allowed: (offers)=>!offers.find( o=>o.code=='waiver' ),
-    item: <ListItem primaryText='Liability Waiver' value='waiver' leftIcon={<AssignmentTurnedInIcon/>} />,
-    form: (data)=><VolWaiverForm party='vol' value='waiver' initialValues={data}/>,
+    menuText: 'Liability Waiver',
+    listText: ({name})=>'A liability waiver for ' + name,
+    FormClass: VolWaiverForm
   },
   {
     party: 'vol',
     code: 'shifts',
+    icon: <EventIcon/>,
     allowed: (offers)=>!offers.find( o=>o.code=='shifts' ),
-    item: <ListItem primaryText='Shifts of Work' value='shifts' leftIcon={<EventAvailableIcon/>} />,
-    form: (data)=><VolShiftsForm party='vol' value='shifts' initialValues={data}/>
+    menuText: 'Shifts of Work',
+    listText: ({count})=>'Work at least ' + count + ' shifts, length TBD',
+    FormClass: VolShiftsForm
   },
   {
     party: 'vol',
     code: 'payment',
+    icon: <AttachMoneyIcon/>,
     allowed: (offers)=>!offers.find( o=>o.code=='payment' ),
-    item: <ListItem primaryText='A Payment' value='payment' leftIcon={<AttachMoneyIcon/>} />,
-    form: (data)=><VolPaymentForm party='vol' value='payment' initialValues={data}/>
+    menuText: 'A Payment' ,
+    listText: ({amount})=>'A payment of ' + amount + ' dollars',
+    FormClass: VolPaymentForm
   },
   {
     party: 'vol',
     code: 'deposit',
+    icon: <CreditCardIcon/>,
     allowed: (offers)=>!offers.find( o=>o.code=='deposit' ),
-    item: <ListItem primaryText='A Deposit' value='deposit' leftIcon={<CreditCardIcon/>} />,
-    form: (data)=><VolDepositForm party='vol' value='deposit' initialValues={data}/>
+    menuText: 'A Deposit' ,
+    listText: ({amount})=>'A refundable deposit of ' + amount + ' dollars',
+    FormClass: VolDepositForm
   }
 ]
 
-
 const OfferPicker = ({offers,offerOptions,create})=>
   <DropDownDialogPicker primaryText='they GET' {...{create}}
-    items={ offerOptions.filter( o=>o.allowed(offers) ).map( o=>o.item ) }
-    dialogs={ offerOptions.map( o=>o.form({}) ) } 
+    items={ offerOptions.filter( o=>o.allowed(offers) ).map( ({menuText,code,icon})=>
+      <ListItem primaryText={menuText} value={code} leftIcon={icon} />      
+    ) }
+    dialogs={ offerOptions.map( ({FormClass,party,code,icon,menuText})=>
+      <FormClass {...{value:code, party, leftIcon:icon, title:menuText}}/>
+    ) } 
     />
 
 import { compose } from 'redux'
@@ -140,7 +166,22 @@ const OppExchange = ({opp,oppKey,volOffers,projectOffers,create})=>
         create={(data)=>create({oppKey,...data})}
         />
       <List>
-      { volOffers.map(o=><ListItem key={o.$key} primaryText={o.name}/>) }
+      { volOffers.map( o=>{
+         const {listText,icon} = volOfferOptions.find( (opt)=>opt.code==o.code )
+         return <ListItem key={o.$key} primaryText={listText(o)} leftIcon={icon}/>
+      } ) }
+      </List>
+    </HalfColumn>
+    <HalfColumn>
+      <OfferPicker primaryText='they GIVE'
+        offers={projectOffers} offerOptions={projectOfferOptions}
+        create={(data)=>create({oppKey,...data})}
+        />
+      <List>
+      { projectOffers.map( o=>{
+         const {listText,icon} = projectOfferOptions.find( (opt)=>opt.code==o.code )
+         return <ListItem key={o.$key} primaryText={listText(o)} leftIcon={icon}/>
+      } ) }
       </List>
     </HalfColumn>
   </Grid>

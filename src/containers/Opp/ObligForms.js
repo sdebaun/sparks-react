@@ -23,49 +23,49 @@ export const VolWaiverForm = reduxForm({
 
 export const VolDepositForm = reduxForm({
   form: 'VolDepositForm',
-  fields: ['name'],
+  fields: ['amount'],
   validate: (values) => {
     const errors = {};
-    if (!values.name) {
-      errors.name = 'Required';
+    if (!values.amount) {
+      errors.amount = 'Required';
     }
     return errors;
   }
 })( (props)=>
   <ValidatingForm {...props}>
-    <TextField floatingLabelText='Name' field='name' />
+    <TextField floatingLabelText='Amount' field='amount' />
   </ValidatingForm>
 );
 
 export const VolPaymentForm = reduxForm({
   form: 'VolPaymentForm',
-  fields: ['name'],
+  fields: ['amount'],
   validate: (values) => {
     const errors = {};
-    if (!values.name) {
-      errors.name = 'Required';
+    if (!values.amount) {
+      errors.amount = 'Required';
     }
     return errors;
   }
 })( (props)=>
   <ValidatingForm {...props}>
-    <TextField floatingLabelText='Name' field='name' />
+    <TextField floatingLabelText='Amount' field='amount' />
   </ValidatingForm>
 );
 
 export const VolShiftsForm = reduxForm({
   form: 'VolShiftsForm',
-  fields: ['name'],
+  fields: ['count'],
   validate: (values) => {
     const errors = {};
-    if (!values.name) {
-      errors.name = 'Required';
+    if (!values.count) {
+      errors.count = 'Required';
     }
     return errors;
   }
 })( (props)=>
   <ValidatingForm {...props}>
-    <TextField floatingLabelText='Name' field='name' />
+    <TextField floatingLabelText='Shifts' field='count' />
   </ValidatingForm>
 );
 

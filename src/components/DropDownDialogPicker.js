@@ -21,7 +21,9 @@ export default class DropDownDialogPicker extends React.Component {
         )}
       </DropDownHeader>
       { Children.map(dialogs, (child)=>
-        <Dialog open={showDialog==child.props.value} onRequestClose={this.closeDialog}>
+        <Dialog open={showDialog==child.props.value} onRequestClose={this.closeDialog}
+          title={child.props.title} leftIcon={child.props.leftIcon}
+          >
         { cloneElement(child,{onSubmit:(data)=>this.closeDialog({...data,party:child.props.party,code:child.props.value})}) }
         </Dialog>
       ) }
