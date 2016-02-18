@@ -36,7 +36,7 @@ var TeamImages = new _util.Collection(fbRoot.child('TeamImages'));
 var Leads = new _util.Collection(fbRoot.child('Leads'));
 
 var Opps = new _util.Collection(fbRoot.child('Opps'));
-var Exchanges = new _util.Collection(fbRoot.child('Exchanges'));
+var Offers = new _util.Collection(fbRoot.child('Offers'));
 
 var handlers = {
 
@@ -173,25 +173,39 @@ var handlers = {
     update: function update(_ref8, client) {
       var key = _ref8.key;
       var vals = _ref8.vals;
-      return Opps.update(key, vals);
-    }, // auth check if project manager or team lead
+      return (// auth check if project manager or team lead
+        Opps.update(key, vals).then(function () {
+          Offers.updateBy('oppKey', key, { opp: vals });
+          return true;
+        })
+      );
+    },
     setPublic: function setPublic(_ref9) {
       var key = _ref9.key;
       var val = _ref9.val;
-      return Opps.update(key, { isPublic: !!val });
-    } // auth check if project manager or team lead
+      return (// auth check if project manager or team lead
+        Opps.update(key, { isPublic: !!val })
+      );
+    }
   },
 
-  Exchanges: {
+  Offers: {
     create: function create(payload, client) {
-      return Exchanges.push(payload).then(function (ref) {
-        return ref.key();
+      return Opps.get(payload.oppKey).then(function (oppSnap) {
+        return Offers.push(_extends({}, payload, { opp: oppSnap.val() })).then(function (ref) {
+          return ref.key();
+        });
       });
-    } }
+    },
+    update: function update(_ref10, client) {
+      var key = _ref10.key;
+      var vals = _ref10.vals;
+      return Offers.update(key, vals);
+    }
+  }
 
 };
 
-// auth check if project manager
 var responder = function responder(client, response) {
   return fbRoot.child('Responses').child(client).push(response);
 };

@@ -12,7 +12,9 @@ const DialogBar = ({title, leftIcon})=>
 
 export default ({title,leftIcon,open,onRequestClose,children})=>
   <Dialog title={<DialogBar {...{title,leftIcon}}/>} {...{open,onRequestClose}}>
-    { React.Children.map(children,(child)=>
-        React.cloneElement(child,{onSubmit:onRequestClose})
-    )}
+    { children }
   </Dialog>
+
+    // { React.Children.map(children,(child)=>
+    //     React.cloneElement(child,{onSubmit:onRequestClose})
+    // )}

@@ -47,6 +47,11 @@ var Collection = exports.Collection = (function () {
   }
 
   _createClass(Collection, [{
+    key: 'child',
+    value: function child(key) {
+      return this.ref.child(key);
+    }
+  }, {
     key: 'push',
     value: function push(payload) {
       return this.ref.push(payload);

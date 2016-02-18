@@ -28,6 +28,7 @@ module.exports = {
       '.jsx'
     ],
     alias: {
+      react: path.join(__dirname, '/../node_modules', 'react'),
       actions: srcPath + '/actions/',
       components: srcPath + '/components/',
       containers: srcPath + '/containers/',

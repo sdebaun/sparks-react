@@ -4,5 +4,5 @@ import OppExchange from 'containers/Opp/OppExchange'
 
 export default {
   path: 'exchange',
-  component: ({opp})=><Content><OppExchange {...{opp}}/></Content>
+  component: (props)=><Content><OppExchange {...props}/></Content>
 }

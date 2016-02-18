@@ -23,7 +23,7 @@ const TeamImages = new Collection(fbRoot.child('TeamImages'))
 const Leads = new Collection(fbRoot.child('Leads'))
 
 const Opps = new Collection(fbRoot.child('Opps'))
-const Exchanges = new Collection(fbRoot.child('Exchanges'))
+const Offers = new Collection(fbRoot.child('Offers'))
 
 const handlers = {
 
@@ -118,15 +118,24 @@ const handlers = {
         Opps.push({...payload,project:projectSnap.val()})
         .then( ref=>ref.key() )
       ), 
-    update: ({key,vals},client)=>
-      Opps.update(key,vals), // auth check if project manager or team lead
-    setPublic: ({key,val})=>
-      Opps.update(key,{isPublic:!!val}) // auth check if project manager or team lead
+    update: ({key,vals},client)=> // auth check if project manager or team lead
+      Opps.update(key,vals).then( ()=>{
+        Offers.updateBy('oppKey',key,{opp:vals})
+        return true
+      }), 
+    setPublic: ({key,val})=> // auth check if project manager or team lead
+      Opps.update(key,{isPublic:!!val})
   },
 
-  Exchanges: {
+  Offers: {
     create: (payload,client)=>
-      Exchanges.push(payload).then( ref=>ref.key() ), // auth check if project manager
+      Opps.get(payload.oppKey)
+      .then( oppSnap=>
+        Offers.push({...payload,opp:oppSnap.val()})
+        .then( ref=>ref.key() )
+        ),
+    update: ({key,vals},client)=>
+      Offers.update(key,vals)
   }
 
 }

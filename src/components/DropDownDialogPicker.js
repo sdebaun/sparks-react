@@ -8,7 +8,7 @@ export default class DropDownDialogPicker extends React.Component {
   openDialog = (key) => this.setState({showDialog:key})
 
   closeDialog = (data)=> {
-    data && this.props.save && this.props.save(data)
+    data && this.props.create && this.props.create(data)
     this.setState({showDialog:false})
   }
 
@@ -22,7 +22,7 @@ export default class DropDownDialogPicker extends React.Component {
       </DropDownHeader>
       { Children.map(dialogs, (child)=>
         <Dialog open={showDialog==child.props.value} onRequestClose={this.closeDialog}>
-        {child}
+        { cloneElement(child,{onSubmit:(data)=>this.closeDialog({...data,party:child.props.party,code:child.props.value})}) }
         </Dialog>
       ) }
     </div>

@@ -114,7 +114,12 @@ export const Opps = remote.data.model('Opps', {
   }
 })
 
-
+export const Offers = remote.data.model('Offers', {
+  actions: {
+    create: (data)=>Offers.actions.remote('create',data),
+    update: (key,vals)=>Offers.actions.remote('update',{key,vals})
+  }
+})
 
 // function OAuthToProfile(authData) {
 //   const provider = authData.provider,

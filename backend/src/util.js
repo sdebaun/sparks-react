@@ -16,6 +16,7 @@ export const mutator = handlers => ({client,collection,op,payload}) => {
 export class Collection {
   constructor(ref) { this.ref = ref }
 
+  child(key) { return this.ref.child(key) }
   push(payload) { return this.ref.push(payload) }
   set(key,val) { return this.ref.child(key).set(val) }
   update(key,vals) { return this.ref.child(key).update(vals) }
