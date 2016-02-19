@@ -4,7 +4,6 @@ import {reduxForm} from 'redux-form';
 import { Grid, Cell } from 'react-flexr'
 
 import TextField from 'material-ui/lib/text-field'
-import TextFieldLabel from 'material-ui/lib/TextField/TextFieldLabel'
 import SelectField from 'lib/reduxform-material/SelectField'
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
