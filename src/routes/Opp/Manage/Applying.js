@@ -1,8 +1,8 @@
 import React from 'react';
 import Content from 'components/Content'
-import ComingSoon from 'components/ComingSoon'
+import OppApplying from 'containers/Opp/OppApplying'
 
 export default {
   path: 'applying',
-  component: ()=><Content><ComingSoon/></Content>
+  component: (props)=><Content><OppApplying {...props}/></Content>
 }
