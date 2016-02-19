@@ -19,7 +19,9 @@ import EventSeatIcon  from 'material-ui/lib/svg-icons/action/event-seat';
 import RestaurantMenuIcon  from 'material-ui/lib/svg-icons/maps/restaurant-menu';
 import ToysIcon  from 'material-ui/lib/svg-icons/hardware/toys';
 
-import { VolWaiverForm, VolShiftsForm, VolPaymentForm, VolDepositForm } from 'containers/Opp/ObligForms'
+import { VolWaiverForm, VolShiftsForm, VolPaymentForm, VolDepositForm,
+  ProjectCommunityForm, ProjectTicketForm, ProjectPerksForm, ProjectConsumableForm, ProjectSchwagForm }
+  from 'containers/Opp/ObligForms'
 
 import DropDownDialogPicker from 'components/DropDownDialogPicker'
 
@@ -45,8 +47,8 @@ const projectOfferOptions = [
     menuText: 'Help Community',
     icon: <MoodIcon/>,
     allowed: (offers)=>!offers.find( o=>o.code=='community' ),
-    listText: ({name})=>'Helping ' + name,
-    FormClass: VolWaiverForm
+    listText: ({name})=>'To help ' + name,
+    FormClass: ProjectCommunityForm
   },
   {
     party: 'project',
@@ -55,7 +57,7 @@ const projectOfferOptions = [
     icon: <EventSeatIcon/>,
     allowed: (offers)=>true,
     listText: ({name})=>'Helping ' + name,
-    FormClass: VolWaiverForm
+    FormClass: ProjectTicketForm
   },
   {
     party: 'project',
@@ -64,7 +66,7 @@ const projectOfferOptions = [
     icon: <FreeBreakfastIcon/>,
     allowed: (offers)=>!offers.find( o=>o.code=='perks' ),
     listText: ({name})=>name + ' while they work',
-    FormClass: VolWaiverForm
+    FormClass: ProjectPerksForm
   },
   {
     party: 'project',
@@ -72,8 +74,9 @@ const projectOfferOptions = [
     menuText: 'Tracked Meals',
     icon: <RestaurantMenuIcon/>,
     allowed: (offers)=>true,
-    listText: ({name})=>'Helping ' + name,
-    FormClass: VolWaiverForm
+    listText: ({name, count})=><span><b>{count}</b> {name}</span>,
+    FormClass: ProjectConsumableForm,
+    initialValues: { count:1 }
   },
   {
     party: 'project',
@@ -81,8 +84,8 @@ const projectOfferOptions = [
     menuText: 'Schwag',
     icon: <ToysIcon/>,
     allowed: (offers)=>true,
-    listText: ({name})=>'Helping ' + name,
-    FormClass: VolWaiverForm
+    listText: ({name})=>'Cool schwag like ' + name,
+    FormClass: ProjectSchwagForm
   }
 ]
 
@@ -103,7 +106,8 @@ const volOfferOptions = [
     allowed: (offers)=>!offers.find( o=>o.code=='shifts' ),
     menuText: 'Shifts of Work',
     listText: ({count})=>'Work at least ' + count + ' shifts, length TBD',
-    FormClass: VolShiftsForm
+    FormClass: VolShiftsForm,
+    initialValues: { count: 1 }
   },
   {
     party: 'vol',
@@ -111,7 +115,7 @@ const volOfferOptions = [
     icon: <AttachMoneyIcon/>,
     allowed: (offers)=>!offers.find( o=>o.code=='payment' ),
     menuText: 'A Payment' ,
-    listText: ({amount})=>'A payment of ' + amount + ' dollars',
+    listText: ({amount,name,purpose})=><span>A <b>${amount} {name}</b> for <b>{purpose}</b></span>,
     FormClass: VolPaymentForm
   },
   {
@@ -128,18 +132,13 @@ const volOfferOptions = [
 import ActionMenu from 'components/ActionMenu'
 import MenuItem from 'material-ui/lib/menus/menu-item';
 
-const OfferActionMenu = ({remove, offerKey}) =>
-  <ActionMenu>
-    <MenuItem onTouchTap={()=>remove(offerKey)}>Remove</MenuItem>
-  </ActionMenu>
-
 const OfferPicker = ({offers,offerOptions,create,primaryText})=>
   <DropDownDialogPicker {...{primaryText,create}}
     items={ offerOptions.filter( o=>o.allowed(offers) ).map( ({menuText,code,icon})=>
       <ListItem primaryText={menuText} value={code} leftIcon={icon}/>      
     ) }
-    dialogs={ offerOptions.map( ({FormClass,party,code,icon,menuText})=>
-      <FormClass {...{value:code, party, leftIcon:icon, title:menuText}}/>
+    dialogs={ offerOptions.map( ({FormClass,party,code,icon,menuText,initialValues})=>
+      <FormClass {...{value:code, party, leftIcon:icon, title:menuText, initialValues}}/>
     ) } 
     />
 
@@ -148,6 +147,8 @@ import { connect } from 'react-redux'
 import { Opps, Offers } from 'remote'
 import { createSelector } from 'reselect'
 import { wanting } from 'lib/react-needful'
+
+const nullMapper = ()=>{return {}}
 
 const mapState = createSelector(
   Offers.select.by('oppKey'),
@@ -167,34 +168,47 @@ const wants = {
   offers: ({wantsOffers,oppKey})=>wantsOffers({orderByChild:'oppKey',equalTo:oppKey})
 }
 
-const OppExchange = ({opp,oppKey,volOffers,projectOffers,create,remove})=>
-  <Grid>
-    <HalfColumn>
-      <OfferPicker primaryText='they GIVE'
-        offers={volOffers} offerOptions={volOfferOptions}
-        create={(data)=>create({oppKey,...data})}
-        />
-      <List>
-      { volOffers.map( o=>{
-         const {listText,icon} = volOfferOptions.find( (opt)=>opt.code==o.code )
-         return <ListItem key={o.$key} primaryText={listText(o)} leftIcon={icon}
-          rightIconButton={<OfferActionMenu offerKey={o.$key} remove={remove}/>}
+const _OfferActionMenu = ({remove, offerKey, ...props}) =>
+  <ActionMenu {...props}>
+    <MenuItem onTouchTap={()=>remove(offerKey)}>Remove</MenuItem>
+  </ActionMenu>
+
+const OfferActionMenu = connect(
+  nullMapper,
+  { remove: Offers.actions.remove }
+)(_OfferActionMenu)
+
+const OfferListItem = ({$key, primaryText, leftIcon})=>
+  <ListItem {...{primaryText,leftIcon}}
+    rightIconButton={<OfferActionMenu offerKey={$key}/>}
+    />
+
+const OfferList = ({offers, offerOptions})=>
+  <List>
+  { offers.map( o=>{
+     const {listText,icon} = offerOptions.find( (opt)=>opt.code==o.code )
+     return <OfferListItem key={o.$key} $key={o.$key} primaryText={listText(o)} leftIcon={icon}/>
+  } ) }
+  </List>
+
+const OppExchange = ({opp,oppKey,volOffers,projectOffers,create})=>
+    <Grid>
+      <HalfColumn>
+        <OfferPicker primaryText='they GIVE'
+          offers={volOffers} offerOptions={volOfferOptions}
+          create={(data)=>create({oppKey,...data})}
           />
-      } ) }
-      </List>
-    </HalfColumn>
-    <HalfColumn>
-      <OfferPicker primaryText='they GET'
-        offers={projectOffers} offerOptions={projectOfferOptions}
-        create={(data)=>create({oppKey,...data})}
-        />
-      <List>
-      { projectOffers.map( o=>{
-         const {listText,icon} = projectOfferOptions.find( (opt)=>opt.code==o.code )
-         return <ListItem key={o.$key} primaryText={listText(o)} leftIcon={icon}/>
-      } ) }
-      </List>
-    </HalfColumn>
-  </Grid>
+        { (volOffers.length==0) && <p>What will your volunteers contribute to your project?</p> }
+        <OfferList offers={volOffers} offerOptions={volOfferOptions}/>
+      </HalfColumn>
+      <HalfColumn>
+        <OfferPicker primaryText='they GET'
+          offers={projectOffers} offerOptions={projectOfferOptions}
+          create={(data)=>create({oppKey,...data})}
+          />
+        { (projectOffers.length==0) && <p>What will your volunteers receive in return?</p> }
+        <OfferList offers={projectOffers} offerOptions={projectOfferOptions}/>
+      </HalfColumn>
+    </Grid>
 
 export default compose(connect(mapState,mapDispatch),wanting(wants))(OppExchange)
