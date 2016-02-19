@@ -14,7 +14,6 @@ export default class PopupListItem extends React.Component {
 
   render() {
     const {state:{isOpen}, props:{primaryText,secondaryText,leftIcon}} = this
-    // const fabIcon = React.cloneElement(leftIcon,{style:{backgroundColor:'red'}})
     const fabIcon = <FAB mini={true} style={{marginTop:6}}>{leftIcon}</FAB>
     return (
       <ListItem onTouchTap={this.open} {...{primaryText,secondaryText,leftIcon:fabIcon}} >

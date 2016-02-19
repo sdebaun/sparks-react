@@ -16,10 +16,21 @@ export const mutator = handlers => ({client,collection,op,payload}) => {
 export class Collection {
   constructor(ref) { this.ref = ref }
 
+  child(key) { return this.ref.child(key) }
   push(payload) { return this.ref.push(payload) }
   set(key,val) { return this.ref.child(key).set(val) }
   update(key,vals) { return this.ref.child(key).update(vals) }
   get(key) { return this.ref.child(key).once('value') }
+  remove(key) { return this.ref.child(key).remove() }
+  updateBy(field,key,vals) {
+    return this.ref.orderByChild(field).equalTo(key).once('value').then( (snap)=>{
+      console.log('updating from',key,'with',vals)
+      const childs = snap.val()
+      console.log('childs',childs)
+      Object.keys(snap.val()).map( (childKey)=> this.update(childKey,vals) )
+      return true
+    })
+  }
 }
 
 export class FirebaseRespondingQueue {

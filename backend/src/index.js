@@ -23,7 +23,7 @@ const TeamImages = new Collection(fbRoot.child('TeamImages'))
 const Leads = new Collection(fbRoot.child('Leads'))
 
 const Opps = new Collection(fbRoot.child('Opps'))
-const Exchanges = new Collection(fbRoot.child('Exchanges'))
+const Offers = new Collection(fbRoot.child('Offers'))
 
 const handlers = {
 
@@ -47,15 +47,24 @@ const handlers = {
         .then( ref=>ref.key() )
       ),
     update: ({key,vals},client)=>
-      Projects.update(key,vals) // auth check if project manager
+      Projects.update(key,vals).then( ()=>{ // auth check if project manager
+        Organizers.updateBy('projectKey',key,{project:vals})
+        Teams.updateBy('projectKey',key,{project:vals})
+        Opps.updateBy('projectKey',key,{project:vals})
+        Leads.updateBy('projectKey',key,{project:vals})
+        return true
+      })
   },
 
   Organizers: {
-    create: (payload,client)=>
-      Organizers.push(payload).then( ref=>ref.key() ), // auth check if project manager
+    create: (payload,client)=> // auth check if project manager
+      Projects.get(payload.projectKey).then( (snap)=>
+        Organizers.push(Object.assign(payload,{project:snap.val()}))
+        .then( ref=>ref.key() )
+      ),
     accept: ({organizerKey},client)=>
       getAuth(client).then( profile=>
-        Organizers.update(organizerKey,{profileKey:profile.key})
+        Organizers.update(organizerKey,{profileKey:profile.key,profile})
         .then( ()=>
           Organizers.get(organizerKey)
           .then( organizerSnap=>organizerSnap.val().projectKey )
@@ -69,10 +78,17 @@ const handlers = {
   },
 
   Teams: {
-    create: (payload,client)=>
-      Teams.push(payload).then( ref=>ref.key() ), // auth check if project manager
+    create: (payload,client)=> // auth check if project manager
+      Projects.get(payload.projectKey)
+      .then( projectSnap=>
+        Teams.push({...payload,project:projectSnap.val()})
+        .then( ref=>ref.key() )
+      ), 
     update: ({key,vals},client)=>
-      Teams.update(key,vals) // auth check if project manager or team lead
+      Teams.update(key,vals).then( ()=>{ // auth check if project manager
+        Leads.updateBy('teamKey',key,{team:vals})
+        return true
+      })
   },
 
   TeamImages: {
@@ -84,27 +100,44 @@ const handlers = {
     create: (payload,client)=>
       Teams.get(payload.teamKey)
       .then( teamSnap=> {
-        payload.projectKey = teamSnap.val().projectKey
-        Leads.push(payload).then( ref=>ref.key() ) // auth check if project manager        
-      } ),
+        const {project,...team} = teamSnap.val(),
+          projectKey = team.projectKey
+        Leads.push({...payload,team,projectKey,project})
+        .then( ref=>ref.key() ) // auth check if project manager        
+      }),
     accept: ({leadKey},client)=>
       getAuth(client).then( profile=>
-        Leads.update(leadKey,{profileKey:profile.key}) // get profileKey from auth object
+        Leads.update(leadKey,{profileKey:profile.key,profile}) // get profileKey from auth object
       )
   },
 
   Opps: {
-    create: (payload,client)=>
-      Opps.push(payload).then( ref=>ref.key() ), // auth check if project manager
-    update: ({key,vals},client)=>
-      Opps.update(key,vals), // auth check if project manager or team lead
-    setPublic: ({key,val})=>
-      Opps.update(key,{isPublic:!!val}) // auth check if project manager or team lead
+    create: (payload,client)=> // auth check if project manager
+      Projects.get(payload.projectKey)
+      .then( projectSnap=>
+        Opps.push({...payload,project:projectSnap.val()})
+        .then( ref=>ref.key() )
+      ), 
+    update: ({key,vals},client)=> // auth check if project manager or team lead
+      Opps.update(key,vals).then( ()=>{
+        Offers.updateBy('oppKey',key,{opp:vals})
+        return true
+      }), 
+    setPublic: ({key,val})=> // auth check if project manager or team lead
+      Opps.update(key,{isPublic:!!val})
   },
 
-  Exchanges: {
+  Offers: {
     create: (payload,client)=>
-      Exchanges.push(payload).then( ref=>ref.key() ), // auth check if project manager
+      Opps.get(payload.oppKey)
+      .then( oppSnap=>
+        Offers.push({...payload,opp:oppSnap.val()})
+        .then( ref=>ref.key() )
+        ),
+    remove: (payload,client)=>
+      Offers.remove(payload.key).then( ()=>true ),
+    update: ({key,vals},client)=>
+      Offers.update(key,vals)
   }
 
 }

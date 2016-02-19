@@ -38,7 +38,7 @@ import { pushPath } from 'redux-simple-router'
 const wants = {
   project: ({projectKey,wantsProject})=>wantsProject(projectKey),
   teams: ({projectKey,wantsTeams})=>wantsTeams({orderByChild:'projectKey',equalTo:projectKey}),
-  opps: ({projectKey,wantsOpps})=>wantsOpps({orderByChild:'projectKey',equalTo:projectKey}),
+  opps: ({projectKey,wantsOpps})=>wantsOpps({orderByChild:'projectKey',equalTo:projectKey})
 }
 
 const needs = ['project']
@@ -53,7 +53,7 @@ const mapDispatch = {
   pushPath,
   wantsProject: Projects.actions.watch,
   wantsTeams: Teams.actions.query,
-  wantsOpps: Opps.actions.query,
+  wantsOpps: Opps.actions.query
 }
 
 export default compose(connect(mapState,mapDispatch),wanting(wants),needful(needs))(Container)

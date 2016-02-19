@@ -5,25 +5,23 @@ import InviteListItem from 'containers/Invite/InviteListItem'
 import InviteActionMenu from 'containers/Lead/InviteActionMenu'
 import ProfileListItem from 'containers/Profile/ProfileListItem'
 import OrganizerActionMenu from 'containers/Organizer/OrganizerActionMenu'
-import ListItemHeader from 'components/styled/ListItemHeader'
 import OrganizerInviteListItem from 'containers/Organizer/OrganizerInviteListItem'
+import TitledListItems from 'components/TitledListItems'
 
 const Container = ({ projectKey, invited, active })=>
   <List>
     <OrganizerInviteListItem {...{projectKey}}/>
-    { (invited.length > 0) && <ListItemHeader primaryText='Open Invites'/> }
-    { invited.map( invite=>
-      <InviteListItem {...invite} key={invite.$key}
-        actionMenu={ <InviteActionMenu acceptUrl={'/accept/organizer/'+invite.$key}/> }
+    <TitledListItems primaryText='Open Invites' items={invited} mapper={(item)=>
+      <InviteListItem key={item.$key} {...item}
+        actionMenu={ <InviteActionMenu acceptUrl={'/accept/organizer/'+item.$key}/> }
         />
-    ) }
-    { (active.length > 0) && <ListItemHeader primaryText='Organizers'/> }
-    { active.map( o=>
-      <ProfileListItem key={o.$key} profileKey={o.profileKey}
-        secondaryText={o.authority}
-        rightIconButton={<OrganizerActionMenu organizer={o}/>}
+      }/>
+    <TitledListItems primaryText='Organizers' items={active} mapper={(item)=>
+      <ProfileListItem key={item.$key} {...item.profile}
+        secondaryText={item.authority}
+        rightIconButton={<OrganizerActionMenu organizer={item}/>}
         />
-    )}
+      }/>
   </List>
 
 import { connect } from 'react-redux';

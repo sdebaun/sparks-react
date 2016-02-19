@@ -47,6 +47,11 @@ var Collection = exports.Collection = (function () {
   }
 
   _createClass(Collection, [{
+    key: 'child',
+    value: function child(key) {
+      return this.ref.child(key);
+    }
+  }, {
     key: 'push',
     value: function push(payload) {
       return this.ref.push(payload);
@@ -65,6 +70,26 @@ var Collection = exports.Collection = (function () {
     key: 'get',
     value: function get(key) {
       return this.ref.child(key).once('value');
+    }
+  }, {
+    key: 'remove',
+    value: function remove(key) {
+      return this.ref.child(key).remove();
+    }
+  }, {
+    key: 'updateBy',
+    value: function updateBy(field, key, vals) {
+      var _this = this;
+
+      return this.ref.orderByChild(field).equalTo(key).once('value').then(function (snap) {
+        console.log('updating from', key, 'with', vals);
+        var childs = snap.val();
+        console.log('childs', childs);
+        Object.keys(snap.val()).map(function (childKey) {
+          return _this.update(childKey, vals);
+        });
+        return true;
+      });
     }
   }]);
 

@@ -46,6 +46,7 @@ export default class rfData {
     if (params.equalTo) { q = q.equalTo(params.equalTo) }
     q.on('child_added', (snap)=>dispatch(localUpdate(collection,snap.key(),snap.val())))
     q.on('child_changed', (snap)=>dispatch(localUpdate(collection,snap.key(),snap.val())))
+    q.on('child_removed', (snap)=>dispatch(localUpdate(collection,snap.key(),null)))
     this.cache[ cacheKey ] = true
   }
 
@@ -79,8 +80,9 @@ export default class rfData {
   reducer(state=initialState,action) {
     switch (action.type) {
       case (LOCAL_UPDATE):
+        console.log('local update', action.key, action.data)
         const val = typeof action.data != 'object' ? action.data : Object.assign({$key:action.key},action.data)
-        return state.merge({ [action.collection]: { [action.key]: val } }, {deep:true});
+        return state.setIn([action.collection, action.key],val)
       default: return state;
     }
   }

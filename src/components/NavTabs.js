@@ -8,23 +8,13 @@ const style = {
   fontSize: '1.1em'
 }
 
-class NavTabs extends React.Component {
-  static defaultProps = {baseUrl:''}
+const NavTabs = ({baseUrl='',path,children,pushPath,...props})=>
+  <Tabs {...props} value={path} onChange={(value)=>pushPath(value)}>
+    { Children.map( children, (c)=>cloneElement(c,{style, value:baseUrl+c.props.route}) ) }
+  </Tabs>
 
-  navigate = (value)=>this.props.pushPath(value)
+const mapState = (state)=>{ return {path: state.routing.path} }
 
-  render() {
-    const {props:{baseUrl, path, children, ...props}} = this
-    return (
-      <Tabs {...props} value={path} onChange={this.navigate}>
-      { Children.map( children, (c)=>cloneElement(c,{style, value:baseUrl+c.props.route}) ) }
-      </Tabs>
-    )
-  }
-}
+const mapDispatch = { pushPath }
 
-const mapStateToProps = (state)=>{ return {path: state.routing.path} }
-
-const mapDispatchToProps = { pushPath }
-
-export default connect(mapStateToProps,mapDispatchToProps)(NavTabs);
+export default connect(mapState,mapDispatch)(NavTabs);
