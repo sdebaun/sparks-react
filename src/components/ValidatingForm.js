@@ -15,6 +15,6 @@ export default ({fields, errors, handleSubmit, submitting, children})=>
         child
     )}
     <div style={{display:'flex',width:'100%',justifyContent:'flex-end'}}>
-      <RaisedButton disabled={!!errors.name || submitting} primary={true} onTouchTap={handleSubmit} label='OK' style={{marginRight:'1em'}}/>
+      <RaisedButton disabled={(Object.keys(errors).length>0) || submitting} primary={true} onTouchTap={handleSubmit} label='OK' style={{marginRight:'1em'}}/>
     </div>
   </form>

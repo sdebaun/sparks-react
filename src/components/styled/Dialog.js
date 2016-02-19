@@ -11,7 +11,7 @@ const DialogBar = ({title, leftIcon})=>
   />
 
 export default ({title,leftIcon,open,onRequestClose,children})=>
-  <Dialog title={<DialogBar {...{title,leftIcon}}/>} {...{open,onRequestClose}}>
+  <Dialog title={<DialogBar {...{title,leftIcon}}/>} contentStyle={{maxWidth:320}} {...{open,onRequestClose}}>
     { children }
   </Dialog>
 
