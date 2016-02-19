@@ -1,5 +1,7 @@
 'use strict';
 
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; })();
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _firebase = require('firebase');
@@ -37,6 +39,7 @@ var Leads = new _util.Collection(fbRoot.child('Leads'));
 
 var Opps = new _util.Collection(fbRoot.child('Opps'));
 var Offers = new _util.Collection(fbRoot.child('Offers'));
+var Fulfillers = new _util.Collection(fbRoot.child('Fulfillers'));
 
 var handlers = {
 
@@ -206,6 +209,30 @@ var handlers = {
       var key = _ref10.key;
       var vals = _ref10.vals;
       return Offers.update(key, vals);
+    }
+  },
+
+  Fulfillers: {
+    create: function create(payload, client) {
+      return Promise.all([Teams.get(payload.teamKey), Opps.get(payload.oppKey)]).then(function (_ref11) {
+        var _ref12 = _slicedToArray(_ref11, 2);
+
+        var teamSnap = _ref12[0];
+        var oppSnap = _ref12[1];
+        return Fulfillers.push(_extends({}, payload, { team: teamSnap.val(), opp: oppSnap.val() }));
+      }).then(function (ref) {
+        return ref.key();
+      });
+    },
+    remove: function remove(payload, client) {
+      return Fulfillers.remove(payload.key).then(function () {
+        return true;
+      });
+    },
+    update: function update(_ref13, client) {
+      var key = _ref13.key;
+      var vals = _ref13.vals;
+      return Fulfillers.update(key, vals);
     }
   }
 

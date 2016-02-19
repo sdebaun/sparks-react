@@ -122,6 +122,14 @@ export const Offers = remote.data.model('Offers', {
   }
 })
 
+export const Fulfillers = remote.data.model('Fulfillers', {
+  actions: {
+    create: (data)=>Fulfillers.actions.remote('create',data),
+    remove: (key)=>Fulfillers.actions.remote('remove',{key}),
+    update: (key,vals)=>Fulfillers.actions.remote('update',{key,vals})
+  }
+})
+
 // function OAuthToProfile(authData) {
 //   const provider = authData.provider,
 //     d = authData[provider];

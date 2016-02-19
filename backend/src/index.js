@@ -24,6 +24,7 @@ const Leads = new Collection(fbRoot.child('Leads'))
 
 const Opps = new Collection(fbRoot.child('Opps'))
 const Offers = new Collection(fbRoot.child('Offers'))
+const Fulfillers = new Collection(fbRoot.child('Fulfillers'))
 
 const handlers = {
 
@@ -138,6 +139,22 @@ const handlers = {
       Offers.remove(payload.key).then( ()=>true ),
     update: ({key,vals},client)=>
       Offers.update(key,vals)
+  },
+
+  Fulfillers: {
+    create: (payload,client)=>
+      Promise.all([
+        Teams.get(payload.teamKey),
+        Opps.get(payload.oppKey)
+      ])
+      .then( ([teamSnap,oppSnap])=>
+        Fulfillers.push({...payload,team:teamSnap.val(),opp:oppSnap.val()})
+      )
+      .then( ref=>ref.key() ),
+    remove: (payload,client)=>
+      Fulfillers.remove(payload.key).then( ()=>true ),
+    update: ({key,vals},client)=>
+      Fulfillers.update(key,vals)
   }
 
 }
